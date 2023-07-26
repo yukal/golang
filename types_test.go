@@ -7,8 +7,6 @@ import (
 )
 
 func TestTypes(t *testing.T) {
-	t.Skip()
-
 	t.Run("Wrong Types", func(t *testing.T) {
 		t.Skip()
 
