@@ -29,29 +29,100 @@ const MAX_UINT64 = uint64(math.MaxUint64)
 const MIN_UINT = uint(0)
 const MAX_UINT = uint(math.MaxUint)
 
-// TODO: Refactoring
+
 func Uint8ToInt8(val uint8) int8 {
-	return int8(Uint8ToInt16(val))
+	if val >= math.MaxInt8 {
+		return int8(math.MaxInt8)
+	}
+
+	return int8(val)
 }
 
 func Uint8ToInt16(val uint8) int16 {
-	return int16(val) - math.MaxInt8 - 1
+	return int16(val)
 }
 
 func Uint8ToInt32(val uint8) int32 {
-	return int32(val) - math.MaxInt8 - 1
+	return int32(val)
 }
 
 func Uint8ToInt64(val uint8) int64 {
-	return int64(val) - math.MaxInt8 - 1
+	return int64(val)
 }
 
 func Uint8ToInt(val uint8) int {
+	return int(val)
+}
+
+
+func Uint16ToInt8(val uint16) int8 {
+	if val >= math.MaxInt8 {
+		return int8(math.MaxInt8)
+	}
+
+	return int8(val)
+}
+
+func Uint16ToInt16(val uint16) int16 {
+	if val >= math.MaxInt16 {
+		return int16(math.MaxInt16)
+	}
+
+	return int16(val)
+}
+
+func Uint16ToInt32(val uint16) int32 {
+	return int32(val)
+}
+
+func Uint32ToInt8(val uint32) int8 {
+	if val >= math.MaxInt8 {
+		return int8(math.MaxInt8)
+	}
+
+	return int8(val)
+}
+
+func Uint32ToInt16(val uint32) int16 {
+	if val >= math.MaxInt16 {
+		return int16(math.MaxInt16)
+	}
+
+	return int16(val)
+}
+
+func Uint32ToInt32(val uint32) int32 {
+	if val >= math.MaxInt32 {
+		return int32(math.MaxInt32)
+	}
+
+	return int32(val)
+}
+
+
+// TODO: Refactoring
+func Uint8ToInt8Range(val uint8) int8 {
+	return int8(Uint8ToInt16Range(val))
+}
+
+func Uint8ToInt16Range(val uint8) int16 {
+	return int16(val) - math.MaxInt8 - 1
+}
+
+func Uint8ToInt32Range(val uint8) int32 {
+	return int32(val) - math.MaxInt8 - 1
+}
+
+func Uint8ToInt64Range(val uint8) int64 {
+	return int64(val) - math.MaxInt8 - 1
+}
+
+func Uint8ToIntRange(val uint8) int {
 	return int(val) - math.MaxInt8 - 1
 }
 
 // TODO: Refactoring
-func Int8ToUint8(val int8) uint8 {
+func Int8ToUint8Range(val int8) uint8 {
 	half := uint8(math.MaxInt8)
 	residue := uint8(val)
 
@@ -64,18 +135,18 @@ func Int8ToUint8(val int8) uint8 {
 	}
 }
 
-func Int8ToUint16(val int8) uint16 {
-	return uint16(Int8ToUint8(val))
+func Int8ToUint16Range(val int8) uint16 {
+	return uint16(Int8ToUint8Range(val))
 }
 
-func Int8ToUint32(val int8) uint32 {
-	return uint32(Int8ToUint8(val))
+func Int8ToUint32Range(val int8) uint32 {
+	return uint32(Int8ToUintRange(val))
 }
 
-func Int8ToUint64(val int8) uint64 {
-	return uint64(Int8ToUint8(val))
+func Int8ToUint64Range(val int8) uint64 {
+	return uint64(Int8ToUintRange(val))
 }
 
-func Int8ToUint(val int8) uint {
-	return uint(Int8ToUint8(val))
+func Int8ToUintRange(val int8) uint {
+	return uint(Int8ToUint8Range(val))
 }
