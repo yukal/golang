@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"reflect"
 	"time"
 )
@@ -74,39 +73,6 @@ func validateMin(filterVal, val any) bool {
 	case "int:int64":     return int64(val.(int)) >= filterVal.(int64)
 	case "int:int":       return val.(int) >= filterVal.(int)
 
-	// int & uint
-
-	// solved
-	case "int8:uint8":    return Int8ToUint8(val.(int8)) >= filterVal.(uint8)
-	case "int8:uint16":   return Int8ToUint16(val.(int8)) >= filterVal.(uint16)
-	case "int8:uint32":   return Int8ToUint32(val.(int8)) >= filterVal.(uint32)
-	case "int8:uint64":   return Int8ToUint64(val.(int8)) >= filterVal.(uint64)
-	case "int8:uint":     return Int8ToUint(val.(int8)) >= filterVal.(uint)
-
-	case "int16:uint8":   panic(errors.New("int16:uint8"))
-	case "int16:uint16":  panic(errors.New("int16:uint16"))
-	case "int16:uint32":  panic(errors.New("int16:uint32"))
-	case "int16:uint64":  panic(errors.New("int16:uint64"))
-	case "int16:uint":    panic(errors.New("int16:uint"))
-
-	case "int32:uint8":   panic(errors.New("int32:uint8"))
-	case "int32:uint16":  panic(errors.New("int32:uint16"))
-	case "int32:uint32":  panic(errors.New("int32:uint32"))
-	case "int32:uint64":  panic(errors.New("int32:uint64"))
-	case "int32:uint":    panic(errors.New("int32:uint"))
-
-	case "int64:uint8":   panic(errors.New("int64:uint8"))
-	case "int64:uint16":  panic(errors.New("int64:uint16"))
-	case "int64:uint32":  panic(errors.New("int64:uint32"))
-	case "int64:uint64":  panic(errors.New("int64:uint64"))
-	case "int64:uint":    panic(errors.New("int64:uint"))
-
-	case "int:uint8":     panic(errors.New("int:uint8"))
-	case "int:uint16":    panic(errors.New("int:uint16"))
-	case "int:uint32":    panic(errors.New("int:uint32"))
-	case "int:uint64":    panic(errors.New("int:uint64"))
-	case "int:uint":      panic(errors.New("int:uint"))
-
 	// uint
 
 	case "uint:uint8":    return val.(uint) >= uint(filterVal.(uint8))
@@ -139,38 +105,257 @@ func validateMin(filterVal, val any) bool {
 	case "uint8:uint64":  return uint64(val.(uint8)) >= filterVal.(uint64)
 	case "uint8:uint":    return uint(val.(uint8)) >= filterVal.(uint)
 
+	// int & uint
+
+	case "int8:uint8":
+		if val.(int8) >= 0 {
+			return uint8(val.(int8)) >= filterVal.(uint8)
+		}
+		return false
+
+	case "int8:uint16":
+		if val.(int8) >= 0 {
+			return uint16(val.(int8)) >= filterVal.(uint16)
+		}
+		return false
+
+	case "int8:uint32":
+		if val.(int8) >= 0 {
+			return uint32(val.(int8)) >= filterVal.(uint32)
+		}
+		return false
+
+	case "int8:uint64":
+		if val.(int8) >= 0 {
+			return uint64(val.(int8)) >= filterVal.(uint64)
+		}
+		return false
+
+	case "int8:uint":
+		if val.(int8) >= 0 {
+			return uint(val.(int8)) >= filterVal.(uint)
+		}
+		return false
+
+	case "int16:uint8":
+		return val.(int16) >= int16(filterVal.(uint8))
+
+	case "int16:uint16":
+		if val.(int16) >= 0 {
+			return uint16(val.(int16)) >= filterVal.(uint16)
+		}
+		return false
+
+	case "int16:uint32":
+		if val.(int16) >= 0 {
+			return uint32(val.(int16)) >= filterVal.(uint32)
+		}
+		return false
+
+	case "int16:uint64":
+		if val.(int16) >= 0 {
+			return uint64(val.(int16)) >= filterVal.(uint64)
+		}
+		return false
+
+	case "int16:uint":
+		if val.(int16) >= 0 {
+			return uint(val.(int16)) >= filterVal.(uint)
+		}
+		return false
+
+	case "int32:uint8":
+		return val.(int32) >= int32(filterVal.(uint8))
+
+	case "int32:uint16":
+		return val.(int32) >= int32(filterVal.(uint16))
+
+	case "int32:uint32":
+		if val.(int32) >= 0 {
+			return uint32(val.(int32)) >= filterVal.(uint32)
+		}
+		return false
+
+	case "int32:uint64":
+		if val.(int32) >= 0 {
+			return uint64(val.(int32)) >= filterVal.(uint64)
+		}
+		return false
+
+	case "int32:uint":
+		if val.(int32) >= 0 {
+			return uint(val.(int32)) >= filterVal.(uint)
+		}
+		return false
+
+	case "int64:uint8":
+		return val.(int64) >= int64(filterVal.(uint8))
+
+	case "int64:uint16":
+		return val.(int64) >= int64(filterVal.(uint16))
+
+	case "int64:uint32":
+		if val.(int64) >= 0 {
+			return uint64(val.(int64)) >= uint64(filterVal.(uint32))
+		}
+		return false
+
+	case "int64:uint64":
+		if val.(int64) >= 0 {
+			return uint64(val.(int64)) >= uint64(filterVal.(uint64))
+		}
+		return false
+
+	case "int64:uint":
+		if val.(int64) >= 0 {
+			return uint64(val.(int64)) >= uint64(filterVal.(uint))
+		}
+		return false
+
+	case "int:uint8":
+		return val.(int) >= int(filterVal.(uint8))
+
+	case "int:uint16":
+		return val.(int) >= int(filterVal.(uint16))
+
+	case "int:uint32":
+		if val.(int) >= 0 {
+			return uint64(val.(int)) >= uint64(filterVal.(uint32))
+		}
+		return false
+
+	case "int:uint64":
+		if val.(int) >= 0 {
+			return uint64(val.(int)) >= filterVal.(uint64)
+		}
+		return false
+
+	case "int:uint":
+		if val.(int) >= 0 {
+			return uint(val.(int)) >= filterVal.(uint)
+		}
+		return false
+
 	// uint & int
 
-	// solved
-	case "uint8:int8":    return Uint8ToInt8(val.(uint8)) >= filterVal.(int8)
-	case "uint8:int16":   return Uint8ToInt16(val.(uint8)) >= filterVal.(int16)
-	case "uint8:int32":   return Uint8ToInt32(val.(uint8)) >= filterVal.(int32)
-	case "uint8:int64":   return Uint8ToInt64(val.(uint8)) >= filterVal.(int64)
-	case "uint8:int":     return Uint8ToInt(val.(uint8))  >= filterVal.(int)
+	case "uint8:int8":
+		if filterVal.(int8) >= 0 {
+			return val.(uint8) >= uint8(filterVal.(int8))
+		}
+		return true
 
-	case "uint16:int8":   panic(errors.New("uint16:int8"))
-	case "uint16:int16":  panic(errors.New("uint16:int16"))
-	case "uint16:int32":  panic(errors.New("uint16:int32"))
-	case "uint16:int64":  panic(errors.New("uint16:int64"))
-	case "uint16:int":    panic(errors.New("uint16:int"))
+	case "uint8:int16": return int16(val.(uint8)) >= filterVal.(int16)
+	case "uint8:int32": return int32(val.(uint8)) >= filterVal.(int32)
+	case "uint8:int64": return int64(val.(uint8)) >= filterVal.(int64)
+	case "uint8:int": return int(val.(uint8)) >= filterVal.(int)
 
-	case "uint32:int8":   panic(errors.New("uint32:int8"))
-	case "uint32:int16":  panic(errors.New("uint32:int16"))
-	case "uint32:int32":  panic(errors.New("uint32:int32"))
-	case "uint32:int64":  panic(errors.New("uint32:int64"))
-	case "uint32:int":    panic(errors.New("uint32:int"))
+	// ..........................
 
-	case "uint64:int8":   panic(errors.New("uint64:int8"))
-	case "uint64:int16":  panic(errors.New("uint64:int16"))
-	case "uint64:int32":  panic(errors.New("uint64:int32"))
-	case "uint64:int64":  panic(errors.New("uint64:int64"))
-	case "uint64:int":    panic(errors.New("uint64:int"))
+	case "uint16:int8":
+		if filterVal.(int8) >= 0 {
+			return val.(uint16) >= uint16(filterVal.(int8))
+		}
+		return true
 
-	case "uint:int8":     panic(errors.New("uint:int8"))
-	case "uint:int16":    panic(errors.New("uint:int16"))
-	case "uint:int32":    panic(errors.New("uint:int32"))
-	case "uint:int64":    panic(errors.New("uint:int64"))
-	case "uint:int":      panic(errors.New("uint:int"))
+	case "uint16:int16":
+		if filterVal.(int16) >= 0 {
+			return val.(uint16) >= uint16(filterVal.(int16))
+		}
+		return true
+
+	case "uint16:int32": return int32(val.(uint16)) >= filterVal.(int32)
+	case "uint16:int64": return int64(val.(uint16)) >= filterVal.(int64)
+	case "uint16:int": return int(val.(uint16)) >= filterVal.(int)
+
+	// ..........................
+
+	case "uint32:int8":
+		if filterVal.(int8) >= 0 {
+			return val.(uint32) >= uint32(filterVal.(int8))
+		}
+		return true
+
+	case "uint32:int16":
+		if filterVal.(int16) >= 0 {
+			return val.(uint32) >= uint32(filterVal.(int16))
+		}
+		return true
+
+	case "uint32:int32":
+		if filterVal.(int32) >= 0 {
+			return val.(uint32) >= uint32(filterVal.(int32))
+		}
+		return true
+
+	case "uint32:int64":
+		return int64(val.(uint32)) >= filterVal.(int64)
+
+	case "uint32:int":
+		return int64(val.(uint32)) >= int64(filterVal.(int))
+
+	// ..........................
+
+	case "uint64:int8":
+		if filterVal.(int8) >= 0 {
+			return val.(uint64) >= uint64(filterVal.(int8))
+		}
+		return true
+
+	case "uint64:int16":
+		if filterVal.(int16) >= 0 {
+			return val.(uint64) >= uint64(filterVal.(int16))
+		}
+		return true
+
+	case "uint64:int32":
+		if filterVal.(int32) >= 0 {
+			return val.(uint64) >= uint64(filterVal.(int32))
+		}
+		return true
+
+	case "uint64:int64":
+		if filterVal.(int64) >= 0 {
+			return val.(uint64) >= uint64(filterVal.(int64))
+		}
+		return true
+
+	case "uint64:int":
+		if filterVal.(int) >= 0 {
+			return val.(uint64) >= uint64(filterVal.(int))
+		}
+		return true
+
+	// ..........................
+
+	case "uint:int8":
+		if filterVal.(int8) >= 0 {
+			return val.(uint) >= uint(filterVal.(int8))
+		}
+		return true
+
+	case "uint:int16":
+		if filterVal.(int16) >= 0 {
+			return val.(uint) >= uint(filterVal.(int16))
+		}
+		return true
+
+	case "uint:int32":
+		if filterVal.(int32) >= 0 {
+			return val.(uint) >= uint(filterVal.(int32))
+		}
+		return true
+
+	case "uint:int64":
+		if filterVal.(int64) >= 0 {
+			return uint64(val.(uint)) >= uint64(filterVal.(int64))
+		}
+		return true
+
+	case "uint:int":
+		if filterVal.(int) >= 0 {
+			return val.(uint) >= uint(filterVal.(int))
+		}
+		return true
 
 	// byte
 
