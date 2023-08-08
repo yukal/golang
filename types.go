@@ -17,6 +17,8 @@ const MIN_INT64 = int64(math.MinInt64)
 const MAX_INT64 = int64(math.MaxInt64)
 const MIN_INT = math.MinInt
 const MAX_INT = math.MaxInt
+const MIN_RUNE = MIN_INT32
+const MAX_RUNE = MAX_INT32
 
 const MIN_UINT8 = uint8(0)
 const MAX_UINT8 = uint8(math.MaxUint8)
@@ -28,6 +30,8 @@ const MIN_UINT64 = uint64(0)
 const MAX_UINT64 = uint64(math.MaxUint64)
 const MIN_UINT = uint(0)
 const MAX_UINT = uint(math.MaxUint)
+const MIN_BYTE = MIN_UINT8
+const MAX_BYTE = MAX_UINT8
 
 
 func Uint8ToInt8(val uint8) int8 {

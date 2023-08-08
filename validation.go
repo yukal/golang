@@ -357,24 +357,161 @@ func validateMin(filterVal, val any) bool {
 		}
 		return true
 
-	// byte
+	// rune
 
-	case "byte:int64":    return int64(val.(byte))  >= filterVal.(int64)
-	case "byte:int32":    return int32(val.(byte))  >= filterVal.(int32)
-	case "byte:int16":    return int16(val.(byte))  >= filterVal.(int16)
-	case "byte:int8":     return int8(val.(byte))   >= filterVal.(int8)
-	case "byte:int":      return int(val.(byte))    >= filterVal.(int)
-	case "byte:uint64":   return uint64(val.(byte)) >= filterVal.(uint64)
-	case "byte:uint32":   return uint32(val.(byte)) >= filterVal.(uint32)
-	case "byte:uint16":   return uint16(val.(byte)) >= filterVal.(uint16)
-	case "byte:uint":     return uint(val.(byte))   >= filterVal.(uint)
+	case "rune:int8":  return val.(rune) >= int32(filterVal.(int8))
+	case "rune:int16": return val.(rune) >= int32(filterVal.(int16))
+	case "rune:int64": return int64(val.(rune)) >= filterVal.(int64)
+	case "rune:int":   return int(val.(rune)) >= filterVal.(int)
+	case "int8:rune":  return int32(val.(int8)) >= filterVal.(rune)
+	case "int16:rune": return int32(val.(int16)) >= filterVal.(rune)
+	case "int64:rune": return val.(int64) >= int64(filterVal.(rune))
+	case "int:rune":   return val.(int) >= int(filterVal.(rune))
+	case "rune:rune",
+		 "rune:int32",
+		 "int32:rune": return val.(rune) >= filterVal.(int32)
 
 	// ...
 
-	case "byte:uint8":    return val.(byte)   >= filterVal.(uint8)
-	case "uint8:byte":    return val.(uint8)  >= filterVal.(byte)
-	case "int32:rune":    return val.(int32)  >= filterVal.(rune)
-	case "rune:int32":    return val.(rune)   >= filterVal.(int32)
+	case "rune:uint8", "rune:byte":
+		if val.(rune) >= 0 {
+			return uint32(val.(rune)) >= uint32(filterVal.(uint8))
+		}
+		return false
+
+	case "rune:uint16":
+		if val.(rune) >= 0 {
+			return uint32(val.(rune)) >= uint32(filterVal.(uint16))
+		}
+		return false
+
+	case "rune:uint32":
+		if val.(rune) >= 0 {
+			return uint32(val.(rune)) >= filterVal.(uint32)
+		}
+		return false
+
+	case "rune:uint64":
+		if val.(rune) >= 0 {
+			return uint64(val.(rune)) >= filterVal.(uint64)
+		}
+		return false
+
+	case "rune:uint":
+		if val.(rune) >= 0 {
+			return uint(val.(rune)) >= filterVal.(uint)
+		}
+		return false
+
+	// ...
+
+	case "uint8:rune":
+		if filterVal.(rune) >= 0 {
+			return uint32(val.(uint8)) >= uint32(filterVal.(rune))
+		}
+		return true
+
+	case "uint16:rune":
+		if filterVal.(rune) >= 0 {
+			return uint32(val.(uint16)) >= uint32(filterVal.(rune))
+		}
+		return true
+
+	case "uint32:rune":
+		if filterVal.(rune) >= 0 {
+			return uint32(val.(uint32)) >= uint32(filterVal.(rune))
+		}
+		return true
+
+	case "uint64:rune":
+		if filterVal.(rune) >= 0 {
+			return uint64(val.(uint64)) >= uint64(filterVal.(rune))
+		}
+		return true
+
+	case "uint:rune":
+		if filterVal.(rune) >= 0 {
+			return val.(uint) >= uint(filterVal.(rune))
+		}
+		return true
+
+	// byte
+
+	case "byte:uint16": return uint16(val.(byte)) >= filterVal.(uint16)
+	case "byte:uint32": return uint32(val.(byte)) >= filterVal.(uint32)
+	case "byte:uint64": return uint64(val.(byte)) >= filterVal.(uint64)
+	case "byte:uint":   return uint(val.(byte)) >= filterVal.(uint)
+	case "uint16:byte": return val.(uint16) >= uint16(filterVal.(byte))
+	case "uint32:byte": return val.(uint32) >= uint32(filterVal.(byte))
+	case "uint64:byte": return val.(uint64) >= uint64(filterVal.(byte))
+	case "uint:byte":   return val.(uint) >= uint(filterVal.(byte))
+	case "byte:byte",
+		 "byte:uint8",
+		 "uint8:byte":  return val.(byte) >= filterVal.(uint8)
+
+	// ...
+
+	case "byte:int8":
+		if filterVal.(int8) >= 0 {
+			return val.(byte) >= uint8(filterVal.(int8))
+		}
+		return true
+
+	case "byte:int16":
+		if filterVal.(int16) >= 0 {
+			return uint16(val.(byte)) >= uint16(filterVal.(int16))
+		}
+		return true
+
+	case "byte:int32":
+		if filterVal.(int32) >= 0 {
+			return uint32(val.(byte)) >= uint32(filterVal.(int32))
+		}
+		return true
+
+	case "byte:int64":
+		if filterVal.(int64) >= 0 {
+			return uint64(val.(byte)) >= uint64(filterVal.(int64))
+		}
+		return true
+
+	case "byte:int":
+		if filterVal.(int) >= 0 {
+			return uint(val.(byte)) >= uint(filterVal.(int))
+		}
+		return true
+
+	// ...
+
+	case "int8:byte":
+		if val.(int8) >= 0 {
+			return uint8(val.(int8)) >= filterVal.(byte)
+		}
+		return false
+
+	case "int16:byte":
+		if val.(int16) >= 0 {
+			return uint16(val.(int16)) >= uint16(filterVal.(byte))
+		}
+		return false
+
+	case "int32:byte":
+		if val.(int32) >= 0 {
+			return uint32(val.(int32)) >= uint32(filterVal.(byte))
+		}
+		return false
+
+	case "int64:byte":
+		if val.(int64) >= 0 {
+			return uint64(val.(int64)) >= uint64(filterVal.(byte))
+		}
+		return false
+
+	case "int:byte":
+		if val.(int) >= 0 {
+			return uint(val.(int)) >= uint(filterVal.(byte))
+		}
+		return false
 
 	}
 
