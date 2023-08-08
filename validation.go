@@ -75,23 +75,11 @@ func validateMin(filterVal, val any) bool {
 
 	// uint
 
-	case "uint:uint8":    return val.(uint) >= uint(filterVal.(uint8))
-	case "uint:uint16":   return val.(uint) >= uint(filterVal.(uint16))
-	case "uint:uint32":   return val.(uint) >= uint(filterVal.(uint32))
-	case "uint:uint64":   return uint64(val.(uint)) >= filterVal.(uint64)
-	case "uint:uint":     return val.(uint) >= filterVal.(uint)
-
-	case "uint64:uint8":  return val.(uint64) >= uint64(filterVal.(uint8))
-	case "uint64:uint16": return val.(uint64) >= uint64(filterVal.(uint16))
-	case "uint64:uint32": return val.(uint64) >= uint64(filterVal.(uint32))
-	case "uint64:uint64": return val.(uint64) >= filterVal.(uint64)
-	case "uint64:uint":   return val.(uint64) >= uint64(filterVal.(uint))
-
-	case "uint32:uint8":  return val.(uint32) >= uint32(filterVal.(uint8))
-	case "uint32:uint16": return val.(uint32) >= uint32(filterVal.(uint16))
-	case "uint32:uint32": return val.(uint32) >= filterVal.(uint32)
-	case "uint32:uint64": return uint64(val.(uint32)) >= filterVal.(uint64)
-	case "uint32:uint":   return uint(val.(uint32)) >= filterVal.(uint)
+	case "uint8:uint8":   return val.(uint8) >= filterVal.(uint8)
+	case "uint8:uint16":  return uint16(val.(uint8)) >= filterVal.(uint16)
+	case "uint8:uint32":  return uint32(val.(uint8)) >= filterVal.(uint32)
+	case "uint8:uint64":  return uint64(val.(uint8)) >= filterVal.(uint64)
+	case "uint8:uint":    return uint(val.(uint8)) >= filterVal.(uint)
 
 	case "uint16:uint8":  return val.(uint16) >= uint16(filterVal.(uint8))
 	case "uint16:uint16": return val.(uint16) >= filterVal.(uint16)
@@ -99,11 +87,23 @@ func validateMin(filterVal, val any) bool {
 	case "uint16:uint64": return uint64(val.(uint16)) >= filterVal.(uint64)
 	case "uint16:uint":   return uint(val.(uint16)) >= filterVal.(uint)
 
-	case "uint8:uint8":   return val.(uint8) >= filterVal.(uint8)
-	case "uint8:uint16":  return uint16(val.(uint8)) >= filterVal.(uint16)
-	case "uint8:uint32":  return uint32(val.(uint8)) >= filterVal.(uint32)
-	case "uint8:uint64":  return uint64(val.(uint8)) >= filterVal.(uint64)
-	case "uint8:uint":    return uint(val.(uint8)) >= filterVal.(uint)
+	case "uint32:uint8":  return val.(uint32) >= uint32(filterVal.(uint8))
+	case "uint32:uint16": return val.(uint32) >= uint32(filterVal.(uint16))
+	case "uint32:uint32": return val.(uint32) >= filterVal.(uint32)
+	case "uint32:uint64": return uint64(val.(uint32)) >= filterVal.(uint64)
+	case "uint32:uint":   return uint(val.(uint32)) >= filterVal.(uint)
+
+	case "uint64:uint8":  return val.(uint64) >= uint64(filterVal.(uint8))
+	case "uint64:uint16": return val.(uint64) >= uint64(filterVal.(uint16))
+	case "uint64:uint32": return val.(uint64) >= uint64(filterVal.(uint32))
+	case "uint64:uint64": return val.(uint64) >= filterVal.(uint64)
+	case "uint64:uint":   return val.(uint64) >= uint64(filterVal.(uint))
+
+	case "uint:uint8":    return val.(uint) >= uint(filterVal.(uint8))
+	case "uint:uint16":   return val.(uint) >= uint(filterVal.(uint16))
+	case "uint:uint32":   return val.(uint) >= uint(filterVal.(uint32))
+	case "uint:uint64":   return uint64(val.(uint)) >= filterVal.(uint64)
+	case "uint:uint":     return val.(uint) >= filterVal.(uint)
 
 	// int & uint
 
