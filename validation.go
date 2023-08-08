@@ -9,25 +9,25 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	switch rule {
 
 	case "min":
-		return validateMin(filterVal, comparableVal)
+		return isMin(filterVal, comparableVal)
 
 	case "max":
-		return validateMax(filterVal, comparableVal)
+		return isMax(filterVal, comparableVal)
 
 	case "eq":
-		return validateEq(filterVal, comparableVal)
+		return isEqual(filterVal, comparableVal)
 
 	case "strLen":
-		return validateStrLen(filterVal, comparableVal)
+		return isStrLenEqual(filterVal, comparableVal)
 
 	case "minLen":
-		return validateMinLen(filterVal, comparableVal)
+		return isStrLenMin(filterVal, comparableVal)
 
 	case "maxLen":
-		return validateMaxLen(filterVal, comparableVal)
+		return isStrLenMax(filterVal, comparableVal)
 
 	case "year":
-		return validateYear(filterVal, comparableVal)
+		return isYearEqual(filterVal, comparableVal)
 
 	}
 
@@ -36,7 +36,7 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 
 // https://go.dev/ref/spec#Numeric_types
 // 
-func validateMin(filterVal, val any) bool {
+func isMin(filterVal, val any) bool {
 	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
 
 	switch types {
@@ -518,74 +518,74 @@ func validateMin(filterVal, val any) bool {
 	return false
 }
 
-func validateMax(filterVal, val any) bool {
+func isMax(filterVal, val any) bool {
 	// TODO: Improve comparison algorithm
 	panic("not implemented")
 }
 
-func validateEq(filterVal, val any) bool {
+func isEqual(filterVal, val any) bool {
 	// TODO: Improve comparison algorithm
 	panic("not implemented")
 }
 
-func validateStrLen(filterVal, val any) bool {
+func isStrLenEqual(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
 		var result bool = len(val.([]string)) > 0
 
 		for _, str := range val.([]string) {
-			result = result && validateEq(filterVal, len(str))
+			result = result && isEqual(filterVal, len(str))
 		}
 
 		return result
 
 	case "string":
 		length := len(val.(string))
-		return validateEq(filterVal, length)
+		return isEqual(filterVal, length)
 
 	}
 
 	return false
 }
 
-func validateMinLen(filterVal, val any) bool {
+func isStrLenMin(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
 		length := len(val.([]string))
-		return validateMin(filterVal, length)
+		return isMin(filterVal, length)
 
 	case "string":
 		length := len(val.(string))
-		return validateMin(filterVal, length)
+		return isMin(filterVal, length)
 
 	}
 
 	return false
 }
 
-func validateMaxLen(filterVal, val any) bool {
+func isStrLenMax(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
 		length := len(val.([]string))
-		return validateMax(filterVal, length)
+		return isMax(filterVal, length)
 
 	case "string":
 		length := len(val.(string))
-		return validateMax(filterVal, length)
+		return isMax(filterVal, length)
 
 	}
 
 	return false
 }
 
-func validateYear(filterVal, val any) bool {
+func isYearEqual(filterVal, val any) bool {
 	if reflect.TypeOf(val).String() != "time.Time" {
 		return false
 	}
 
 	year := val.(time.Time).Year()
-	return validateEq(filterVal, year)
+	return isEqual(filterVal, year)
 }
