@@ -249,7 +249,7 @@ func validateMin(filterVal, val any) bool {
 	case "uint8:int64": return int64(val.(uint8)) >= filterVal.(int64)
 	case "uint8:int": return int(val.(uint8)) >= filterVal.(int)
 
-	// ..........................
+	// ...
 
 	case "uint16:int8":
 		if filterVal.(int8) >= 0 {
@@ -267,7 +267,7 @@ func validateMin(filterVal, val any) bool {
 	case "uint16:int64": return int64(val.(uint16)) >= filterVal.(int64)
 	case "uint16:int": return int(val.(uint16)) >= filterVal.(int)
 
-	// ..........................
+	// ...
 
 	case "uint32:int8":
 		if filterVal.(int8) >= 0 {
@@ -293,7 +293,7 @@ func validateMin(filterVal, val any) bool {
 	case "uint32:int":
 		return int64(val.(uint32)) >= int64(filterVal.(int))
 
-	// ..........................
+	// ...
 
 	case "uint64:int8":
 		if filterVal.(int8) >= 0 {
@@ -325,7 +325,7 @@ func validateMin(filterVal, val any) bool {
 		}
 		return true
 
-	// ..........................
+	// ...
 
 	case "uint:int8":
 		if filterVal.(int8) >= 0 {
