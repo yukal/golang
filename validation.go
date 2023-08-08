@@ -528,17 +528,22 @@ func isEqual(filterVal, val any) bool {
 	panic("not implemented")
 }
 
+func isEachStrLenEqual(filterVal, val any) bool {
+	var result bool = len(val.([]string)) > 0
+
+	for _, str := range val.([]string) {
+		result = result && isEqual(filterVal, len(str))
+	}
+
+	return result
+}
+
 func isStrLenEqual(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
-		var result bool = len(val.([]string)) > 0
-
-		for _, str := range val.([]string) {
-			result = result && isEqual(filterVal, len(str))
-		}
-
-		return result
+		length := len(val.([]string))
+		return isEqual(filterVal, length)
 
 	case "string":
 		length := len(val.(string))
