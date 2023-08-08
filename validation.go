@@ -12,22 +12,22 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 		return validateMin(filterVal, comparableVal)
 
 	case "max":
-		return validateMax(comparableVal, filterVal)
+		return validateMax(filterVal, comparableVal)
 
 	case "eq":
-		return validateEq(comparableVal, filterVal)
+		return validateEq(filterVal, comparableVal)
 
 	case "strLen":
-		return validateStrLen(comparableVal, filterVal)
+		return validateStrLen(filterVal, comparableVal)
 
 	case "minLen":
-		return validateMinLen(comparableVal, filterVal)
+		return validateMinLen(filterVal, comparableVal)
 
 	case "maxLen":
-		return validateMaxLen(comparableVal, filterVal)
+		return validateMaxLen(filterVal, comparableVal)
 
 	case "year":
-		return validateYear(comparableVal, filterVal)
+		return validateYear(filterVal, comparableVal)
 
 	}
 
@@ -518,38 +518,38 @@ func validateMin(filterVal, val any) bool {
 	return false
 }
 
-func validateMax(val any, filterVal any) bool {
+func validateMax(filterVal, val any) bool {
 	// TODO: Improve comparison algorithm
 	panic("not implemented")
 }
 
-func validateEq(val any, filterVal any) bool {
+func validateEq(filterVal, val any) bool {
 	// TODO: Improve comparison algorithm
 	panic("not implemented")
 }
 
-func validateStrLen(val any, filterVal any) bool {
+func validateStrLen(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
 		var result bool = len(val.([]string)) > 0
 
 		for _, str := range val.([]string) {
-			result = result && validateEq(len(str), filterVal)
+			result = result && validateEq(filterVal, len(str))
 		}
 
 		return result
 
 	case "string":
 		length := len(val.(string))
-		return validateEq(length, filterVal)
+		return validateEq(filterVal, length)
 
 	}
 
 	return false
 }
 
-func validateMinLen(val any, filterVal any) bool {
+func validateMinLen(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
@@ -565,27 +565,27 @@ func validateMinLen(val any, filterVal any) bool {
 	return false
 }
 
-func validateMaxLen(val any, filterVal any) bool {
+func validateMaxLen(filterVal, val any) bool {
 	switch reflect.TypeOf(val).String() {
 
 	case "[]string":
 		length := len(val.([]string))
-		return validateMax(length, filterVal)
+		return validateMax(filterVal, length)
 
 	case "string":
 		length := len(val.(string))
-		return validateMax(length, filterVal)
+		return validateMax(filterVal, length)
 
 	}
 
 	return false
 }
 
-func validateYear(val any, filterVal any) bool {
+func validateYear(filterVal, val any) bool {
 	if reflect.TypeOf(val).String() != "time.Time" {
 		return false
 	}
 
 	year := val.(time.Time).Year()
-	return validateEq(year, filterVal)
+	return validateEq(filterVal, year)
 }
