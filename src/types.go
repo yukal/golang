@@ -1,7 +1,12 @@
 package src
 
 import (
+	"bytes"
+	"fmt"
+	"io"
 	"math"
+	"reflect"
+	"strings"
 )
 
 // https://go.dev/ref/spec#Numeric_types
@@ -33,6 +38,13 @@ const MAX_UINT = uint(math.MaxUint)
 const MIN_BYTE = MIN_UINT8
 const MAX_BYTE = MAX_UINT8
 
+const MIN_FLOAT32 = float32(0)
+const MAX_FLOAT32 = float32(math.MaxFloat32)
+const MIN_FLOAT64 = float64(0)
+const MAX_FLOAT64 = float64(math.MaxFloat64)
+
+const MIN_COMPLEX64 = complex64(0)
+const MIN_COMPLEX128 = complex128(0)
 
 func Uint8ToInt8(val uint8) int8 {
 	if val >= math.MaxInt8 {
@@ -57,7 +69,6 @@ func Uint8ToInt64(val uint8) int64 {
 func Uint8ToInt(val uint8) int {
 	return int(val)
 }
-
 
 func Uint16ToInt8(val uint16) int8 {
 	if val >= math.MaxInt8 {
@@ -102,7 +113,6 @@ func Uint32ToInt32(val uint32) int32 {
 
 	return int32(val)
 }
-
 
 // TODO: Refactoring
 func Uint8ToInt8Range(val uint8) int8 {
@@ -153,4 +163,117 @@ func Int8ToUint64Range(val int8) uint64 {
 
 func Int8ToUintRange(val int8) uint {
 	return uint(Int8ToUint8Range(val))
+}
+
+func InspectData(data any) string {
+	buf := new(bytes.Buffer)
+
+	inspectRecursively(buf, reflect.ValueOf(data), 0)
+
+	return strings.TrimSpace(buf.String())
+}
+
+func InspectDataW(writer io.Writer, data any) {
+	inspectRecursively(writer, reflect.ValueOf(data), 0)
+}
+
+func inspectRecursively(writer io.Writer, data reflect.Value, depth uint) {
+	separator := strings.Repeat(" ", int(depth*2))
+
+	switch data.Kind() {
+	case reflect.Slice:
+		for i := 0; i < data.Len(); i++ {
+			value := data.Index(i)
+
+			switch {
+			case value.Kind() == reflect.String:
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%v: %#v", separator, i, value.Interface())))
+
+			case IsPrimitive(value):
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%v: %v", separator, i, value.Interface())))
+
+			default:
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%v:", separator, i)))
+				inspectRecursively(writer, reflect.ValueOf(value.Interface()), depth+1)
+			}
+		}
+
+	case reflect.Map:
+		for _, key := range data.MapKeys() {
+			value := data.MapIndex(key)
+
+			switch {
+			case value.Kind() == reflect.String:
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%s: %#v", separator, key.Interface(), value.Interface())))
+
+			case IsPrimitive(value):
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%s: %v", separator, key.Interface(), value.Interface())))
+
+			default:
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%s: ", separator, key.Interface())))
+				inspectRecursively(writer, reflect.ValueOf(value.Interface()), depth+1)
+			}
+		}
+
+	case reflect.Struct:
+		dataRefType := data.Type()
+
+		for i := 0; i < dataRefType.NumField(); i++ {
+			dataField := dataRefType.Field(i)
+			dataValue := reflect.Indirect(data).
+				FieldByName(dataField.Name)
+
+			switch {
+			case dataValue.Kind() == reflect.String:
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%v: %#v", separator, dataField.Name, dataValue.Interface())))
+
+			case IsPrimitive(dataValue):
+				writer.Write([]byte(
+					fmt.Sprintf("%s%s: %v\n", separator, dataField.Name, dataValue.Interface())))
+
+			default:
+				writer.Write([]byte(
+					fmt.Sprintf("\n%s%v: ", separator, dataField.Name)))
+				inspectRecursively(writer, dataValue, depth+1)
+			}
+		}
+
+	case reflect.String:
+		writer.Write([]byte(
+			fmt.Sprintf("%#v", data.Interface())))
+
+	default:
+		writer.Write([]byte(
+			fmt.Sprintf("%T(%[1]v)", data.Interface())))
+	}
+}
+
+func IsNumeric(val any) bool {
+	switch reflect.TypeOf(val).Kind() {
+	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
+		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
+		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128:
+		return true
+	}
+
+	return false
+}
+
+func IsPrimitive(val any) bool {
+	switch reflect.TypeOf(val).Kind() {
+	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
+		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
+		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128,
+		reflect.Bool, reflect.String:
+		return true
+	}
+
+	return false
 }
