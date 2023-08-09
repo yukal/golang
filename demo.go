@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"yu/golang/src"
 )
 
 type Article struct {
@@ -21,7 +22,7 @@ type Article struct {
 }
 
 func Demo() {
-	filter := &Filter{
+	filter := &src.Filter{
 		Id:       map[string]uint64{"min": 1},
 		RegionId: map[string]uint8{"min": 1},
 		// RegionId: map[string]uint8{"min": 1, "max": 25},
@@ -57,12 +58,12 @@ func Demo() {
 		Date:     0,
 	}
 
-	if !IsValid(filter, article) {
+	if !src.IsValid(filter, article) {
 		// panic(errors.New("not valid"))
 		fmt.Println("Not valid!")
 	}
 
-	if errs := Validate(filter, article); len(errs) > 0 {
+	if errs := src.Validate(filter, article); len(errs) > 0 {
 		for n, field := range errs {
 			fmt.Printf("%d. Wrong %s\n", n+1, field)
 		}

@@ -1,7 +1,8 @@
-package main
+package test
 
 import (
 	"testing"
+	"yu/golang/src"
 )
 
 func TestValidation(t *testing.T) {
@@ -15,7 +16,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -24,7 +25,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -33,7 +34,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -42,7 +43,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -53,7 +54,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT8, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -62,7 +63,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -71,7 +72,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -80,7 +81,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -91,7 +92,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT8, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -100,7 +101,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -109,7 +110,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -118,7 +119,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -129,7 +130,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT8, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -138,7 +139,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -147,7 +148,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -156,7 +157,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -167,7 +168,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT8, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -176,7 +177,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -185,7 +186,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -194,7 +195,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -207,7 +208,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -216,7 +217,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -225,7 +226,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -234,7 +235,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -245,7 +246,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -254,7 +255,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -263,7 +264,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -272,7 +273,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -283,7 +284,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT16, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -292,7 +293,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -301,7 +302,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -310,7 +311,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -321,7 +322,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT16, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -330,7 +331,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -339,7 +340,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -348,7 +349,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -359,7 +360,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT16, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -368,7 +369,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -377,7 +378,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -386,7 +387,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -399,7 +400,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -408,7 +409,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -417,7 +418,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -426,7 +427,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -437,7 +438,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -446,7 +447,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -455,7 +456,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -464,7 +465,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -475,7 +476,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -484,7 +485,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -493,7 +494,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -502,7 +503,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -513,7 +514,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT32, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -522,7 +523,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -531,7 +532,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -540,7 +541,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -551,7 +552,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT32, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -560,7 +561,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -569,7 +570,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -578,7 +579,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -591,7 +592,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -600,7 +601,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -609,7 +610,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -618,7 +619,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -629,7 +630,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -638,7 +639,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -647,7 +648,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -656,7 +657,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -667,7 +668,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -676,7 +677,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -685,7 +686,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -694,7 +695,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -705,7 +706,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -714,7 +715,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT64, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -723,7 +724,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -732,7 +733,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -743,7 +744,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -752,7 +753,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT64, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -761,7 +762,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -770,7 +771,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -783,7 +784,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -792,7 +793,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -801,7 +802,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -810,7 +811,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -821,7 +822,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -830,7 +831,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -839,7 +840,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -848,7 +849,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -859,7 +860,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -868,7 +869,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -877,7 +878,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -886,7 +887,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -897,7 +898,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -906,7 +907,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -915,7 +916,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -924,7 +925,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -935,7 +936,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -944,7 +945,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -953,7 +954,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -962,7 +963,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -976,7 +977,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -985,7 +986,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -994,7 +995,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1003,7 +1004,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1014,7 +1015,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1023,7 +1024,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1032,7 +1033,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1041,7 +1042,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1052,7 +1053,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1061,7 +1062,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1070,7 +1071,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1079,7 +1080,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1090,7 +1091,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1099,7 +1100,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1108,7 +1109,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1117,7 +1118,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1128,7 +1129,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1137,7 +1138,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1146,7 +1147,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1155,7 +1156,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1168,7 +1169,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1177,7 +1178,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1186,7 +1187,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1195,7 +1196,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1206,7 +1207,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1215,7 +1216,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1224,7 +1225,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1233,7 +1234,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1244,7 +1245,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1253,7 +1254,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1262,7 +1263,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1271,7 +1272,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1282,7 +1283,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1291,7 +1292,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1300,7 +1301,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1309,7 +1310,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1320,7 +1321,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1329,7 +1330,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1338,7 +1339,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1347,7 +1348,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1360,7 +1361,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1369,7 +1370,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1378,7 +1379,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1387,7 +1388,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1398,7 +1399,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1407,7 +1408,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1416,7 +1417,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1425,7 +1426,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1436,7 +1437,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1445,7 +1446,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1454,7 +1455,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1463,7 +1464,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1474,7 +1475,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1483,7 +1484,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1492,7 +1493,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1501,7 +1502,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1512,7 +1513,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1521,7 +1522,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1530,7 +1531,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1539,7 +1540,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1552,7 +1553,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1561,7 +1562,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1570,7 +1571,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1579,7 +1580,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1590,7 +1591,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1599,7 +1600,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1608,7 +1609,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1617,7 +1618,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1628,7 +1629,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1637,7 +1638,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1646,7 +1647,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1655,7 +1656,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1666,7 +1667,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1675,7 +1676,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT64, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1684,7 +1685,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1693,7 +1694,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1704,7 +1705,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1713,7 +1714,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT64, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1722,7 +1723,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1731,7 +1732,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1744,7 +1745,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1753,7 +1754,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1762,7 +1763,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1771,7 +1772,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1782,7 +1783,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1791,7 +1792,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1800,7 +1801,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1809,7 +1810,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1820,7 +1821,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1829,7 +1830,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1838,7 +1839,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1847,7 +1848,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1858,7 +1859,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1867,7 +1868,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1876,7 +1877,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1885,7 +1886,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1896,7 +1897,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1905,7 +1906,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1914,7 +1915,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1923,7 +1924,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1937,7 +1938,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1946,7 +1947,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1955,7 +1956,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1964,7 +1965,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1975,7 +1976,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1984,7 +1985,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -1993,7 +1994,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2002,7 +2003,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2013,7 +2014,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2022,7 +2023,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2031,7 +2032,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2040,7 +2041,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2051,7 +2052,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2060,7 +2061,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2069,7 +2070,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2078,7 +2079,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2089,7 +2090,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2098,7 +2099,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2107,7 +2108,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2116,7 +2117,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2129,7 +2130,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2138,7 +2139,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2147,7 +2148,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2156,7 +2157,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2167,7 +2168,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2176,7 +2177,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2185,7 +2186,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2194,7 +2195,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2205,7 +2206,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2214,7 +2215,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2223,7 +2224,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2232,7 +2233,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2243,7 +2244,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2252,7 +2253,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2261,7 +2262,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2270,7 +2271,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2281,7 +2282,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2290,7 +2291,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2299,7 +2300,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2308,7 +2309,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2321,7 +2322,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2330,7 +2331,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2339,7 +2340,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2348,7 +2349,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2359,7 +2360,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2368,7 +2369,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2377,7 +2378,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2386,7 +2387,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2397,7 +2398,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2406,7 +2407,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT32, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2415,7 +2416,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2424,7 +2425,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2435,7 +2436,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2444,7 +2445,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT32, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2453,7 +2454,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2462,7 +2463,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2473,7 +2474,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2482,7 +2483,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT32, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2491,7 +2492,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2500,7 +2501,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2513,7 +2514,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2522,7 +2523,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2531,7 +2532,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2540,7 +2541,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2551,7 +2552,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2560,7 +2561,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2569,7 +2570,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2578,7 +2579,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2589,7 +2590,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2598,7 +2599,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2607,7 +2608,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2616,7 +2617,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2627,7 +2628,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2636,7 +2637,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT64, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2645,7 +2646,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2654,7 +2655,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2665,7 +2666,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2674,7 +2675,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT64, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2683,7 +2684,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2692,7 +2693,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2705,7 +2706,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2714,7 +2715,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2723,7 +2724,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2732,7 +2733,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2743,7 +2744,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2752,7 +2753,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2761,7 +2762,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2770,7 +2771,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2781,7 +2782,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2790,7 +2791,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2799,7 +2800,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2808,7 +2809,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2819,7 +2820,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2828,7 +2829,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2837,7 +2838,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2846,7 +2847,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2857,7 +2858,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2866,7 +2867,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2875,7 +2876,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2884,7 +2885,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2897,7 +2898,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT8, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2906,7 +2907,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2915,7 +2916,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2924,7 +2925,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2935,7 +2936,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT8, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2944,7 +2945,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2953,7 +2954,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2962,7 +2963,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2973,7 +2974,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT8, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2982,7 +2983,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -2991,7 +2992,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3000,7 +3001,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3011,7 +3012,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT8, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3020,7 +3021,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3029,7 +3030,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3038,7 +3039,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3049,7 +3050,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT8, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3058,7 +3059,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3067,7 +3068,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3076,7 +3077,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3089,7 +3090,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT16, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3098,7 +3099,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3107,7 +3108,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3116,7 +3117,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3127,7 +3128,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT16, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3136,7 +3137,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3145,7 +3146,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3154,7 +3155,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3165,7 +3166,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT16, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3174,7 +3175,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3183,7 +3184,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3192,7 +3193,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3203,7 +3204,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT16, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3212,7 +3213,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3221,7 +3222,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3230,7 +3231,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3241,7 +3242,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT16, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3250,7 +3251,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3259,7 +3260,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3268,7 +3269,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3281,7 +3282,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT32, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3290,7 +3291,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3299,7 +3300,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3308,7 +3309,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3319,7 +3320,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT32, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3328,7 +3329,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3337,7 +3338,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3346,7 +3347,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3357,7 +3358,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT32, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3366,7 +3367,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3375,7 +3376,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3384,7 +3385,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3395,7 +3396,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT32, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3404,7 +3405,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT32, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3413,7 +3414,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3422,7 +3423,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3433,7 +3434,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT32, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3442,7 +3443,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT32, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3451,7 +3452,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3460,7 +3461,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3473,7 +3474,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT64, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3482,7 +3483,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3491,7 +3492,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3500,7 +3501,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3511,7 +3512,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT64, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3520,7 +3521,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3529,7 +3530,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3538,7 +3539,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3549,7 +3550,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT64, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3558,7 +3559,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3567,7 +3568,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3576,7 +3577,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3587,7 +3588,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT64, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3596,7 +3597,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3605,7 +3606,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3614,7 +3615,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3625,7 +3626,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT64, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3634,7 +3635,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3643,7 +3644,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3652,7 +3653,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3665,7 +3666,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3674,7 +3675,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3683,7 +3684,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3692,7 +3693,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3703,7 +3704,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3712,7 +3713,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3721,7 +3722,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3730,7 +3731,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3741,7 +3742,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3750,7 +3751,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3759,7 +3760,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3768,7 +3769,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3779,7 +3780,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3788,7 +3789,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3797,7 +3798,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3806,7 +3807,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3817,7 +3818,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3826,7 +3827,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3835,7 +3836,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3844,7 +3845,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3858,7 +3859,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3867,7 +3868,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3876,7 +3877,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_INT8); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3885,7 +3886,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_INT8); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_INT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3896,7 +3897,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3905,7 +3906,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3914,7 +3915,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_INT16); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3923,7 +3924,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_INT16); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_INT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3934,7 +3935,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3943,7 +3944,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3952,7 +3953,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_INT32); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3961,7 +3962,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_INT32); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_INT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3972,7 +3973,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_RUNE, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3981,7 +3982,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3990,7 +3991,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_INT64); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -3999,7 +4000,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_INT64); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_INT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4010,7 +4011,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_RUNE, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4019,7 +4020,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4028,7 +4029,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_INT); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4037,7 +4038,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_INT); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_INT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4049,7 +4050,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT8, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4058,7 +4059,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT8, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4067,7 +4068,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT8, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4076,7 +4077,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT8, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4087,7 +4088,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_INT16, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4096,7 +4097,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT16, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4105,7 +4106,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT16, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4114,7 +4115,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT16, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4125,7 +4126,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4134,7 +4135,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_INT32, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4143,7 +4144,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT32, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4152,7 +4153,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT32, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4163,7 +4164,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4172,7 +4173,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4181,7 +4182,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT64, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4190,7 +4191,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT64, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4201,7 +4202,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4210,7 +4211,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4219,7 +4220,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_INT, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_INT, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4228,7 +4229,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_INT, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_INT, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4240,7 +4241,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4249,7 +4250,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4258,7 +4259,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4267,7 +4268,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4280,7 +4281,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4289,7 +4290,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4298,7 +4299,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_UINT8); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4307,7 +4308,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_UINT8); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_UINT8); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4318,7 +4319,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4327,7 +4328,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4336,7 +4337,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_UINT16); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4345,7 +4346,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_UINT16); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_UINT16); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4356,7 +4357,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4365,7 +4366,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4374,7 +4375,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_UINT32); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4383,7 +4384,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_UINT32); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_UINT32); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4394,7 +4395,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4403,7 +4404,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4412,7 +4413,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_UINT64); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4421,7 +4422,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_UINT64); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_UINT64); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4432,7 +4433,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4441,7 +4442,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_RUNE, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4450,7 +4451,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_UINT); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4459,7 +4460,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_UINT); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_UINT); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4472,7 +4473,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT8, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4481,7 +4482,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT8, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4490,7 +4491,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT8, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4499,7 +4500,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT8, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4510,7 +4511,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT16, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4519,7 +4520,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MAX_UINT16, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4528,7 +4529,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT16, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4537,7 +4538,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT16, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4548,7 +4549,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT32, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4557,7 +4558,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4566,7 +4567,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT32, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4575,7 +4576,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT32, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4586,7 +4587,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT64, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4595,7 +4596,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4604,7 +4605,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT64, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4613,7 +4614,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT64, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4624,7 +4625,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MIN_UINT, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4633,7 +4634,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4642,7 +4643,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_UINT, MAX_RUNE); res != expect {
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4651,7 +4652,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_UINT, MIN_RUNE); res != expect {
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_RUNE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4663,7 +4664,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MIN_BYTE); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MIN_BYTE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4672,7 +4673,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MAX_BYTE); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MAX_BYTE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4681,7 +4682,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = true
 
-					if res := Compare("min", MIN_RUNE, MAX_BYTE); res != expect {
+					if res := src.Compare("min", src.MIN_RUNE, src.MAX_BYTE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
@@ -4690,7 +4691,7 @@ func TestValidation(t *testing.T) {
 					t.Parallel()
 					const expect = false
 
-					if res := Compare("min", MAX_RUNE, MIN_BYTE); res != expect {
+					if res := src.Compare("min", src.MAX_RUNE, src.MIN_BYTE); res != expect {
 						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 					}
 				})
