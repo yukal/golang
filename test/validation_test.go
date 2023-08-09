@@ -1393,6 +1393,44 @@ func TestValidation(t *testing.T) {
 			// ................................
 			// int & uint
 
+			t.Run("i8_byte", func(t *testing.T) {
+				t.Run("minI8_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT8, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI8_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_INT8, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minI8_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT8, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI8_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT8, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
 			t.Run("i8_u8", func(t *testing.T) {
 				t.Run("minI8_minU8", func(t *testing.T) {
 					t.Parallel()
@@ -1584,6 +1622,44 @@ func TestValidation(t *testing.T) {
 			})
 
 			// int16
+
+			t.Run("i16_byte", func(t *testing.T) {
+				t.Run("minI16_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT16, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI16_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT16, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minI16_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT16, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI16_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT16, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
 
 			t.Run("i16_u8", func(t *testing.T) {
 				t.Run("minI16_minU8", func(t *testing.T) {
@@ -1777,6 +1853,44 @@ func TestValidation(t *testing.T) {
 
 			// int32
 
+			t.Run("i32_byte", func(t *testing.T) {
+				t.Run("minI32_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT32, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI32_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT32, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minI32_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT32, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI32_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT32, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
 			t.Run("i32_u8", func(t *testing.T) {
 				t.Run("minI32_minU8", func(t *testing.T) {
 					t.Parallel()
@@ -1969,6 +2083,44 @@ func TestValidation(t *testing.T) {
 
 			// int64
 
+			t.Run("i64_byte", func(t *testing.T) {
+				t.Run("minI64_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT64, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI64_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT64, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minI64_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT64, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI64_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT64, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
 			t.Run("i64_u8", func(t *testing.T) {
 				t.Run("minI64_minU8", func(t *testing.T) {
 					t.Parallel()
@@ -2160,6 +2312,44 @@ func TestValidation(t *testing.T) {
 			})
 
 			// intX
+
+			t.Run("i_byte", func(t *testing.T) {
+				t.Run("minI_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minI_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_INT, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxI_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_INT, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
 
 			t.Run("i_u8", func(t *testing.T) {
 				t.Run("minI_minU8", func(t *testing.T) {
@@ -2584,6 +2774,236 @@ func TestValidation(t *testing.T) {
 			// ................................
 			// uint & uint
 
+			t.Run("byte_u8", func(t *testing.T) {
+				t.Run("minByte_minU8", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_UINT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxU8", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_UINT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxU8", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_UINT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minU8", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_UINT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_u16", func(t *testing.T) {
+				t.Run("minByte_minU16", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_UINT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxU16", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_UINT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxU16", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_UINT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minU16", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_UINT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_u32", func(t *testing.T) {
+				t.Run("minByte_minU32", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_UINT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxU32", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_UINT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxU32", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_UINT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minU32", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_UINT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_u64", func(t *testing.T) {
+				t.Run("minByte_minU64", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_UINT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxU64", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_UINT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxU64", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_UINT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minU64", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_UINT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_u", func(t *testing.T) {
+				t.Run("minByte_minU", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_UINT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxU", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_UINT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxU", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_UINT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minU", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_UINT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			// uint8
+
+			t.Run("u8_byte", func(t *testing.T) {
+				t.Run("minU8_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT8, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU8_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_UINT8, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minU8_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT8, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU8_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT8, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
 			t.Run("u8_u8", func(t *testing.T) {
 				t.Run("minU8_minU8", func(t *testing.T) {
 					t.Parallel()
@@ -2775,6 +3195,44 @@ func TestValidation(t *testing.T) {
 			})
 
 			// uint16
+
+			t.Run("u16_byte", func(t *testing.T) {
+				t.Run("minU16_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT16, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU16_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT16, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minU16_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT16, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU16_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT16, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
 
 			t.Run("u16_u8", func(t *testing.T) {
 				t.Run("minU16_minU8", func(t *testing.T) {
@@ -2968,6 +3426,44 @@ func TestValidation(t *testing.T) {
 
 			// uint32
 
+			t.Run("u32_byte", func(t *testing.T) {
+				t.Run("minU32_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT32, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU32_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT32, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minU32_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT32, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU32_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT32, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
 			t.Run("u32_u8", func(t *testing.T) {
 				t.Run("minU32_minU8", func(t *testing.T) {
 					t.Parallel()
@@ -3159,6 +3655,44 @@ func TestValidation(t *testing.T) {
 			})
 
 			// uint64
+
+			t.Run("u64_byte", func(t *testing.T) {
+				t.Run("minU64_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT64, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU64_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT64, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minU64_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT64, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU64_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT64, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
 
 			t.Run("u64_u8", func(t *testing.T) {
 				t.Run("minU64_minU8", func(t *testing.T) {
@@ -3352,6 +3886,44 @@ func TestValidation(t *testing.T) {
 
 			// uintX
 
+			t.Run("u_byte", func(t *testing.T) {
+				t.Run("minU_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minU_maxByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_UINT, src.MAX_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxU_minByte", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_UINT, src.MIN_BYTE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
 			t.Run("u_u8", func(t *testing.T) {
 				t.Run("minU_minU8", func(t *testing.T) {
 					t.Parallel()
@@ -3544,6 +4116,236 @@ func TestValidation(t *testing.T) {
 
 			// ................................
 			// uint & int
+
+			t.Run("byte_i8", func(t *testing.T) {
+				t.Run("minByte_minI8", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_INT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxI8", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_INT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxI8", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_INT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minI8", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_INT8); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_i16", func(t *testing.T) {
+				t.Run("minByte_minI16", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_INT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxI16", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_INT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxI16", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_INT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minI16", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_INT16); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_i32", func(t *testing.T) {
+				t.Run("minByte_minI32", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_INT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxI32", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_INT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxI32", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_INT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minI32", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_INT32); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_i64", func(t *testing.T) {
+				t.Run("minByte_minI64", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_INT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxI64", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_INT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxI64", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_INT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minI64", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_INT64); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_i", func(t *testing.T) {
+				t.Run("minByte_minI", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_INT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxI", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_INT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxI", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_INT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minI", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_INT); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			t.Run("byte_rune", func(t *testing.T) {
+				t.Run("minByte_minRune", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MIN_RUNE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_maxRune", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MAX_RUNE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("minByte_maxRune", func(t *testing.T) {
+					t.Parallel()
+					const expect = true
+
+					if res := src.Compare("min", src.MIN_BYTE, src.MAX_RUNE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+
+				t.Run("maxByte_minRune", func(t *testing.T) {
+					t.Parallel()
+					const expect = false
+
+					if res := src.Compare("min", src.MAX_BYTE, src.MIN_RUNE); res != expect {
+						t.Errorf("Expect(%#v) Got(%#v)", expect, res)
+					}
+				})
+			})
+
+			// uint8
 
 			t.Run("u8_i8", func(t *testing.T) {
 				t.Run("minU8_minI8", func(t *testing.T) {
