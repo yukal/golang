@@ -21,7 +21,7 @@ type Article struct {
 	Date     uint16
 }
 
-func Demo() {
+func DemoFilter() {
 	filter := &src.Filter{
 		Id:       map[string]uint64{"min": 1},
 		RegionId: map[string]uint8{"min": 1},
