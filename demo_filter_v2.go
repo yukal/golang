@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"yu/golang/src"
+	"yu/golang/src/validation"
 )
 
 type Article struct {
@@ -23,20 +23,20 @@ type Article struct {
 }
 
 func main() {
-	filter := &src.Filter{
-		Id:       map[string]uint64{"min": 1},
-		RegionId: map[string]uint8{"min": 1, "max": 25},
-		Hash:     map[string]uint8{"minLen": 1},
-		Link:     map[string]uint8{"minLen": 1},
-		Title:    map[string]uint8{"minLen": 5},
-		Message:  map[string]uint8{"minLen": 10},
-		Sex:      map[string]uint8{"eq": 2},
-		Age:      map[string]uint8{"min": 18, "max": 45},
-		Height:   map[string]uint8{"min": 150, "max": 200},
-		Weight:   map[string]uint8{"min": 45, "max": 80},
-		Images:   map[string]uint8{"minLen": 1},
-		Phones:   map[string]uint8{"minLen": 1},
-		Date:     map[string]uint16{"year": 2023},
+	filter := validation.FilterMap{
+		"Id":       {"min": uint64(1)},
+		"RegionId": {"min": uint8(1), "max": uint8(25)},
+		"Hash":     {"minLen": uint8(1)},
+		"Link":     {"minLen": uint8(1)},
+		"Title":    {"minLen": uint8(5)},
+		"Message":  {"minLen": uint8(10)},
+		"Sex":      {"eq": uint8(2)},
+		"Age":      {"min": uint8(18), "max": uint8(45)},
+		"Height":   {"min": uint8(150), "max": uint8(200)},
+		"Weight":   {"min": uint8(45), "max": uint8(80)},
+		"Images":   {"minLen": uint8(1)},
+		"Phones":   {"minLen": uint8(1)},
+		"Date":     {"year": uint16(2023)},
 	}
 
 	article := &Article{
@@ -55,14 +55,14 @@ func main() {
 		Date:     time.Now(),
 	}
 
-	if !src.IsValid(filter, article) {
+	if !filter.IsValid(article) {
 		// panic(errors.New("not valid"))
 		fmt.Println("Not valid!")
 	} else {
 		fmt.Println("Valid!")
 	}
 
-	if errs := src.Validate(filter, article); len(errs) > 0 {
+	if errs := filter.Validate(article); len(errs) > 0 {
 		for n, field := range errs {
 			fmt.Printf("%d. Wrong %s\n", n+1, field)
 		}
