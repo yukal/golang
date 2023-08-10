@@ -1,3 +1,3 @@
-# golang
+# Golang
 
 Aimed on learning Golang
