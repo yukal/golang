@@ -674,4 +674,218 @@ func TestTypes(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("isPrimitive", func(t *testing.T) {
+
+		t.Run("int8", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_INT8); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("int16", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_INT16); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("int32", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_INT32); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("int64", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_INT64); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("int", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_INT); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("uint8", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_UINT8); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("uint16", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_UINT16); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("uint32", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_UINT32); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("uint64", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_UINT64); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("uint", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_UINT); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("byte", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_BYTE); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("rune", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_RUNE); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("float32", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_FLOAT32); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("float64", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_FLOAT64); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("complex64", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_COMPLEX64); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("complex128", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(src.MIN_COMPLEX128); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("bool", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(false); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+
+			if res := src.IsPrimitive(true); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("string", func(t *testing.T) {
+			t.Parallel()
+			const expect = true
+
+			if res := src.IsPrimitive(""); !res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("struct", func(t *testing.T) {
+			t.Parallel()
+			const expect = false
+
+			if res := src.IsPrimitive(struct{}{}); res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("slice", func(t *testing.T) {
+			t.Parallel()
+			const expect = false
+
+			if res := src.IsPrimitive([]any{}); res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("map", func(t *testing.T) {
+			t.Parallel()
+			const expect = false
+
+			if res := src.IsPrimitive(map[any]any{}); res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("buffer", func(t *testing.T) {
+			t.Parallel()
+			const expect = false
+
+			if res := src.IsPrimitive(new(bytes.Buffer)); res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+
+		t.Run("function", func(t *testing.T) {
+			t.Parallel()
+			const expect = false
+
+			if res := src.IsPrimitive(func() {}); res {
+				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			}
+		})
+	})
 }
