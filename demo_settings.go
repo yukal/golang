@@ -6,7 +6,7 @@ import (
 	"yu/golang/src"
 )
 
-func DemoSettings() {
+func main() {
 	settings := src.MustLoadSettings("data/settings.json")
 	separator := strings.Repeat("=", 12)
 

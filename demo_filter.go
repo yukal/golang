@@ -22,7 +22,7 @@ type Article struct {
 	Date     time.Time
 }
 
-func DemoFilter() {
+func main() {
 	filter := &src.Filter{
 		Id:       map[string]uint64{"min": 1},
 		RegionId: map[string]uint8{"min": 1, "max": 25},
