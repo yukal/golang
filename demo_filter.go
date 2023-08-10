@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"yu/golang/src"
+	"yu/golang/src/validation"
 )
 
 type Article struct {
@@ -23,7 +23,7 @@ type Article struct {
 }
 
 func main() {
-	filter := &src.Filter{
+	filter := &validation.Filter{
 		Id:       map[string]uint64{"min": 1},
 		RegionId: map[string]uint8{"min": 1, "max": 25},
 		Hash:     map[string]uint8{"minLen": 1},
@@ -55,14 +55,14 @@ func main() {
 		Date:     time.Now(),
 	}
 
-	if !src.IsValid(filter, article) {
+	if !validation.IsValid(filter, article) {
 		// panic(errors.New("not valid"))
 		fmt.Println("Not valid!")
 	} else {
 		fmt.Println("Valid!")
 	}
 
-	if errs := src.Validate(filter, article); len(errs) > 0 {
+	if errs := validation.Validate(filter, article); len(errs) > 0 {
 		for n, field := range errs {
 			fmt.Printf("%d. Wrong %s\n", n+1, field)
 		}

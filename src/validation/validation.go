@@ -1,4 +1,4 @@
-package src
+package validation
 
 import (
 	"reflect"
