@@ -5495,7 +5495,6 @@ func TestValidation(t *testing.T) {
 				})
 			})
 
-			// TODO: Check bytes
 		})
 
 		t.Run("max", func(t *testing.T) {
