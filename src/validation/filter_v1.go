@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type Filter struct {
+type FilterStruct struct {
 	Id       map[string]uint64 `json:"Id"`
 	RegionId map[string]uint8  `json:"RegionId"`
 	Hash     map[string]uint8  `json:"Hash"`
@@ -21,7 +21,7 @@ type Filter struct {
 	Date     map[string]uint16 `json:"Date"`
 }
 
-func IsValid(filter *Filter, anyStruct any) bool {
+func IsValid(filter *FilterStruct, anyStruct any) bool {
 	refVal := reflect.ValueOf(anyStruct)
 	refType := refVal.Elem().Type()
 
@@ -54,7 +54,7 @@ func IsValid(filter *Filter, anyStruct any) bool {
 	return true
 }
 
-func Validate(filter *Filter, anyStruct any) (errList []string) {
+func Validate(filter *FilterStruct, anyStruct any) (errList []string) {
 	refVal := reflect.ValueOf(anyStruct)
 	refType := refVal.Elem().Type()
 

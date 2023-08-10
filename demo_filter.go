@@ -23,7 +23,7 @@ type Article struct {
 }
 
 func main() {
-	filter := &validation.Filter{
+	filter := &validation.FilterStruct{
 		Id:       map[string]uint64{"min": 1},
 		RegionId: map[string]uint8{"min": 1, "max": 25},
 		Hash:     map[string]uint8{"minLen": 1},
