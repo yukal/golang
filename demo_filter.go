@@ -58,6 +58,8 @@ func main() {
 	if !src.IsValid(filter, article) {
 		// panic(errors.New("not valid"))
 		fmt.Println("Not valid!")
+	} else {
+		fmt.Println("Valid!")
 	}
 
 	if errs := src.Validate(filter, article); len(errs) > 0 {
