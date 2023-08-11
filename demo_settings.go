@@ -2,13 +2,11 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"yu/golang/src"
 )
 
 func main() {
 	settings := src.MustLoadSettings("data/settings.json")
-	separator := strings.Repeat("=", 12)
 
 	// settings.Paths.Database
 	// settings.Paths.Images
@@ -31,5 +29,6 @@ func main() {
 	// settings.Task.Filter.Hash
 	// settings.Task.Filter.Date
 
-	fmt.Printf("%s\n%s\n%[1]s\n\n", separator, settings.String())
+	fmt.Println(settings)
+	fmt.Println()
 }
