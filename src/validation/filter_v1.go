@@ -5,42 +5,47 @@ import (
 	"strings"
 )
 
-type FilterStruct struct {
-	Id       map[string]uint64 `json:"Id"`
-	RegionId map[string]uint8  `json:"RegionId"`
-	Hash     map[string]uint8  `json:"Hash"`
-	Link     map[string]uint8  `json:"Link"`
-	Title    map[string]uint8  `json:"Title"`
-	Message  map[string]uint8  `json:"Message"`
-	Sex      map[string]uint8  `json:"Sex"`
-	Age      map[string]uint8  `json:"Age"`
-	Height   map[string]uint8  `json:"Height"`
-	Weight   map[string]uint8  `json:"Weight"`
-	Images   map[string]uint8  `json:"Images"`
-	Phones   map[string]uint8  `json:"Phones"`
-	Date     map[string]uint16 `json:"Date"`
+type IFilterType interface {
+	FilterMap | interface{}
 }
 
-func IsValid(filter *FilterStruct, anyStruct any) bool {
+type IFilterInstance interface {
+	IsValid(anyStruct any) bool
+	Validate(anyStruct any) []string
+}
+
+func IsValid[T IFilterType](filter T, anyStruct any) bool {
 	refVal := reflect.ValueOf(anyStruct)
 	refType := refVal.Elem().Type()
 
-	filterRefVal := reflect.ValueOf(filter)
+	filterVal := reflect.ValueOf(filter)
+	filterKind := filterVal.Kind()
+
+	if filterKind == reflect.Ptr {
+		filterKind = filterVal.Elem().Kind()
+	}
 
 	for i := 0; i < refType.NumField(); i++ {
+		var filterItem reflect.Value
 
 		field := refType.Field(i)
 		value := reflect.Indirect(refVal).FieldByName(field.Name)
 
-		filterRefItem := reflect.Indirect(filterRefVal).FieldByName(field.Name)
+		switch filterKind {
+		case reflect.Struct:
+			filterItem = reflect.Indirect(filterVal).FieldByName(field.Name)
 
-		switch filterRefItem.Kind() {
+		case reflect.Map:
+			filterItem = filterVal.MapIndex(reflect.ValueOf(field.Name))
+		}
+
+		switch filterItem.Kind() {
 		case reflect.Invalid:
 			continue
 
 		case reflect.Map:
-			for _, rule := range filterRefItem.MapKeys() {
-				filterVal := filterRefItem.MapIndex(rule)
+			for _, rule := range filterItem.MapKeys() {
+				filterVal := filterItem.MapIndex(rule)
 
 				if !Compare(rule.String(), filterVal.Interface(), value.Interface()) {
 					return false
@@ -54,30 +59,41 @@ func IsValid(filter *FilterStruct, anyStruct any) bool {
 	return true
 }
 
-func Validate(filter *FilterStruct, anyStruct any) (errList []string) {
+func Validate[T IFilterType](filter T, anyStruct any) (errList []string) {
 	refVal := reflect.ValueOf(anyStruct)
 	refType := refVal.Elem().Type()
 
-	filterRefVal := reflect.ValueOf(filter)
+	filterVal := reflect.ValueOf(filter)
+	filterKind := filterVal.Kind()
+
+	if filterKind == reflect.Ptr {
+		filterKind = filterVal.Elem().Kind()
+	}
 
 	for i := 0; i < refType.NumField(); i++ {
+		var filterItem reflect.Value
 
 		field := refType.Field(i)
 		value := reflect.Indirect(refVal).
 			FieldByName(field.Name)
 
-		filterRefItem := reflect.Indirect(filterRefVal).
-			FieldByName(field.Name)
+		switch filterKind {
+		case reflect.Struct:
+			filterItem = reflect.Indirect(filterVal).FieldByName(field.Name)
 
-		switch filterRefItem.Kind() {
+		case reflect.Map:
+			filterItem = filterVal.MapIndex(reflect.ValueOf(field.Name))
+		}
+
+		switch filterItem.Kind() {
 		case reflect.Invalid:
 			continue
 
 		case reflect.Map:
 			res := true
 
-			for _, rule := range filterRefItem.MapKeys() {
-				filterVal := filterRefItem.MapIndex(rule)
+			for _, rule := range filterItem.MapKeys() {
+				filterVal := filterItem.MapIndex(rule)
 				res = res && Compare(rule.String(), filterVal.Interface(), value.Interface())
 			}
 
