@@ -4,10 +4,11 @@ import (
 	"reflect"
 	"strings"
 	"time"
+	"yu/golang/src"
 )
 
 type IFilterType interface {
-	FilterMap | interface{}
+	FilterMap | src.ArticleFilter
 }
 
 type IFilterInstance interface {
