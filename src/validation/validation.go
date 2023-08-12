@@ -17,49 +17,25 @@ type IFilterInstance interface {
 }
 
 func IsValid[T IFilterType](filter T, anyStruct any) bool {
-	filterVal := reflect.Indirect(reflect.ValueOf(filter))
-	structVal := reflect.Indirect(reflect.ValueOf(anyStruct))
-	structType := structVal.Type()
-
-	for i := 0; i < structType.NumField(); i++ {
-		var filterItem reflect.Value
-
-		field := structType.Field(i)
-		value := structVal.FieldByName(field.Name)
-
-		switch filterVal.Kind() {
-		case reflect.Struct:
-			filterItem = filterVal.FieldByName(field.Name)
-
-		case reflect.Map:
-			filterItem = filterVal.MapIndex(reflect.ValueOf(field.Name))
-		}
-
-		switch filterItem.Kind() {
-		case reflect.Invalid:
-			continue
-
-		case reflect.Map:
-			for _, rule := range filterItem.MapKeys() {
-				ruleVal := filterItem.MapIndex(rule)
-				// fmt.Println(rule, ruleVal)
-
-				if !Compare(rule.String(), ruleVal.Interface(), value.Interface()) {
-					return false
-				}
-			}
-			break
-		}
-
-	}
-
-	return true
+	flag, _ := _checkIsValid(filter, anyStruct, true)
+	return flag
 }
 
-func Validate[T IFilterType](filter T, anyStruct any) (errList []string) {
+func Validate[T IFilterType](filter T, anyStruct any) []string {
+	_, wrongFields := _checkIsValid(filter, anyStruct, false)
+	return wrongFields
+}
+
+func _checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
+	var errList []string
+
 	filterVal := reflect.Indirect(reflect.ValueOf(filter))
 	structVal := reflect.Indirect(reflect.ValueOf(anyStruct))
 	structType := structVal.Type()
+
+	if !strict {
+		errList = make([]string, structType.NumField())
+	}
 
 	for i := 0; i < structType.NumField(); i++ {
 		var filterItem reflect.Value
@@ -85,6 +61,10 @@ func Validate[T IFilterType](filter T, anyStruct any) (errList []string) {
 				// fmt.Println(rule, ruleVal)
 
 				if !Compare(rule.String(), ruleVal.Interface(), value.Interface()) {
+					if strict {
+						return false, []string{}
+					}
+
 					errList = append(errList, strings.ToLower(field.Name))
 					break
 				}
@@ -94,7 +74,7 @@ func Validate[T IFilterType](filter T, anyStruct any) (errList []string) {
 
 	}
 
-	return
+	return true, []string{}
 }
 
 func Compare(rule string, filterVal, comparableVal any) bool {
