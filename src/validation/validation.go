@@ -106,6 +106,73 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	return true
 }
 
+func isEachStrLenEqual(filterVal, val any) bool {
+	var result bool = len(val.([]string)) > 0
+
+	for _, str := range val.([]string) {
+		result = result && isEqual(filterVal, len(str))
+	}
+
+	return result
+}
+
+func isStrLenEqual(filterVal, val any) bool {
+	switch reflect.TypeOf(val).String() {
+
+	case "[]string":
+		length := len(val.([]string))
+		return isEqual(filterVal, length)
+
+	case "string":
+		length := len(val.(string))
+		return isEqual(filterVal, length)
+
+	}
+
+	return false
+}
+
+func isStrLenMin(filterVal, val any) bool {
+	switch reflect.TypeOf(val).String() {
+
+	case "[]string":
+		length := len(val.([]string))
+		return isMin(filterVal, length)
+
+	case "string":
+		length := len(val.(string))
+		return isMin(filterVal, length)
+
+	}
+
+	return false
+}
+
+func isStrLenMax(filterVal, val any) bool {
+	switch reflect.TypeOf(val).String() {
+
+	case "[]string":
+		length := len(val.([]string))
+		return isMax(filterVal, length)
+
+	case "string":
+		length := len(val.(string))
+		return isMax(filterVal, length)
+
+	}
+
+	return false
+}
+
+func isYearEqual(filterVal, val any) bool {
+	if reflect.TypeOf(val).String() != "time.Time" {
+		return false
+	}
+
+	year := val.(time.Time).Year()
+	return isEqual(filterVal, year)
+}
+
 // https://go.dev/ref/spec#Numeric_types
 func isMin(filterVal, val any) bool {
 	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
@@ -1426,71 +1493,4 @@ func isEqual(filterVal, val any) bool {
 	}
 
 	return false
-}
-
-func isEachStrLenEqual(filterVal, val any) bool {
-	var result bool = len(val.([]string)) > 0
-
-	for _, str := range val.([]string) {
-		result = result && isEqual(filterVal, len(str))
-	}
-
-	return result
-}
-
-func isStrLenEqual(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isEqual(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isEqual(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isStrLenMin(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isMin(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isMin(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isStrLenMax(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isMax(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isMax(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isYearEqual(filterVal, val any) bool {
-	if reflect.TypeOf(val).String() != "time.Time" {
-		return false
-	}
-
-	year := val.(time.Time).Year()
-	return isEqual(filterVal, year)
 }
