@@ -34,7 +34,7 @@ func _checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, [
 	structType := structVal.Type()
 
 	if !strict {
-		errList = make([]string, structType.NumField())
+		errList = make([]string, 0, structType.NumField())
 	}
 
 	for i := 0; i < structType.NumField(); i++ {
