@@ -62,7 +62,7 @@ func _checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, [
 
 				if !Compare(rule.String(), ruleVal.Interface(), value.Interface()) {
 					if strict {
-						return false, []string{}
+						return false, errList
 					}
 
 					errList = append(errList, strings.ToLower(field.Name))
@@ -74,7 +74,7 @@ func _checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, [
 
 	}
 
-	return true, []string{}
+	return true, errList
 }
 
 func Compare(rule string, filterVal, comparableVal any) bool {
