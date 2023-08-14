@@ -140,25 +140,51 @@ func IsMatch(regex, val any) (flag bool) {
 }
 
 func IsEachMatches(reg, val any) bool {
-	isValid := reflect.TypeOf(reg).Kind() == reflect.String &&
-		reflect.TypeOf(val).String() == "[]string"
+	refReg := reflect.ValueOf(reg)
+	refVal := reflect.ValueOf(val)
 
-	if isValid {
-		for _, item := range val.([]string) {
-			isValid = isValid && IsMatch(reg, item)
+	if refReg.Kind() == reflect.Invalid || refVal.Kind() == reflect.Invalid {
+		return false
+	}
+
+	isValid := refReg.Kind() == reflect.String &&
+		strings.HasSuffix(refVal.Type().String(), "string")
+
+	switch refVal.Kind() {
+
+	case reflect.Array, reflect.Slice:
+		for n := 0; n < refVal.Len(); n++ {
+			isValid = isValid && IsMatch(reg, refVal.Index(n).String())
 		}
+		break
+
+	case reflect.Map:
+		iter := refVal.MapRange()
+
+		for iter.Next() {
+			// k := iter.Key()
+			// v := iter.Value()
+			isValid = isValid && IsMatch(reg, iter.Value().String())
+		}
+
+		break
 	}
 
 	return isValid
 }
 
 func IsYearEqual(filterVal, val any) bool {
-	if reflect.TypeOf(val).String() != "time.Time" {
-		return false
+	value := reflect.ValueOf(val)
+
+	if value.Kind() != reflect.Invalid {
+		if value.Type().String() == "time.Time" {
+
+			return IsEqual(filterVal, val.(time.Time).Year())
+
+		}
 	}
 
-	year := val.(time.Time).Year()
-	return IsEqual(filterVal, year)
+	return false
 }
 
 // https://go.dev/ref/spec#Numeric_types
