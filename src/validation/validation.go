@@ -80,23 +80,14 @@ func checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []
 func Compare(rule string, filterVal, comparableVal any) bool {
 	switch rule {
 
-	case "min":
+	case "min", "minLen":
 		return isMin(filterVal, comparableVal)
 
-	case "max":
+	case "max", "maxLen":
 		return isMax(filterVal, comparableVal)
 
-	case "eq":
+	case "eq", "len":
 		return isEqual(filterVal, comparableVal)
-
-	case "strLen":
-		return isStrLenEqual(filterVal, comparableVal)
-
-	case "minLen":
-		return isStrLenMin(filterVal, comparableVal)
-
-	case "maxLen":
-		return isStrLenMax(filterVal, comparableVal)
 
 	case "year":
 		return isYearEqual(filterVal, comparableVal)
@@ -116,54 +107,6 @@ func isEachStrLenEqual(filterVal, val any) bool {
 	return result
 }
 
-func isStrLenEqual(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isEqual(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isEqual(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isStrLenMin(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isMin(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isMin(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isStrLenMax(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isMax(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isMax(filterVal, length)
-
-	}
-
-	return false
-}
-
 func isYearEqual(filterVal, val any) bool {
 	if reflect.TypeOf(val).String() != "time.Time" {
 		return false
@@ -175,6 +118,13 @@ func isYearEqual(filterVal, val any) bool {
 
 // https://go.dev/ref/spec#Numeric_types
 func isMin(filterVal, val any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(val))
+
+	switch refVal.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		val = refVal.Len()
+	}
+
 	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
 
 	switch types {
@@ -628,6 +578,13 @@ func isMin(filterVal, val any) bool {
 }
 
 func isMax(filterVal, val any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(val))
+
+	switch refVal.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		val = refVal.Len()
+	}
+
 	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
 
 	switch types {
@@ -1081,6 +1038,13 @@ func isMax(filterVal, val any) bool {
 }
 
 func isEqual(filterVal, val any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(val))
+
+	switch refVal.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		val = refVal.Len()
+	}
+
 	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
 
 	switch types {
