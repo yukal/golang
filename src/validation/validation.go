@@ -78,6 +78,8 @@ func checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []
 }
 
 func Compare(rule string, filterVal, comparableVal any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(comparableVal))
+
 	switch rule {
 
 	case "min", "minLen":
@@ -88,6 +90,30 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 
 	case "eq", "len":
 		return isEqual(filterVal, comparableVal)
+
+	case "eachMin", "eachMinLen":
+		res := true
+		for n := 0; n < refVal.Len(); n++ {
+			res = res && isMin(filterVal, refVal.Index(n).Interface())
+		}
+
+		return res
+
+	case "eachMax", "eachMaxLen":
+		res := true
+		for n := 0; n < refVal.Len(); n++ {
+			res = res && isMax(filterVal, refVal.Index(n).Interface())
+		}
+
+		return res
+
+	case "eachEq", "eachLen":
+		res := true
+		for n := 0; n < refVal.Len(); n++ {
+			res = res && isEqual(filterVal, refVal.Index(n).Interface())
+		}
+
+		return res
 
 	case "year":
 		return isYearEqual(filterVal, comparableVal)
