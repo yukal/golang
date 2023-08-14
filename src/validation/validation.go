@@ -123,16 +123,6 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	return true
 }
 
-func isEachStrLenEqual(filterVal, val any) bool {
-	var result bool = len(val.([]string)) > 0
-
-	for _, str := range val.([]string) {
-		result = result && isEqual(filterVal, len(str))
-	}
-
-	return result
-}
-
 func isYearEqual(filterVal, val any) bool {
 	if reflect.TypeOf(val).String() != "time.Time" {
 		return false
