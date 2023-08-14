@@ -17,16 +17,16 @@ type IFilterInstance interface {
 }
 
 func IsValid[T IFilterType](filter T, anyStruct any) bool {
-	flag, _ := _checkIsValid(filter, anyStruct, true)
+	flag, _ := checkIsValid(filter, anyStruct, true)
 	return flag
 }
 
 func Validate[T IFilterType](filter T, anyStruct any) []string {
-	_, wrongFields := _checkIsValid(filter, anyStruct, false)
+	_, wrongFields := checkIsValid(filter, anyStruct, false)
 	return wrongFields
 }
 
-func _checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
+func checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
 	var errList []string
 
 	filterVal := reflect.Indirect(reflect.ValueOf(filter))
@@ -58,7 +58,7 @@ func _checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, [
 		case reflect.Map:
 			for _, rule := range filterItem.MapKeys() {
 				ruleVal := filterItem.MapIndex(rule)
-				// fmt.Println(rule, ruleVal)
+				// fmt.Println(field.Name, rule, ruleVal)
 
 				if !Compare(rule.String(), ruleVal.Interface(), value.Interface()) {
 					if strict {
