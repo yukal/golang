@@ -34,9 +34,15 @@ func main() {
 		"Age":      {"min": uint8(18), "max": uint8(45)},
 		"Height":   {"min": uint8(150), "max": uint8(200)},
 		"Weight":   {"min": uint8(45), "max": uint8(80)},
-		"Images":   {"matchEach": `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`},
-		"Phones":   {"matchEach": `^38[0-9]{10}$`},
-		"Date":     {"year": uint16(2023)},
+		"Images": {
+			"minLen":    uint8(1),
+			"matchEach": `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`,
+		},
+		"Phones": {
+			"minLen":    uint8(1),
+			"matchEach": `^38[0-9]{10}$`,
+		},
+		"Date": {"year": uint16(2023)},
 	}
 
 	article := &Article{
