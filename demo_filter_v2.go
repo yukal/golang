@@ -26,23 +26,23 @@ func main() {
 	filter := validation.FilterMap{
 		"Id":       {"min": uint64(1)},
 		"RegionId": {"min": uint8(1), "max": uint8(25)},
-		"Hash":     {"minLen": uint8(1)},
-		"Link":     {"minLen": uint8(1)},
+		"Hash":     {"match": `(?i)^[0-9a-f]{32}$`},
+		"Link":     {"match": `https://domain.com/data/[/\w]*`},
 		"Title":    {"minLen": uint8(5)},
 		"Message":  {"minLen": uint8(10)},
 		"Sex":      {"eq": uint8(2)},
 		"Age":      {"min": uint8(18), "max": uint8(45)},
 		"Height":   {"min": uint8(150), "max": uint8(200)},
 		"Weight":   {"min": uint8(45), "max": uint8(80)},
-		"Images":   {"minLen": uint8(1)},
-		"Phones":   {"minLen": uint8(1)},
+		"Images":   {"matchEach": `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`},
+		"Phones":   {"matchEach": `^38[0-9]{10}$`},
 		"Date":     {"year": uint16(2023)},
 	}
 
 	article := &Article{
 		Id:       100,
 		RegionId: 10,
-		Hash:     "zJszhq8ck9qtZhh1IhyqCqrwxLUyjJsu",
+		Hash:     "b0fb0c19711bcf3b73f41c909f66bded",
 		Link:     "https://domain.com/data/",
 		Title:    "Title",
 		Message:  "Hello World!",
@@ -50,9 +50,13 @@ func main() {
 		Age:      28,
 		Height:   165,
 		Weight:   60,
-		Images:   []string{"img1", "img2"},
-		Phones:   []string{"0001234567"},
-		Date:     time.Now(),
+		Images: []string{
+			"https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
+			"https://img.domain.com/4792592a98f8b9143de71d1db403d163.jpg",
+			"https://img.domain.com/92f2b876b8ea94f711d2173539e73802.png",
+		},
+		Phones: []string{"380001234567"},
+		Date:   time.Now(),
 	}
 
 	if !filter.IsValid(article) {

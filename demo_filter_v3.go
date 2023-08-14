@@ -37,7 +37,7 @@ func main() {
 	article := &Article{
 		Id:       100,
 		RegionId: 10,
-		Hash:     "zJszhq8ck9qtZhh1IhyqCqrwxLUyjJsu",
+		Hash:     "b0fb0c19711bcf3b73f41c909f66bded",
 		Link:     "https://domain.com/data/",
 		Title:    "Title",
 		Message:  "Hello World!",
@@ -45,9 +45,13 @@ func main() {
 		Age:      28,
 		Height:   165,
 		Weight:   60,
-		Images:   []string{"img1", "img2"},
-		Phones:   []string{"0001234567"},
-		Date:     time.Now(),
+		Images: []string{
+			"https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
+			"https://img.domain.com/4792592a98f8b9143de71d1db403d163.jpg",
+			"https://img.domain.com/92f2b876b8ea94f711d2173539e73802.png",
+		},
+		Phones: []string{"380001234567"},
+		Date:   time.Now(),
 	}
 
 	if !validation.IsValid(settings.Task.Filter, article) {

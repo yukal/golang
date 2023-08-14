@@ -2,6 +2,7 @@ package validation
 
 import (
 	"reflect"
+	"regexp"
 	"strings"
 	"time"
 	"yu/golang/src"
@@ -91,6 +92,12 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	case "eq", "len":
 		return isEqual(filterVal, comparableVal)
 
+	case "match":
+		return isMatch(filterVal, comparableVal)
+
+	case "matchEach":
+		return isEachMatches(filterVal, comparableVal)
+
 	case "eachMin", "eachMinLen":
 		res := true
 		for n := 0; n < refVal.Len(); n++ {
@@ -121,6 +128,28 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	}
 
 	return true
+}
+
+func isMatch(regex, val any) (flag bool) {
+	if reflect.TypeOf(regex).Kind() == reflect.String &&
+		reflect.TypeOf(val).Kind() == reflect.String {
+		flag, _ = regexp.MatchString(regex.(string), val.(string))
+	}
+
+	return flag
+}
+
+func isEachMatches(reg, val any) bool {
+	isValid := reflect.TypeOf(reg).Kind() == reflect.String &&
+		reflect.TypeOf(val).String() == "[]string"
+
+	if isValid {
+		for _, item := range val.([]string) {
+			isValid = isValid && isMatch(reg, item)
+		}
+	}
+
+	return isValid
 }
 
 func isYearEqual(filterVal, val any) bool {
