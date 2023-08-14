@@ -84,24 +84,24 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	switch rule {
 
 	case "min", "minLen":
-		return isMin(filterVal, comparableVal)
+		return IsMin(filterVal, comparableVal)
 
 	case "max", "maxLen":
-		return isMax(filterVal, comparableVal)
+		return IsMax(filterVal, comparableVal)
 
 	case "eq", "len":
-		return isEqual(filterVal, comparableVal)
+		return IsEqual(filterVal, comparableVal)
 
 	case "match":
-		return isMatch(filterVal, comparableVal)
+		return IsMatch(filterVal, comparableVal)
 
 	case "matchEach":
-		return isEachMatches(filterVal, comparableVal)
+		return IsEachMatches(filterVal, comparableVal)
 
 	case "eachMin", "eachMinLen":
 		res := true
 		for n := 0; n < refVal.Len(); n++ {
-			res = res && isMin(filterVal, refVal.Index(n).Interface())
+			res = res && IsMin(filterVal, refVal.Index(n).Interface())
 		}
 
 		return res
@@ -109,7 +109,7 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	case "eachMax", "eachMaxLen":
 		res := true
 		for n := 0; n < refVal.Len(); n++ {
-			res = res && isMax(filterVal, refVal.Index(n).Interface())
+			res = res && IsMax(filterVal, refVal.Index(n).Interface())
 		}
 
 		return res
@@ -117,20 +117,20 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 	case "eachEq", "eachLen":
 		res := true
 		for n := 0; n < refVal.Len(); n++ {
-			res = res && isEqual(filterVal, refVal.Index(n).Interface())
+			res = res && IsEqual(filterVal, refVal.Index(n).Interface())
 		}
 
 		return res
 
 	case "year":
-		return isYearEqual(filterVal, comparableVal)
+		return IsYearEqual(filterVal, comparableVal)
 
 	}
 
 	return true
 }
 
-func isMatch(regex, val any) (flag bool) {
+func IsMatch(regex, val any) (flag bool) {
 	if reflect.TypeOf(regex).Kind() == reflect.String &&
 		reflect.TypeOf(val).Kind() == reflect.String {
 		flag, _ = regexp.MatchString(regex.(string), val.(string))
@@ -139,30 +139,30 @@ func isMatch(regex, val any) (flag bool) {
 	return flag
 }
 
-func isEachMatches(reg, val any) bool {
+func IsEachMatches(reg, val any) bool {
 	isValid := reflect.TypeOf(reg).Kind() == reflect.String &&
 		reflect.TypeOf(val).String() == "[]string"
 
 	if isValid {
 		for _, item := range val.([]string) {
-			isValid = isValid && isMatch(reg, item)
+			isValid = isValid && IsMatch(reg, item)
 		}
 	}
 
 	return isValid
 }
 
-func isYearEqual(filterVal, val any) bool {
+func IsYearEqual(filterVal, val any) bool {
 	if reflect.TypeOf(val).String() != "time.Time" {
 		return false
 	}
 
 	year := val.(time.Time).Year()
-	return isEqual(filterVal, year)
+	return IsEqual(filterVal, year)
 }
 
 // https://go.dev/ref/spec#Numeric_types
-func isMin(filterVal, val any) bool {
+func IsMin(filterVal, val any) bool {
 	refVal := reflect.Indirect(reflect.ValueOf(val))
 
 	switch refVal.Kind() {
@@ -622,7 +622,7 @@ func isMin(filterVal, val any) bool {
 	return false
 }
 
-func isMax(filterVal, val any) bool {
+func IsMax(filterVal, val any) bool {
 	refVal := reflect.Indirect(reflect.ValueOf(val))
 
 	switch refVal.Kind() {
@@ -1082,7 +1082,7 @@ func isMax(filterVal, val any) bool {
 	return false
 }
 
-func isEqual(filterVal, val any) bool {
+func IsEqual(filterVal, val any) bool {
 	refVal := reflect.Indirect(reflect.ValueOf(val))
 
 	switch refVal.Kind() {
