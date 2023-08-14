@@ -131,8 +131,8 @@ func Compare(rule string, filterVal, comparableVal any) bool {
 }
 
 func IsMatch(regex, val any) (flag bool) {
-	if reflect.TypeOf(regex).Kind() == reflect.String &&
-		reflect.TypeOf(val).Kind() == reflect.String {
+	if reflect.ValueOf(regex).Kind() == reflect.String &&
+		reflect.ValueOf(val).Kind() == reflect.String {
 		flag, _ = regexp.MatchString(regex.(string), val.(string))
 	}
 
@@ -170,7 +170,7 @@ func IsMin(filterVal, val any) bool {
 		val = refVal.Len()
 	}
 
-	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
+	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
 
 	switch types {
 
@@ -630,7 +630,7 @@ func IsMax(filterVal, val any) bool {
 		val = refVal.Len()
 	}
 
-	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
+	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
 
 	switch types {
 
@@ -1090,7 +1090,7 @@ func IsEqual(filterVal, val any) bool {
 		val = refVal.Len()
 	}
 
-	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
+	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
 
 	switch types {
 
