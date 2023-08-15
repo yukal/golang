@@ -8,7 +8,7 @@ import (
 func TestIsEachMatches(t *testing.T) {
 
 	// TODO: check chan (channels)
-	t.Run("IsEachMatches(regex,filledSlice)", func(t *testing.T) {
+	t.Run("FilledSlice", func(t *testing.T) {
 		t.Parallel()
 		const expect = true
 
@@ -20,7 +20,7 @@ func TestIsEachMatches(t *testing.T) {
 		}
 	})
 
-	t.Run("IsEachMatches(regex,filledArray)", func(t *testing.T) {
+	t.Run("FilledArray", func(t *testing.T) {
 		t.Parallel()
 		const expect = true
 
@@ -32,7 +32,7 @@ func TestIsEachMatches(t *testing.T) {
 		}
 	})
 
-	t.Run("IsEachMatches(regex,filledMap)", func(t *testing.T) {
+	t.Run("FilledMap", func(t *testing.T) {
 		t.Parallel()
 		const expect = true
 
@@ -51,7 +51,7 @@ func TestIsEachMatches(t *testing.T) {
 	// ...
 
 	t.Run("emptiness", func(t *testing.T) {
-		t.Run("IsEachMatches(nil,nil)", func(t *testing.T) {
+		t.Run("nil_&_nil", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -60,7 +60,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(nil,emptySlice)", func(t *testing.T) {
+		t.Run("nil_&_EmptySlice", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -69,7 +69,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(nil,emptyArray)", func(t *testing.T) {
+		t.Run("nil_&_EmptyArray)", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -78,7 +78,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(nil,emptyMap)", func(t *testing.T) {
+		t.Run("nil_&_EmptyMap)", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -87,7 +87,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(empty,nil)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_nil", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -98,7 +98,7 @@ func TestIsEachMatches(t *testing.T) {
 
 		// ...
 
-		t.Run("IsEachMatches(empty,emptySlice)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_EmptySlice)", func(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
@@ -110,7 +110,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(empty,emptyArray)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_EmptyArray", func(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
@@ -122,7 +122,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(empty,emptyMap)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_EmptyMap", func(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
@@ -136,7 +136,7 @@ func TestIsEachMatches(t *testing.T) {
 
 		// ...
 
-		t.Run("IsEachMatches(empty,filledSlice)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_FilledSlice", func(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
@@ -148,7 +148,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(empty,filledArray)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_FilledArray)", func(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
@@ -160,7 +160,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(empty,filledMap)", func(t *testing.T) {
+		t.Run("EmptyRegex_&_FilledMap)", func(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
@@ -174,7 +174,7 @@ func TestIsEachMatches(t *testing.T) {
 
 		// ...
 
-		t.Run("IsEachMatches(regex,empty)", func(t *testing.T) {
+		t.Run("FilledRegex_&_EmptyData", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -186,7 +186,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(regex,empty)", func(t *testing.T) {
+		t.Run("FilledRegex_&_EmptyData)", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
@@ -198,7 +198,7 @@ func TestIsEachMatches(t *testing.T) {
 			}
 		})
 
-		t.Run("IsEachMatches(regex,empty)", func(t *testing.T) {
+		t.Run("FilledRegex_&_EmptyData)", func(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
