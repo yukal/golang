@@ -467,7 +467,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_INT8); !res {
+			if res := src.IsNumeric(src.MIN_INT8); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -476,7 +476,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_INT16); !res {
+			if res := src.IsNumeric(src.MIN_INT16); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -485,7 +485,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_INT32); !res {
+			if res := src.IsNumeric(src.MIN_INT32); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -494,7 +494,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_INT64); !res {
+			if res := src.IsNumeric(src.MIN_INT64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -503,7 +503,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_INT); !res {
+			if res := src.IsNumeric(src.MIN_INT); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -512,7 +512,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_UINT8); !res {
+			if res := src.IsNumeric(src.MIN_UINT8); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -521,7 +521,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_UINT16); !res {
+			if res := src.IsNumeric(src.MIN_UINT16); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -530,7 +530,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_UINT32); !res {
+			if res := src.IsNumeric(src.MIN_UINT32); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -539,7 +539,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_UINT64); !res {
+			if res := src.IsNumeric(src.MIN_UINT64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -548,7 +548,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_UINT); !res {
+			if res := src.IsNumeric(src.MIN_UINT); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -557,7 +557,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_BYTE); !res {
+			if res := src.IsNumeric(src.MIN_BYTE); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -566,7 +566,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_RUNE); !res {
+			if res := src.IsNumeric(src.MIN_RUNE); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -575,7 +575,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_FLOAT32); !res {
+			if res := src.IsNumeric(src.MIN_FLOAT32); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -584,7 +584,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_FLOAT64); !res {
+			if res := src.IsNumeric(src.MIN_FLOAT64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -593,7 +593,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_COMPLEX64); !res {
+			if res := src.IsNumeric(src.MIN_COMPLEX64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -602,7 +602,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsNumeric(src.MIN_COMPLEX128); !res {
+			if res := src.IsNumeric(src.MIN_COMPLEX128); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -611,11 +611,11 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric(false); res {
+			if res := src.IsNumeric(false); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 
-			if res := src.IsNumeric(true); res {
+			if res := src.IsNumeric(true); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -624,7 +624,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric(""); res {
+			if res := src.IsNumeric(""); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -633,7 +633,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric(struct{}{}); res {
+			if res := src.IsNumeric(struct{}{}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -642,7 +642,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric([]any{}); res {
+			if res := src.IsNumeric([]any{}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -651,7 +651,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric(map[any]any{}); res {
+			if res := src.IsNumeric(map[any]any{}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -660,7 +660,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric(new(bytes.Buffer)); res {
+			if res := src.IsNumeric(new(bytes.Buffer)); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -669,7 +669,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsNumeric(func() {}); res {
+			if res := src.IsNumeric(func() {}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -681,7 +681,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_INT8); !res {
+			if res := src.IsPrimitive(src.MIN_INT8); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -690,7 +690,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_INT16); !res {
+			if res := src.IsPrimitive(src.MIN_INT16); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -699,7 +699,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_INT32); !res {
+			if res := src.IsPrimitive(src.MIN_INT32); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -708,7 +708,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_INT64); !res {
+			if res := src.IsPrimitive(src.MIN_INT64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -717,7 +717,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_INT); !res {
+			if res := src.IsPrimitive(src.MIN_INT); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -726,7 +726,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_UINT8); !res {
+			if res := src.IsPrimitive(src.MIN_UINT8); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -735,7 +735,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_UINT16); !res {
+			if res := src.IsPrimitive(src.MIN_UINT16); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -744,7 +744,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_UINT32); !res {
+			if res := src.IsPrimitive(src.MIN_UINT32); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -753,7 +753,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_UINT64); !res {
+			if res := src.IsPrimitive(src.MIN_UINT64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -762,7 +762,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_UINT); !res {
+			if res := src.IsPrimitive(src.MIN_UINT); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -771,7 +771,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_BYTE); !res {
+			if res := src.IsPrimitive(src.MIN_BYTE); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -780,7 +780,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_RUNE); !res {
+			if res := src.IsPrimitive(src.MIN_RUNE); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -789,7 +789,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_FLOAT32); !res {
+			if res := src.IsPrimitive(src.MIN_FLOAT32); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -798,7 +798,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_FLOAT64); !res {
+			if res := src.IsPrimitive(src.MIN_FLOAT64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -807,7 +807,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_COMPLEX64); !res {
+			if res := src.IsPrimitive(src.MIN_COMPLEX64); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -816,7 +816,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(src.MIN_COMPLEX128); !res {
+			if res := src.IsPrimitive(src.MIN_COMPLEX128); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -825,11 +825,11 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(false); !res {
+			if res := src.IsPrimitive(false); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 
-			if res := src.IsPrimitive(true); !res {
+			if res := src.IsPrimitive(true); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -838,7 +838,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := src.IsPrimitive(""); !res {
+			if res := src.IsPrimitive(""); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -847,7 +847,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsPrimitive(struct{}{}); res {
+			if res := src.IsPrimitive(struct{}{}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -856,7 +856,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsPrimitive([]any{}); res {
+			if res := src.IsPrimitive([]any{}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -865,7 +865,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsPrimitive(map[any]any{}); res {
+			if res := src.IsPrimitive(map[any]any{}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -874,7 +874,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsPrimitive(new(bytes.Buffer)); res {
+			if res := src.IsPrimitive(new(bytes.Buffer)); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})
@@ -883,7 +883,7 @@ func TestTypes(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := src.IsPrimitive(func() {}); res {
+			if res := src.IsPrimitive(func() {}); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 			}
 		})

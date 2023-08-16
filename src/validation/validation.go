@@ -2,41 +2,201 @@ package validation
 
 import (
 	"reflect"
+	"regexp"
+	"strings"
 	"time"
+	"yu/golang/src"
 )
 
+type IFilterType interface {
+	FilterMap | src.ArticleFilter
+}
+
+type IFilterInstance interface {
+	IsValid(anyStruct any) bool
+	Validate(anyStruct any) []string
+}
+
+func IsValid[T IFilterType](filter T, anyStruct any) bool {
+	flag, _ := checkIsValid(filter, anyStruct, true)
+	return flag
+}
+
+func Validate[T IFilterType](filter T, anyStruct any) []string {
+	_, wrongFields := checkIsValid(filter, anyStruct, false)
+	return wrongFields
+}
+
+func checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
+	var errList []string
+
+	filterVal := reflect.Indirect(reflect.ValueOf(filter))
+	structVal := reflect.Indirect(reflect.ValueOf(anyStruct))
+	structType := structVal.Type()
+
+	if !strict {
+		errList = make([]string, 0, structType.NumField())
+	}
+
+	for i := 0; i < structType.NumField(); i++ {
+		var filterItem reflect.Value
+
+		field := structType.Field(i)
+		value := structVal.FieldByName(field.Name)
+
+		switch filterVal.Kind() {
+		case reflect.Struct:
+			filterItem = filterVal.FieldByName(field.Name)
+
+		case reflect.Map:
+			filterItem = filterVal.MapIndex(reflect.ValueOf(field.Name))
+		}
+
+		switch filterItem.Kind() {
+		case reflect.Invalid:
+			continue
+
+		case reflect.Map:
+			for _, rule := range filterItem.MapKeys() {
+				ruleVal := filterItem.MapIndex(rule)
+				// fmt.Println(field.Name, rule, ruleVal)
+
+				if !Compare(rule.String(), ruleVal.Interface(), value.Interface()) {
+					if strict {
+						return false, errList
+					}
+
+					errList = append(errList, strings.ToLower(field.Name))
+					break
+				}
+			}
+			break
+		}
+
+	}
+
+	return true, errList
+}
+
 func Compare(rule string, filterVal, comparableVal any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(comparableVal))
+
 	switch rule {
 
-	case "min":
-		return isMin(filterVal, comparableVal)
+	case "min", "minLen":
+		return IsMin(filterVal, comparableVal)
 
-	case "max":
-		return isMax(filterVal, comparableVal)
+	case "max", "maxLen":
+		return IsMax(filterVal, comparableVal)
 
-	case "eq":
-		return isEqual(filterVal, comparableVal)
+	case "eq", "len":
+		return IsEqual(filterVal, comparableVal)
 
-	case "strLen":
-		return isStrLenEqual(filterVal, comparableVal)
+	case "match":
+		return IsMatch(filterVal, comparableVal)
 
-	case "minLen":
-		return isStrLenMin(filterVal, comparableVal)
+	case "matchEach":
+		return IsEachMatches(filterVal, comparableVal)
 
-	case "maxLen":
-		return isStrLenMax(filterVal, comparableVal)
+	case "eachMin", "eachMinLen":
+		res := true
+		for n := 0; n < refVal.Len(); n++ {
+			res = res && IsMin(filterVal, refVal.Index(n).Interface())
+		}
+
+		return res
+
+	case "eachMax", "eachMaxLen":
+		res := true
+		for n := 0; n < refVal.Len(); n++ {
+			res = res && IsMax(filterVal, refVal.Index(n).Interface())
+		}
+
+		return res
+
+	case "eachEq", "eachLen":
+		res := true
+		for n := 0; n < refVal.Len(); n++ {
+			res = res && IsEqual(filterVal, refVal.Index(n).Interface())
+		}
+
+		return res
 
 	case "year":
-		return isYearEqual(filterVal, comparableVal)
+		return IsYearEqual(filterVal, comparableVal)
 
 	}
 
 	return true
 }
 
+func IsMatch(regex, val any) (flag bool) {
+	if reflect.ValueOf(regex).Kind() == reflect.String &&
+		reflect.ValueOf(val).Kind() == reflect.String {
+		flag, _ = regexp.MatchString(regex.(string), val.(string))
+	}
+
+	return flag
+}
+
+func IsEachMatches(reg, val any) bool {
+	refReg := reflect.ValueOf(reg)
+	refVal := reflect.ValueOf(val)
+
+	if refReg.Kind() == reflect.Invalid || refVal.Kind() == reflect.Invalid {
+		return false
+	}
+
+	isValid := refReg.Kind() == reflect.String &&
+		strings.HasSuffix(refVal.Type().String(), "string")
+
+	switch refVal.Kind() {
+
+	case reflect.Array, reflect.Slice:
+		for n := 0; n < refVal.Len(); n++ {
+			isValid = isValid && IsMatch(reg, refVal.Index(n).String())
+		}
+		break
+
+	case reflect.Map:
+		iter := refVal.MapRange()
+
+		for iter.Next() {
+			// k := iter.Key()
+			// v := iter.Value()
+			isValid = isValid && IsMatch(reg, iter.Value().String())
+		}
+
+		break
+	}
+
+	return isValid
+}
+
+func IsYearEqual(filterVal, val any) bool {
+	value := reflect.ValueOf(val)
+
+	if value.Kind() != reflect.Invalid {
+		if value.Type().String() == "time.Time" {
+
+			return IsEqual(filterVal, val.(time.Time).Year())
+
+		}
+	}
+
+	return false
+}
+
 // https://go.dev/ref/spec#Numeric_types
-func isMin(filterVal, val any) bool {
-	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
+func IsMin(filterVal, val any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(val))
+
+	switch refVal.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		val = refVal.Len()
+	}
+
+	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
 
 	switch types {
 
@@ -488,8 +648,15 @@ func isMin(filterVal, val any) bool {
 	return false
 }
 
-func isMax(filterVal, val any) bool {
-	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
+func IsMax(filterVal, val any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(val))
+
+	switch refVal.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		val = refVal.Len()
+	}
+
+	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
 
 	switch types {
 
@@ -941,8 +1108,15 @@ func isMax(filterVal, val any) bool {
 	return false
 }
 
-func isEqual(filterVal, val any) bool {
-	types := reflect.TypeOf(val).Kind().String() + ":" + reflect.TypeOf(filterVal).Kind().String()
+func IsEqual(filterVal, val any) bool {
+	refVal := reflect.Indirect(reflect.ValueOf(val))
+
+	switch refVal.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		val = refVal.Len()
+	}
+
+	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
 
 	switch types {
 
@@ -1354,71 +1528,4 @@ func isEqual(filterVal, val any) bool {
 	}
 
 	return false
-}
-
-func isEachStrLenEqual(filterVal, val any) bool {
-	var result bool = len(val.([]string)) > 0
-
-	for _, str := range val.([]string) {
-		result = result && isEqual(filterVal, len(str))
-	}
-
-	return result
-}
-
-func isStrLenEqual(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isEqual(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isEqual(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isStrLenMin(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isMin(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isMin(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isStrLenMax(filterVal, val any) bool {
-	switch reflect.TypeOf(val).String() {
-
-	case "[]string":
-		length := len(val.([]string))
-		return isMax(filterVal, length)
-
-	case "string":
-		length := len(val.(string))
-		return isMax(filterVal, length)
-
-	}
-
-	return false
-}
-
-func isYearEqual(filterVal, val any) bool {
-	if reflect.TypeOf(val).String() != "time.Time" {
-		return false
-	}
-
-	year := val.(time.Time).Year()
-	return isEqual(filterVal, year)
 }
