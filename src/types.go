@@ -179,8 +179,8 @@ func InspectDataW(writer io.Writer, data any) {
 
 // TODO: fix generation the nested data
 // Problem: Concurrently scans the nested struct. Each time it generates a string with a random ordering of nested keys. So it is hard to test with generated data
-func inspectRecursively(writer io.Writer, data reflect.Value, depth uint) {
-	separator := strings.Repeat(" ", int(depth*2))
+func inspectRecursively(writer io.Writer, data reflect.Value, depth int) {
+	separator := strings.Repeat(" ", depth*2)
 
 	switch data.Kind() {
 	case reflect.Slice:
