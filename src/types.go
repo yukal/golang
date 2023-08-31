@@ -238,7 +238,7 @@ func inspectRecursively(writer io.Writer, data reflect.Value, depth int) {
 
 			case IsPrimitive(dataValue):
 				writer.Write([]byte(
-					fmt.Sprintf("%s%s: %v\n", indent, dataField.Name, dataValue.Interface())))
+					fmt.Sprintf("\n%s%s: %v", indent, dataField.Name, dataValue.Interface())))
 
 			default:
 				writer.Write([]byte(
