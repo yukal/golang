@@ -180,7 +180,7 @@ func InspectDataW(writer io.Writer, data any) {
 // TODO: fix generation the nested data
 // Problem: Concurrently scans the nested struct. Each time it generates a string with a random ordering of nested keys. So it is hard to test with generated data
 func inspectRecursively(writer io.Writer, data reflect.Value, depth int) {
-	separator := strings.Repeat(" ", depth*2)
+	indent := strings.Repeat(" ", depth*2)
 
 	switch data.Kind() {
 	case reflect.Slice:
@@ -190,15 +190,15 @@ func inspectRecursively(writer io.Writer, data reflect.Value, depth int) {
 			switch {
 			case value.Kind() == reflect.String:
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: %#v", separator, i, value.Interface())))
+					fmt.Sprintf("\n%s%v: %#v", indent, i, value.Interface())))
 
 			case IsPrimitive(value):
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: %v", separator, i, value.Interface())))
+					fmt.Sprintf("\n%s%v: %v", indent, i, value.Interface())))
 
 			default:
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v:", separator, i)))
+					fmt.Sprintf("\n%s%v:", indent, i)))
 				inspectRecursively(writer, reflect.ValueOf(value.Interface()), depth+1)
 			}
 		}
@@ -210,39 +210,39 @@ func inspectRecursively(writer io.Writer, data reflect.Value, depth int) {
 			switch {
 			case value.Kind() == reflect.String:
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%s: %#v", separator, key.Interface(), value.Interface())))
+					fmt.Sprintf("\n%s%s: %#v", indent, key.Interface(), value.Interface())))
 
 			case IsPrimitive(value):
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%s: %v", separator, key.Interface(), value.Interface())))
+					fmt.Sprintf("\n%s%s: %v", indent, key.Interface(), value.Interface())))
 
 			default:
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%s: ", separator, key.Interface())))
+					fmt.Sprintf("\n%s%s: ", indent, key.Interface())))
 				inspectRecursively(writer, reflect.ValueOf(value.Interface()), depth+1)
 			}
 		}
 
 	case reflect.Struct:
-		dataRefType := data.Type()
+		refType := data.Type()
 
-		for i := 0; i < dataRefType.NumField(); i++ {
-			dataField := dataRefType.Field(i)
+		for i := 0; i < refType.NumField(); i++ {
+			dataField := refType.Field(i)
 			dataValue := reflect.Indirect(data).
 				FieldByName(dataField.Name)
 
 			switch {
 			case dataValue.Kind() == reflect.String:
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: %#v", separator, dataField.Name, dataValue.Interface())))
+					fmt.Sprintf("\n%s%v: %#v", indent, dataField.Name, dataValue.Interface())))
 
 			case IsPrimitive(dataValue):
 				writer.Write([]byte(
-					fmt.Sprintf("%s%s: %v\n", separator, dataField.Name, dataValue.Interface())))
+					fmt.Sprintf("%s%s: %v\n", indent, dataField.Name, dataValue.Interface())))
 
 			default:
 				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: ", separator, dataField.Name)))
+					fmt.Sprintf("\n%s%v: ", indent, dataField.Name)))
 				inspectRecursively(writer, dataValue, depth+1)
 			}
 		}
