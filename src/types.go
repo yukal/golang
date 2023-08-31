@@ -258,7 +258,12 @@ func inspectRecursively(writer io.Writer, data reflect.Value, depth uint) {
 }
 
 func IsNumeric(val any) bool {
-	switch reflect.TypeOf(val).Kind() {
+	ref := reflect.ValueOf(val)
+	if ref.Type().String() == "reflect.Value" {
+		ref = val.(reflect.Value)
+	}
+
+	switch ref.Kind() {
 	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
 		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128:
@@ -269,7 +274,12 @@ func IsNumeric(val any) bool {
 }
 
 func IsPrimitive(val any) bool {
-	switch reflect.TypeOf(val).Kind() {
+	ref := reflect.ValueOf(val)
+	if ref.Type().String() == "reflect.Value" {
+		ref = val.(reflect.Value)
+	}
+
+	switch ref.Kind() {
 	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
 		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128,
