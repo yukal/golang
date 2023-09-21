@@ -2,94 +2,99 @@ package Url
 
 import (
 	"net/url"
+	"reflect"
 	"regexp"
 	"strings"
 )
 
+const MAX_STEPS = 128
+const MAX_DEPTH = 16
+
 type QueryMap map[string]any
-type QueryVal struct {
-	key string
-	val any
+
+var querySeparators = map[rune]bool{
+	'[': true,
+	']': true,
+	'=': true,
 }
 
 func NewQueryMap(urlQuery string) QueryMap {
-	params := strings.Split(urlQuery, "?")
-	paramsLength := len(params)
+	params := strings.Split(urlQuery, "&")
 
-	if paramsLength == 1 {
-		urlQuery = params[0]
-	}
-	if paramsLength > 1 {
-		urlQuery = params[1]
-	}
+	cache := make(QueryMap, len(params))
+	data := make(QueryMap, len(params))
+	depth := 0
 
-	params = strings.Split(urlQuery, "&")
-	tree := make(QueryMap, paramsLength)
+	for step, param := range params {
+		qUnescaped, _ := url.QueryUnescape(param)
+		chunks, value := divideQueryParam(qUnescaped)
 
-	for _, param := range params {
-		key, val := queryChunks(param, 0)
+		if length := len(chunks); length > 1 {
 
-		if item, ok := tree[key]; !ok {
-			if val != nil {
+			buildTree(data, cache, chunks, value, depth)
 
-				tree[key] = QueryMap{
-					val.(QueryVal).key: val.(QueryVal).val,
-				}
-
-			}
 		} else {
-			k := val.(QueryVal).key
-			v := val.(QueryVal).val
 
-			if subItem, ok := item.(QueryMap)[k]; !ok {
+			cache[chunks[0]] = value
+			data[chunks[0]] = value
 
-				item.(QueryMap)[k] = v
+		}
 
-			} else {
-				for subKey, subVal := range v.(QueryMap) {
-
-					subItem.(QueryMap)[subKey] = subVal
-
-				}
-			}
+		if step > MAX_STEPS {
+			return data
 		}
 	}
 
-	return tree
+	return data
 }
 
-func queryChunks(param string, depth uint16) (key string, val any) {
-	key, val = unpackQueryKeyVal(param)
+func buildTree(data, cache QueryMap, chunks []string, value any, depth int) {
+	length := len(chunks)
+	ckey := strings.Join(chunks[:length-1], "/")
 
-	if len(val.(string)) > 0 {
-		if val.(string)[0] == '=' {
-			val = val.(string)[1:]
+	if reflect.ValueOf(cache[ckey]).Kind() == reflect.Map {
+		key := chunks[length-1]
+		subCkey := ckey + "/" + key
+
+		if _, ok := cache[subCkey]; !ok {
+			cache[subCkey] = value
 		}
 
-		if val.(string)[0] == '[' {
-			k, v := queryChunks(val.(string), depth+1)
-
-			if depth == 0 {
-				val = QueryVal{key: k, val: v}
-			} else {
-				val = QueryMap{k: v}
-			}
-		}
-	} else {
-		val = nil
+		cache[ckey].(QueryMap)[key] = cache[subCkey]
+		return
 	}
 
-	return key, val
+	ckey = strings.Join(chunks, "/")
+
+	if length > 1 {
+		cache[ckey] = value
+
+		if depth <= MAX_DEPTH {
+			buildTree(data, cache, chunks[:length-1], QueryMap{chunks[length-1]: value}, depth+1)
+		}
+
+		return
+	}
+
+	cache[ckey] = value
+	data[ckey] = cache[ckey]
 }
 
-func unpackQueryKeyVal(subParam string) (key string, val string) {
-	if reg, err := regexp.Compile(`\[?(\w+)\]?`); err == nil {
-		if matches := reg.FindStringSubmatch(subParam); len(matches) > 1 {
-			key = matches[1]
-			// val = subParam[len(matches[0]):]
-			val, _ = url.QueryUnescape(subParam[len(matches[0]):])
+func divideQueryParam(param string) ([]string, string) {
+	reg, _ := regexp.Compile(`=(.*)$`)
+	value := ""
+
+	if matches := reg.FindStringSubmatch(param); len(matches) > 0 {
+		if matches[1] != "" {
+			value = matches[1]
+			param = param[:len(param)-len(matches[0])]
 		}
 	}
 
-	return
+	chunks := strings.FieldsFunc(param, func(r rune) bool {
+		_, ok := querySeparators[r]
+		return ok
+	})
+
+	return chunks, value
 }
