@@ -56,14 +56,14 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 
 		cache[fullKey] = value
 		cache[nextKey].(QueryMap)[currKey] = cache[fullKey]
+
 		return
 	}
 
 	currKey := strings.Join(chunks, "/")
+	cache[currKey] = value
 
 	if length > 1 {
-		cache[currKey] = value
-
 		if depth <= MAX_DEPTH {
 			buildTree(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, depth+1)
 		}
@@ -71,7 +71,6 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 		return
 	}
 
-	cache[currKey] = value
 	data[currKey] = cache[currKey]
 }
 
