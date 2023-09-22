@@ -87,10 +87,10 @@ func divideQueryParam(param string) ([]string, string) {
 		param = param[:index]
 	}
 
-	chunks := strings.FieldsFunc(param, func(r rune) bool {
-		_, ok := querySeparators[r]
-		return ok
-	})
+	return strings.FieldsFunc(param, queryDivider), value
+}
 
-	return chunks, value
+func queryDivider(r rune) bool {
+	_, ok := querySeparators[r]
+	return ok
 }
