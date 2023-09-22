@@ -54,10 +54,7 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 		key := chunks[length-1]
 		subCkey := ckey + "/" + key
 
-		if _, ok := cache[subCkey]; !ok {
-			cache[subCkey] = value
-		}
-
+		cache[subCkey] = value
 		cache[ckey].(QueryMap)[key] = cache[subCkey]
 		return
 	}
