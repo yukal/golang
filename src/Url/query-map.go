@@ -29,7 +29,7 @@ func NewQueryMap(urlQuery string) QueryMap {
 
 		if length := len(chunks); length > 1 {
 
-			buildTree(chunks, value, data, cache, 0)
+			buildBranch(chunks, value, data, cache, 0)
 
 		} else {
 
@@ -57,7 +57,7 @@ func NewQueryMap(urlQuery string) QueryMap {
 // 2.
 // Determine which will work faster: loop or recursion
 
-func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
+func buildBranch(chunks []string, value any, data, cache QueryMap, depth int) {
 	length := len(chunks)
 	nextKey := strings.Join(chunks[:length-1], "/")
 
@@ -80,13 +80,13 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 
 	if length > 1 {
 		if depth <= MAX_DEPTH {
-			buildTree(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, depth+1)
+			buildBranch(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, depth+1)
 		}
 
 		return
 	}
 
-	// 3. A tree has been created and will be stored in the root of the data object
+	// 3. A tree branch has been created and will be stored in the root of the data object
 
 	data[currKey] = cache[currKey]
 }
