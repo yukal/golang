@@ -22,7 +22,6 @@ func NewQueryMap(urlQuery string) QueryMap {
 
 	cache := make(QueryMap, len(params))
 	data := make(QueryMap, len(params))
-	depth := 0
 
 	for step, param := range params {
 		qUnescaped, _ := url.QueryUnescape(param)
@@ -30,7 +29,7 @@ func NewQueryMap(urlQuery string) QueryMap {
 
 		if length := len(chunks); length > 1 {
 
-			buildTree(data, cache, chunks, value, depth)
+			buildTree(chunks, value, data, cache, 0)
 
 		} else {
 
@@ -47,7 +46,7 @@ func NewQueryMap(urlQuery string) QueryMap {
 	return data
 }
 
-func buildTree(data, cache QueryMap, chunks []string, value any, depth int) {
+func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 	length := len(chunks)
 	ckey := strings.Join(chunks[:length-1], "/")
 
@@ -69,7 +68,7 @@ func buildTree(data, cache QueryMap, chunks []string, value any, depth int) {
 		cache[ckey] = value
 
 		if depth <= MAX_DEPTH {
-			buildTree(data, cache, chunks[:length-1], QueryMap{chunks[length-1]: value}, depth+1)
+			buildTree(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, depth+1)
 		}
 
 		return
