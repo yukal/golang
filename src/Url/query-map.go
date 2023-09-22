@@ -50,6 +50,8 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 	length := len(chunks)
 	nextKey := strings.Join(chunks[:length-1], "/")
 
+	// 1. The shortest way of recording parameters using an already built path that is in the cache
+
 	if reflect.ValueOf(cache[nextKey]).Kind() == reflect.Map {
 		currKey := chunks[length-1]
 		fullKey := nextKey + "/" + currKey
@@ -59,6 +61,8 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 
 		return
 	}
+
+	// 2. If the given path is not in the cache, then it would recursively build
 
 	currKey := strings.Join(chunks, "/")
 	cache[currKey] = value
@@ -70,6 +74,8 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 
 		return
 	}
+
+	// 3. A tree has been created and will be stored in the root of the data object
 
 	data[currKey] = cache[currKey]
 }
