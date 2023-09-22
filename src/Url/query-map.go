@@ -46,6 +46,17 @@ func NewQueryMap(urlQuery string) QueryMap {
 	return data
 }
 
+// TODO:
+//
+// 1.
+// To increase the performance of the algorithm twice, we have to build a tree parsing the
+// path from the left side at the same time as parsing the path from the right side.
+// The algorithm should end in the middle of the path, in that case, this will mean that
+// we are halfway through building the full path (one branch for a tree).
+//
+// 2.
+// Determine which will work faster: loop or recursion
+
 func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 	length := len(chunks)
 	nextKey := strings.Join(chunks[:length-1], "/")
