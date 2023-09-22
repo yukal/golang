@@ -3,7 +3,6 @@ package Url
 import (
 	"net/url"
 	"reflect"
-	"regexp"
 	"strings"
 )
 
@@ -81,14 +80,11 @@ func buildTree(data, cache QueryMap, chunks []string, value any, depth int) {
 }
 
 func divideQueryParam(param string) ([]string, string) {
-	reg, _ := regexp.Compile(`=(.*)$`)
 	value := ""
 
-	if matches := reg.FindStringSubmatch(param); len(matches) > 0 {
-		if matches[1] != "" {
-			value = matches[1]
-			param = param[:len(param)-len(matches[0])]
-		}
+	if index := strings.Index(param, "="); index > -1 {
+		value = param[index+1:]
+		param = param[:index]
 	}
 
 	chunks := strings.FieldsFunc(param, func(r rune) bool {
