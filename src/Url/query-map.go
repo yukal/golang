@@ -48,21 +48,21 @@ func NewQueryMap(urlQuery string) QueryMap {
 
 func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 	length := len(chunks)
-	ckey := strings.Join(chunks[:length-1], "/")
+	nextKey := strings.Join(chunks[:length-1], "/")
 
-	if reflect.ValueOf(cache[ckey]).Kind() == reflect.Map {
-		key := chunks[length-1]
-		subCkey := ckey + "/" + key
+	if reflect.ValueOf(cache[nextKey]).Kind() == reflect.Map {
+		currKey := chunks[length-1]
+		fullKey := nextKey + "/" + currKey
 
-		cache[subCkey] = value
-		cache[ckey].(QueryMap)[key] = cache[subCkey]
+		cache[fullKey] = value
+		cache[nextKey].(QueryMap)[currKey] = cache[fullKey]
 		return
 	}
 
-	ckey = strings.Join(chunks, "/")
+	currKey := strings.Join(chunks, "/")
 
 	if length > 1 {
-		cache[ckey] = value
+		cache[currKey] = value
 
 		if depth <= MAX_DEPTH {
 			buildTree(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, depth+1)
@@ -71,8 +71,8 @@ func buildTree(chunks []string, value any, data, cache QueryMap, depth int) {
 		return
 	}
 
-	cache[ckey] = value
-	data[ckey] = cache[ckey]
+	cache[currKey] = value
+	data[currKey] = cache[currKey]
 }
 
 func divideQueryParam(param string) ([]string, string) {
