@@ -26,5 +26,8 @@ jobs:
       # - name: Build
       #   run: go build -v ./...
 
+      - name: Benchmark
+        run: cd test; go test -bench=. -benchtime=1000x -benchmem
+
       - name: Test
         run: cd test; go test
