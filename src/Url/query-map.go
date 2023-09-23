@@ -34,7 +34,7 @@ func NewQueryMap(urlQuery string) QueryMap {
 
 		if length > 1 {
 
-			buildBranch(chunks, value, data, cache, length)
+			buildBranch(chunks, value, data, cache, length, "")
 
 		} else {
 
@@ -58,7 +58,7 @@ func NewQueryMap(urlQuery string) QueryMap {
 // 2.
 // Determine which will work faster: loop or recursion
 
-func buildBranch(chunks []string, value any, data, cache QueryMap, length int) {
+func buildBranch(chunks []string, value any, data, cache QueryMap, length int, currKey string) {
 	nextKey := strings.Join(chunks[:length-1], "/")
 
 	// 1. The shortest way of recording parameters using an already built path that is in the cache
@@ -75,12 +75,10 @@ func buildBranch(chunks []string, value any, data, cache QueryMap, length int) {
 
 	// 2. If the given path is not in the cache, then it would recursively build
 
-	currKey := strings.Join(chunks, "/")
 	cache[currKey] = value
 
 	if length > 1 {
-		buildBranch(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, length-1)
-
+		buildBranch(chunks[:length-1], QueryMap{chunks[length-1]: value}, data, cache, length-1, nextKey)
 		return
 	}
 
