@@ -23,25 +23,8 @@ func NewQueryMap(urlQuery string) QueryMap {
 	cache := make(QueryMap, len(params))
 	data := make(QueryMap, len(params))
 
-	for step, param := range params {
-		qUnescaped, _ := url.QueryUnescape(param)
-		chunks, value := divideQueryParam(qUnescaped)
-		length := len(chunks)
-
-		if step >= MAX_STEPS || length >= MAX_DEPTH {
-			return data
-		}
-
-		if length > 1 {
-
-			buildBranch(chunks, value, data, cache, length, "")
-
-		} else {
-
-			cache[chunks[0]] = value
-			data[chunks[0]] = value
-
-		}
+	if length := len(params); length > 0 && length < MAX_STEPS {
+		buildTree(params, length, data, cache)
 	}
 
 	return data
@@ -57,6 +40,25 @@ func NewQueryMap(urlQuery string) QueryMap {
 //
 // 2.
 // Determine which will work faster: loop or recursion
+
+func buildTree(params []string, paramsLen int, data, cache QueryMap) {
+	qUnescaped, _ := url.QueryUnescape(params[0])
+	chunks, value := divideQueryParam(qUnescaped)
+	chunksLen := len(chunks)
+
+	switch {
+	case chunksLen > 1 && chunksLen < MAX_DEPTH:
+		buildBranch(chunks, value, data, cache, chunksLen, "")
+
+	case chunksLen == 1:
+		cache[chunks[0]] = value
+		data[chunks[0]] = value
+	}
+
+	if paramsLen > 1 {
+		buildTree(params[1:], paramsLen-1, data, cache)
+	}
+}
 
 func buildBranch(chunks []string, value any, data, cache QueryMap, length int, currKey string) {
 	nextKey := strings.Join(chunks[:length-1], "/")
