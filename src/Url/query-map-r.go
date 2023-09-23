@@ -39,9 +39,6 @@ func NewQueryMapR(urlQuery string) QueryMap {
 // path from the left side at the same time as parsing the path from the right side.
 // The algorithm should end in the middle of the path, in that case, this will mean that
 // we are halfway through building the full path (one branch for a tree).
-//
-// 2.
-// Determine which will work faster: loop or recursion
 
 func buildTree(params []string, paramsLen int, data, cache QueryMap) {
 	qUnescaped, _ := url.QueryUnescape(params[0])
