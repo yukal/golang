@@ -17,7 +17,7 @@ var querySeparators = map[rune]bool{
 	'=': true,
 }
 
-func NewQueryMap(urlQuery string) QueryMap {
+func NewQueryMapR(urlQuery string) QueryMap {
 	params := strings.Split(urlQuery, "&")
 
 	if length := len(params); length > 0 && length < MAX_STEPS {

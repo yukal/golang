@@ -46,7 +46,7 @@ func main() {
 		panic(err)
 	}
 
-	queryMap := Url.NewQueryMap(u.RawQuery)
+	queryMap := Url.NewQueryMapR(u.RawQuery)
 	fmt.Printf("%#v\n\n", queryMap)
 
 	// Unmarshal raw query to a struct

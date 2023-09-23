@@ -11,7 +11,7 @@ import (
 // https://github.com/gin-gonic/gin/issues/1310
 
 func NewSearchParams(rawUrlQuery string, data any) {
-	qmap := NewQueryMap(rawUrlQuery)
+	qmap := NewQueryMapR(rawUrlQuery)
 
 	ref := reflect.Indirect(reflect.ValueOf(data))
 	InspectQuery(ref, qmap, 0)
