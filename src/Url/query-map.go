@@ -20,14 +20,16 @@ var querySeparators = map[rune]bool{
 func NewQueryMap(urlQuery string) QueryMap {
 	params := strings.Split(urlQuery, "&")
 
-	cache := make(QueryMap, len(params))
-	data := make(QueryMap, len(params))
-
 	if length := len(params); length > 0 && length < MAX_STEPS {
+		cache := make(QueryMap, len(params))
+		data := make(QueryMap, len(params))
+
 		buildTree(params, length, data, cache)
+
+		return data
 	}
 
-	return data
+	return QueryMap{}
 }
 
 // TODO:
