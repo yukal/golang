@@ -1,12 +1,8 @@
 package src
 
 import (
-	"bytes"
-	"fmt"
-	"io"
 	"math"
 	"reflect"
-	"strings"
 )
 
 // https://go.dev/ref/spec#Numeric_types
@@ -165,100 +161,13 @@ func Int8ToUintRange(val int8) uint {
 	return uint(Int8ToUint8Range(val))
 }
 
-func InspectData(data any) string {
-	buf := new(bytes.Buffer)
-
-	inspectRecursively(buf, reflect.ValueOf(data), 0)
-
-	return strings.TrimSpace(buf.String())
-}
-
-func InspectDataW(writer io.Writer, data any) {
-	inspectRecursively(writer, reflect.ValueOf(data), 0)
-}
-
-// TODO: fix generation the nested data
-// Problem: Concurrently scans the nested struct. Each time it generates a string with a random ordering of nested keys. So it is hard to test with generated data
-func inspectRecursively(writer io.Writer, data reflect.Value, depth uint) {
-	separator := strings.Repeat(" ", int(depth*2))
-
-	switch data.Kind() {
-	case reflect.Slice:
-		for i := 0; i < data.Len(); i++ {
-			value := data.Index(i)
-
-			switch {
-			case value.Kind() == reflect.String:
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: %#v", separator, i, value.Interface())))
-
-			case IsPrimitive(value):
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: %v", separator, i, value.Interface())))
-
-			default:
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v:", separator, i)))
-				inspectRecursively(writer, reflect.ValueOf(value.Interface()), depth+1)
-			}
-		}
-
-	case reflect.Map:
-		for _, key := range data.MapKeys() {
-			value := data.MapIndex(key)
-
-			switch {
-			case value.Kind() == reflect.String:
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%s: %#v", separator, key.Interface(), value.Interface())))
-
-			case IsPrimitive(value):
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%s: %v", separator, key.Interface(), value.Interface())))
-
-			default:
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%s: ", separator, key.Interface())))
-				inspectRecursively(writer, reflect.ValueOf(value.Interface()), depth+1)
-			}
-		}
-
-	case reflect.Struct:
-		dataRefType := data.Type()
-
-		for i := 0; i < dataRefType.NumField(); i++ {
-			dataField := dataRefType.Field(i)
-			dataValue := reflect.Indirect(data).
-				FieldByName(dataField.Name)
-
-			switch {
-			case dataValue.Kind() == reflect.String:
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: %#v", separator, dataField.Name, dataValue.Interface())))
-
-			case IsPrimitive(dataValue):
-				writer.Write([]byte(
-					fmt.Sprintf("%s%s: %v\n", separator, dataField.Name, dataValue.Interface())))
-
-			default:
-				writer.Write([]byte(
-					fmt.Sprintf("\n%s%v: ", separator, dataField.Name)))
-				inspectRecursively(writer, dataValue, depth+1)
-			}
-		}
-
-	case reflect.String:
-		writer.Write([]byte(
-			fmt.Sprintf("%#v", data.Interface())))
-
-	default:
-		writer.Write([]byte(
-			fmt.Sprintf("%T(%[1]v)", data.Interface())))
-	}
-}
-
 func IsNumeric(val any) bool {
-	switch reflect.TypeOf(val).Kind() {
+	ref := reflect.ValueOf(val)
+	if ref.Type().String() == "reflect.Value" {
+		ref = val.(reflect.Value)
+	}
+
+	switch ref.Kind() {
 	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
 		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128:
@@ -269,7 +178,12 @@ func IsNumeric(val any) bool {
 }
 
 func IsPrimitive(val any) bool {
-	switch reflect.TypeOf(val).Kind() {
+	ref := reflect.ValueOf(val)
+	if ref.Type().String() == "reflect.Value" {
+		ref = val.(reflect.Value)
+	}
+
+	switch ref.Kind() {
 	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
 		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128,

@@ -1,0 +1,28 @@
+Filter:
+  Data:
+    0:
+      RegionId: 1
+      Phone: "380001234567"
+      Age:
+        Min: 18
+        Max: 28
+      Nested:
+        Nested:
+          IsActual: true
+          IsUniq: false
+    1:
+      RegionId: 2
+      Phone: "380007654321"
+      Age:
+        Min: 21
+        Max: 41
+      Nested:
+        Nested:
+          IsActual: false
+          IsUniq: true
+  Text: "привіт!"
+  OrderBy:
+    0: "user_id DESC"
+    1: "created_at DESC"
+  Limit: 12
+  Offset: 6
