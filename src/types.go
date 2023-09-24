@@ -1,10 +1,8 @@
 package src
 
 import (
-	"fmt"
 	"math"
 	"reflect"
-	"strings"
 )
 
 // https://go.dev/ref/spec#Numeric_types
@@ -161,91 +159,6 @@ func Int8ToUint64Range(val int8) uint64 {
 
 func Int8ToUintRange(val int8) uint {
 	return uint(Int8ToUint8Range(val))
-}
-
-func InspectData(data any) string {
-	return strings.TrimSpace(
-		inspectRecursively(reflect.ValueOf(data), 0),
-	)
-}
-
-// TODO: fix generation the nested data
-// Problem: Concurrently scans the nested struct. Each time it generates a string with a random ordering of nested keys. So it is hard to test with generated data
-func inspectRecursively(data reflect.Value, depth int) string {
-	indent := strings.Repeat(" ", depth*2)
-
-	switch data.Kind() {
-	case reflect.Slice:
-		var text string
-
-		for i := 0; i < data.Len(); i++ {
-			value := data.Index(i)
-
-			switch {
-			case value.Kind() == reflect.String:
-				text += fmt.Sprintf("%s%v: %#v\n", indent, i, value.Interface())
-
-			case IsPrimitive(value):
-				text += fmt.Sprintf("%s%v: %v\n", indent, i, value.Interface())
-
-			default:
-				text += fmt.Sprintf("%s%v:\n%s", indent, i,
-					inspectRecursively(value, depth+1))
-			}
-		}
-
-		return text
-
-	case reflect.Map:
-		var text string
-
-		for _, key := range data.MapKeys() {
-			value := data.MapIndex(key)
-
-			switch {
-			case value.Kind() == reflect.String:
-				text += fmt.Sprintf("%s%s: %#v\n", indent, key.String(), value.Interface())
-
-			case IsPrimitive(value):
-				text += fmt.Sprintf("%s%s: %v\n", indent, key.String(), value.Interface())
-
-			default:
-				text += fmt.Sprintf("%s%s:\n%s", indent, key.String(),
-					inspectRecursively(value, depth+1))
-			}
-		}
-
-		return text
-
-	case reflect.Struct:
-		var text string
-		refType := data.Type()
-
-		for i := 0; i < refType.NumField(); i++ {
-			field := refType.Field(i)
-			value := reflect.Indirect(data).
-				FieldByName(field.Name)
-
-			switch {
-			case value.Kind() == reflect.String:
-				text += fmt.Sprintf("%s%s: %#v\n", indent, field.Name, value)
-
-			case IsPrimitive(value):
-				text += fmt.Sprintf("%s%s: %v\n", indent, field.Name, value)
-
-			default:
-				text += fmt.Sprintf("%s%s:\n%s", indent, field.Name,
-					inspectRecursively(value, depth+1))
-			}
-		}
-
-		return text
-
-	case reflect.String:
-		return fmt.Sprintf("%#v", data.String())
-	}
-
-	return fmt.Sprintf("%T(%#[1]v)", data)
 }
 
 func IsNumeric(val any) bool {
