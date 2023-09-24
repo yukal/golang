@@ -91,7 +91,7 @@ Filter:
 	Url.UnmarshalQuery(u, &payload)
 
 	if res := src.InspectData(payload); res != expect {
-		t.Errorf("Expect( %[1]v ) => Got( %[2]v )", expect, res)
+		t.Errorf("Expect(\n%[1]v\n)\nGot(\n%[2]v\n)", expect, res)
 	}
 }
 
