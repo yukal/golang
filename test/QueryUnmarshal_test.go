@@ -156,7 +156,7 @@ func BenchmarkQueryUnmarshal(b *testing.B) {
 
 	u, err := url.ParseQuery(query)
 	if err != nil {
-		b.Error(err)
+		b.Fatal(err)
 	}
 
 	for n := 0; n < b.N; n++ {

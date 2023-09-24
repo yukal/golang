@@ -6,7 +6,7 @@ import (
 	"yu/golang/src/Url"
 )
 
-var result Url.QueryMap
+var result any
 
 func convertToJson(data any) (string, error) {
 	if bytes, err := json.Marshal(data); err != nil {
