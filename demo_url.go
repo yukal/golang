@@ -9,49 +9,51 @@ import (
 
 func main() {
 	type FilterNested2 struct {
-		Val string `query:"val"`
+		IsActual bool `query:"isActual" json:"isActual"`
+		IsUniq   bool `query:"isUniq" json:"isUniq"`
 	}
 
 	type FilterNested1 struct {
-		Nested2 FilterNested2 `query:"nes2"`
+		Nested FilterNested2 `query:"nes2" json:"nes2"`
 	}
 
 	type FilterMinMax struct {
-		Min uint8 `query:"min"`
-		Max uint8 `query:"max"`
+		Min uint8 `query:"min" json:"min"`
+		Max uint8 `query:"max" json:"max"`
+	}
+
+	type FilterData struct {
+		RegionId uint8         `query:"regionId" json:"regionId"`
+		Phone    string        `query:"phone" json:"phone"`
+		Age      FilterMinMax  `query:"age" json:"age"`
+		Nested   FilterNested1 `query:"nes" json:"nes"`
 	}
 
 	type Filter struct {
-		RegionId uint8         `query:"regionId"`
-		Age      FilterMinMax  `query:"age"`
-		Text     string        `query:"text"`
-		Phone    string        `query:"phone"`
-		IsActual bool          `query:"isActual"`
-		IsUniq   bool          `query:"isUniq"`
-		OrderBy  []string      `query:"orderBy"`
-		Offset   int64         `query:"offset"`
-		Limit    int64         `query:"limit"`
-		Nested1  FilterNested1 `query:"nes1"`
+		Data    []FilterData `query:"data" json:"data"`
+		Text    string       `query:"text" json:"text"`
+		OrderBy []string     `query:"orderBy" json:"orderBy"`
+		Limit   int64        `query:"limit" json:"limit"`
+		Offset  int64        `query:"offset" json:"offset"`
 	}
 
 	type Payload struct {
-		Filter Filter `json:"filter" query:"filter"`
+		Filter Filter `query:"filter" json:"filter"`
 	}
 
 	var payload Payload
 
-	rawURL := "http://localhost:50598/news/?filter[regionId]=2&filter[age][min]=21&filter[age][max]=41&filter[phone]=380001234567&filter[text]=%D0%BF%D1%80%D0%B8%D0%B2%D1%96%D1%82!&filter[isActual]=true&filter[isUniq]=0&filter[nes1][nes2][val]=tadam!&filter[orderBy][0]=created_at+DESC&filter[orderBy][1]=user_id+DESC&filter[limit]=16&filter[offset]=0"
+	rawURL := `http://localhost:50598/news/?filter[data][0][regionId]=1&filter[data][0][phone]=380001234567&filter[data][0][age][min]=18&filter[data][0][age][max]=28&filter[data][0][nes][nes2][isActual]=true&filter[data][0][nes][nes2][isUniq]=0&filter[data][1][regionId]=2&filter[data][1][phone]=380007654321&filter[data][1][age][min]=21&filter[data][1][age][max]=41&filter[data][1][nes][nes2][isActual]=&filter[data][1][nes][nes2][isUniq]=true&filter[text]=%D0%BF%D1%80%D0%B8%D0%B2%D1%96%D1%82!&filter[orderBy][0]=user_id+DESC&filter[orderBy][1]=created_at+DESC&filter[limit]=12&filter[offset]=6`
+
 	u, err := url.Parse(rawURL)
 	if err != nil {
 		panic(err)
 	}
 
-	queryMap := Url.NewQueryMapR(u.RawQuery)
-	fmt.Printf("%#v\n\n", queryMap)
+	// queryMap := Url.NewQueryMapR(u.RawQuery)
+	// fmt.Println(src.MustConvertToJson(queryMap))
 
-	// Unmarshal raw query to a struct
-	Url.NewSearchParams(u.RawQuery, &payload)
-
-	// fmt.Printf("%#v\n", payload)
-	fmt.Println(src.InspectData(payload))
+	Url.UnmarshalQuery(u.Query(), &payload)
+	// fmt.Println(src.InspectData(payload))
+	fmt.Println(src.MustConvertToJson(payload))
 }
