@@ -3,7 +3,7 @@ package test
 import (
 	"encoding/json"
 	"testing"
-	"yu/golang/src/Url"
+	"yu/golang/internal/app/Url"
 )
 
 var result any

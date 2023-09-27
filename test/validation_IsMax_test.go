@@ -2,8 +2,8 @@ package test
 
 import (
 	"testing"
-	"yu/golang/src"
-	"yu/golang/src/validation"
+	"yu/golang/internal/app"
+	"yu/golang/internal/app/validation"
 )
 
 func TestIsMax(t *testing.T) {
@@ -14,7 +14,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -23,7 +23,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -32,7 +32,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -41,7 +41,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -52,7 +52,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -61,7 +61,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -70,7 +70,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -79,7 +79,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -90,7 +90,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -99,7 +99,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -108,7 +108,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -117,7 +117,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -128,7 +128,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -137,7 +137,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -146,7 +146,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -155,7 +155,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -166,7 +166,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -175,7 +175,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -184,7 +184,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -193,7 +193,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -204,7 +204,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -213,7 +213,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -222,7 +222,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -231,7 +231,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -244,7 +244,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -253,7 +253,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -262,7 +262,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -271,7 +271,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -282,7 +282,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -291,7 +291,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -300,7 +300,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -309,7 +309,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -320,7 +320,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -329,7 +329,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -338,7 +338,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -347,7 +347,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -358,7 +358,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -367,7 +367,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -376,7 +376,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -385,7 +385,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -396,7 +396,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -405,7 +405,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -414,7 +414,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -423,7 +423,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -434,7 +434,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -443,7 +443,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -452,7 +452,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -461,7 +461,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -474,7 +474,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -483,7 +483,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -492,7 +492,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -501,7 +501,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -512,7 +512,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -521,7 +521,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -530,7 +530,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -539,7 +539,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -550,7 +550,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -559,7 +559,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -568,7 +568,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -577,7 +577,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -588,7 +588,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -597,7 +597,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -606,7 +606,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -615,7 +615,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -626,7 +626,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -635,7 +635,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -644,7 +644,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -653,7 +653,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -664,7 +664,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -673,7 +673,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -682,7 +682,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -691,7 +691,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -704,7 +704,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -713,7 +713,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -722,7 +722,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -731,7 +731,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -742,7 +742,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -751,7 +751,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -760,7 +760,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -769,7 +769,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -780,7 +780,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -789,7 +789,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -798,7 +798,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -807,7 +807,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -818,7 +818,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -827,7 +827,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -836,7 +836,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -845,7 +845,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -856,7 +856,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -865,7 +865,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -874,7 +874,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -883,7 +883,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -894,7 +894,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -903,7 +903,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -912,7 +912,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -921,7 +921,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -934,7 +934,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -943,7 +943,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -952,7 +952,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -961,7 +961,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -972,7 +972,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -981,7 +981,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -990,7 +990,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -999,7 +999,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1010,7 +1010,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1019,7 +1019,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1028,7 +1028,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1037,7 +1037,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1048,7 +1048,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1057,7 +1057,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1066,7 +1066,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1075,7 +1075,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1086,7 +1086,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1095,7 +1095,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1104,7 +1104,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1113,7 +1113,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1124,7 +1124,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1133,7 +1133,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1142,7 +1142,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1151,7 +1151,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1164,7 +1164,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1173,7 +1173,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1182,7 +1182,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1191,7 +1191,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1202,7 +1202,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1211,7 +1211,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1220,7 +1220,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1229,7 +1229,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1240,7 +1240,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1249,7 +1249,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1258,7 +1258,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1267,7 +1267,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1278,7 +1278,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1287,7 +1287,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1296,7 +1296,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1305,7 +1305,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1316,7 +1316,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1325,7 +1325,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1334,7 +1334,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1343,7 +1343,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1354,7 +1354,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1363,7 +1363,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1372,7 +1372,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1381,7 +1381,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1395,7 +1395,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1404,7 +1404,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1413,7 +1413,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1422,7 +1422,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1433,7 +1433,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1442,7 +1442,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1451,7 +1451,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1460,7 +1460,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1471,7 +1471,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1480,7 +1480,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1489,7 +1489,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1498,7 +1498,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1509,7 +1509,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1518,7 +1518,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1527,7 +1527,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1536,7 +1536,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1547,7 +1547,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1556,7 +1556,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1565,7 +1565,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1574,7 +1574,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1585,7 +1585,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1594,7 +1594,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT8, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1603,7 +1603,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT8, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT8, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1612,7 +1612,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT8, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT8, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1625,7 +1625,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1634,7 +1634,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1643,7 +1643,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1652,7 +1652,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1663,7 +1663,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1672,7 +1672,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1681,7 +1681,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1690,7 +1690,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1701,7 +1701,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1710,7 +1710,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1719,7 +1719,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1728,7 +1728,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1739,7 +1739,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1748,7 +1748,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1757,7 +1757,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1766,7 +1766,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1777,7 +1777,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1786,7 +1786,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1795,7 +1795,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1804,7 +1804,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1815,7 +1815,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1824,7 +1824,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT16, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1833,7 +1833,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT16, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT16, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1842,7 +1842,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT16, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT16, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1855,7 +1855,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1864,7 +1864,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1873,7 +1873,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1882,7 +1882,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1893,7 +1893,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1902,7 +1902,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1911,7 +1911,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1920,7 +1920,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1931,7 +1931,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1940,7 +1940,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1949,7 +1949,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1958,7 +1958,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1969,7 +1969,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1978,7 +1978,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1987,7 +1987,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -1996,7 +1996,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2007,7 +2007,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2016,7 +2016,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2025,7 +2025,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2034,7 +2034,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2045,7 +2045,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2054,7 +2054,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT32, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2063,7 +2063,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT32, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT32, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2072,7 +2072,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT32, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT32, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2085,7 +2085,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2094,7 +2094,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2103,7 +2103,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2112,7 +2112,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2123,7 +2123,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2132,7 +2132,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2141,7 +2141,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2150,7 +2150,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2161,7 +2161,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2170,7 +2170,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2179,7 +2179,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2188,7 +2188,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2199,7 +2199,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2208,7 +2208,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2217,7 +2217,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2226,7 +2226,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2237,7 +2237,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2246,7 +2246,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2255,7 +2255,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2264,7 +2264,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2275,7 +2275,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2284,7 +2284,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT64, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2293,7 +2293,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT64, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT64, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2302,7 +2302,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT64, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT64, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2315,7 +2315,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2324,7 +2324,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2333,7 +2333,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2342,7 +2342,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2353,7 +2353,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2362,7 +2362,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2371,7 +2371,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2380,7 +2380,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2391,7 +2391,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2400,7 +2400,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2409,7 +2409,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2418,7 +2418,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2429,7 +2429,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2438,7 +2438,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2447,7 +2447,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2456,7 +2456,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2467,7 +2467,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2476,7 +2476,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2485,7 +2485,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2494,7 +2494,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2505,7 +2505,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2514,7 +2514,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_INT, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2523,7 +2523,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_INT, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_INT, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2532,7 +2532,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_INT, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_INT, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2545,7 +2545,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2554,7 +2554,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2563,7 +2563,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2572,7 +2572,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2583,7 +2583,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2592,7 +2592,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2601,7 +2601,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2610,7 +2610,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2621,7 +2621,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2630,7 +2630,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2639,7 +2639,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2648,7 +2648,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2659,7 +2659,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2668,7 +2668,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2677,7 +2677,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2686,7 +2686,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2697,7 +2697,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2706,7 +2706,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2715,7 +2715,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2724,7 +2724,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2735,7 +2735,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2744,7 +2744,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2753,7 +2753,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_RUNE, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_RUNE, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2762,7 +2762,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_RUNE, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_RUNE, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2776,7 +2776,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2785,7 +2785,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2794,7 +2794,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2803,7 +2803,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2814,7 +2814,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2823,7 +2823,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2832,7 +2832,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2841,7 +2841,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2852,7 +2852,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2861,7 +2861,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2870,7 +2870,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2879,7 +2879,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2890,7 +2890,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2899,7 +2899,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2908,7 +2908,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2917,7 +2917,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2928,7 +2928,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2937,7 +2937,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2946,7 +2946,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2955,7 +2955,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2968,7 +2968,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2977,7 +2977,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2986,7 +2986,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -2995,7 +2995,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3006,7 +3006,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3015,7 +3015,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3024,7 +3024,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3033,7 +3033,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3044,7 +3044,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3053,7 +3053,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3062,7 +3062,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3071,7 +3071,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3082,7 +3082,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3091,7 +3091,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3100,7 +3100,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3109,7 +3109,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3120,7 +3120,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3129,7 +3129,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3138,7 +3138,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3147,7 +3147,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3158,7 +3158,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3167,7 +3167,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3176,7 +3176,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3185,7 +3185,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3198,7 +3198,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3207,7 +3207,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3216,7 +3216,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3225,7 +3225,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3236,7 +3236,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3245,7 +3245,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3254,7 +3254,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3263,7 +3263,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3274,7 +3274,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3283,7 +3283,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3292,7 +3292,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3301,7 +3301,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3312,7 +3312,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3321,7 +3321,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3330,7 +3330,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3339,7 +3339,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3350,7 +3350,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3359,7 +3359,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3368,7 +3368,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3377,7 +3377,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3388,7 +3388,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3397,7 +3397,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3406,7 +3406,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3415,7 +3415,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3428,7 +3428,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3437,7 +3437,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3446,7 +3446,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3455,7 +3455,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3466,7 +3466,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3475,7 +3475,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3484,7 +3484,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3493,7 +3493,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3504,7 +3504,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3513,7 +3513,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3522,7 +3522,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3531,7 +3531,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3542,7 +3542,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3551,7 +3551,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3560,7 +3560,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3569,7 +3569,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3580,7 +3580,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3589,7 +3589,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3598,7 +3598,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3607,7 +3607,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3618,7 +3618,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3627,7 +3627,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3636,7 +3636,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3645,7 +3645,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3658,7 +3658,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3667,7 +3667,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3676,7 +3676,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3685,7 +3685,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3696,7 +3696,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3705,7 +3705,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3714,7 +3714,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3723,7 +3723,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3734,7 +3734,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3743,7 +3743,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3752,7 +3752,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3761,7 +3761,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3772,7 +3772,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3781,7 +3781,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3790,7 +3790,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3799,7 +3799,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3810,7 +3810,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3819,7 +3819,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3828,7 +3828,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3837,7 +3837,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3848,7 +3848,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3857,7 +3857,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3866,7 +3866,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3875,7 +3875,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3888,7 +3888,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3897,7 +3897,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3906,7 +3906,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_BYTE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3915,7 +3915,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_BYTE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_BYTE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3926,7 +3926,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3935,7 +3935,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3944,7 +3944,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_UINT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3953,7 +3953,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_UINT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_UINT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3964,7 +3964,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3973,7 +3973,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3982,7 +3982,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_UINT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -3991,7 +3991,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_UINT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_UINT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4002,7 +4002,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4011,7 +4011,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4020,7 +4020,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_UINT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4029,7 +4029,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_UINT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_UINT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4040,7 +4040,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4049,7 +4049,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4058,7 +4058,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_UINT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4067,7 +4067,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_UINT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_UINT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4078,7 +4078,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4087,7 +4087,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4096,7 +4096,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_UINT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4105,7 +4105,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_UINT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_UINT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4119,7 +4119,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4128,7 +4128,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4137,7 +4137,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4146,7 +4146,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4157,7 +4157,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4166,7 +4166,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4175,7 +4175,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4184,7 +4184,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4195,7 +4195,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4204,7 +4204,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4213,7 +4213,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4222,7 +4222,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4233,7 +4233,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4242,7 +4242,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4251,7 +4251,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4260,7 +4260,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4271,7 +4271,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4280,7 +4280,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4289,7 +4289,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4298,7 +4298,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4309,7 +4309,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4318,7 +4318,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4327,7 +4327,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_BYTE, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_BYTE, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4336,7 +4336,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_BYTE, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_BYTE, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4349,7 +4349,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4358,7 +4358,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4367,7 +4367,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4376,7 +4376,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4387,7 +4387,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4396,7 +4396,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4405,7 +4405,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4414,7 +4414,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4425,7 +4425,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4434,7 +4434,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4443,7 +4443,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4452,7 +4452,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4463,7 +4463,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4472,7 +4472,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4481,7 +4481,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4490,7 +4490,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4501,7 +4501,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4510,7 +4510,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4519,7 +4519,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4528,7 +4528,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4539,7 +4539,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4548,7 +4548,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4557,7 +4557,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT8, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT8, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4566,7 +4566,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT8, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT8, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4579,7 +4579,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4588,7 +4588,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4597,7 +4597,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4606,7 +4606,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4617,7 +4617,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4626,7 +4626,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4635,7 +4635,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4644,7 +4644,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4655,7 +4655,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4664,7 +4664,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4673,7 +4673,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4682,7 +4682,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4693,7 +4693,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4702,7 +4702,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4711,7 +4711,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4720,7 +4720,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4731,7 +4731,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4740,7 +4740,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4749,7 +4749,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4758,7 +4758,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4769,7 +4769,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4778,7 +4778,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4787,7 +4787,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT16, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT16, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4796,7 +4796,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT16, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT16, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4809,7 +4809,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4818,7 +4818,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4827,7 +4827,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4836,7 +4836,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4847,7 +4847,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4856,7 +4856,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4865,7 +4865,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4874,7 +4874,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4885,7 +4885,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4894,7 +4894,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4903,7 +4903,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4912,7 +4912,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4923,7 +4923,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4932,7 +4932,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4941,7 +4941,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4950,7 +4950,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4961,7 +4961,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4970,7 +4970,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4979,7 +4979,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4988,7 +4988,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -4999,7 +4999,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5008,7 +5008,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5017,7 +5017,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT32, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT32, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5026,7 +5026,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT32, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT32, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5039,7 +5039,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5048,7 +5048,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5057,7 +5057,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5066,7 +5066,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5077,7 +5077,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5086,7 +5086,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5095,7 +5095,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5104,7 +5104,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5115,7 +5115,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5124,7 +5124,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5133,7 +5133,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5142,7 +5142,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5153,7 +5153,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5162,7 +5162,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5171,7 +5171,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5180,7 +5180,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5191,7 +5191,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5200,7 +5200,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5209,7 +5209,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5218,7 +5218,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5229,7 +5229,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5238,7 +5238,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5247,7 +5247,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT64, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT64, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5256,7 +5256,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT64, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT64, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5269,7 +5269,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5278,7 +5278,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5287,7 +5287,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_INT8); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5296,7 +5296,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_INT8); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_INT8); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5307,7 +5307,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5316,7 +5316,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5325,7 +5325,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_INT16); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5334,7 +5334,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_INT16); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_INT16); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5345,7 +5345,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5354,7 +5354,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5363,7 +5363,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_INT32); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5372,7 +5372,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_INT32); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_INT32); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5383,7 +5383,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5392,7 +5392,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5401,7 +5401,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_INT64); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5410,7 +5410,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_INT64); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_INT64); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5421,7 +5421,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5430,7 +5430,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5439,7 +5439,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_INT); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5448,7 +5448,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_INT); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_INT); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5459,7 +5459,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MIN_UINT, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5468,7 +5468,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5477,7 +5477,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = false
 
-			if res := validation.IsMax(src.MIN_UINT, src.MAX_RUNE); res != expect {
+			if res := validation.IsMax(app.MIN_UINT, app.MAX_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})
@@ -5486,7 +5486,7 @@ func TestIsMax(t *testing.T) {
 			t.Parallel()
 			const expect = true
 
-			if res := validation.IsMax(src.MAX_UINT, src.MIN_RUNE); res != expect {
+			if res := validation.IsMax(app.MAX_UINT, app.MIN_RUNE); res != expect {
 				t.Errorf("Expect(%#v) Got(%#v)", expect, res)
 			}
 		})

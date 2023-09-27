@@ -3,7 +3,7 @@ package test
 import (
 	"net/url"
 	"testing"
-	"yu/golang/src/Url"
+	"yu/golang/internal/app/Url"
 )
 
 // go test -run TestQueryUnmarshal

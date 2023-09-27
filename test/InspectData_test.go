@@ -4,15 +4,15 @@ import (
 	"net/url"
 	"os"
 	"testing"
-	"yu/golang/src"
-	"yu/golang/src/Url"
+	"yu/golang/internal/app"
+	"yu/golang/internal/app/Url"
 )
 
 // go test -run TestInspectData
 // go test -bench=. -benchtime=1000x -benchmem
 
 func TestInspectData(t *testing.T) {
-	expectInspectData, err := os.ReadFile("InspectData_res.yml")
+	expectInspectData, err := os.ReadFile("./InspectData_res.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -64,7 +64,7 @@ func TestInspectData(t *testing.T) {
 
 	Url.UnmarshalQuery(u, &payload)
 
-	if res := src.InspectData(payload); res != expect {
+	if res := app.InspectData(payload); res != expect {
 		t.Errorf("Expect(\n%[1]v\n)\nGot(\n%[2]v\n)", expect, res)
 	}
 }
@@ -115,7 +115,7 @@ func BenchmarkInspectData(b *testing.B) {
 	Url.UnmarshalQuery(u, &payload)
 
 	for n := 0; n < b.N; n++ {
-		res = src.InspectData(payload)
+		res = app.InspectData(payload)
 	}
 
 	result = res

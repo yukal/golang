@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"yu/golang/src"
+	"yu/golang/internal/app"
 )
 
 func main() {
-	settings := src.MustLoadSettings("data/settings.json")
+	settings := app.MustLoadSettings("../../data/settings.json")
 
 	// settings.Paths.Database
 	// settings.Paths.Images

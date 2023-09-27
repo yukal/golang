@@ -5,11 +5,11 @@ import (
 	"regexp"
 	"strings"
 	"time"
-	"yu/golang/src"
+	"yu/golang/internal/app"
 )
 
 type IFilterType interface {
-	FilterMap | src.ArticleFilter
+	FilterMap | app.ArticleFilter
 }
 
 type IFilterInstance interface {

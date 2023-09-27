@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"time"
-	"yu/golang/src"
-	"yu/golang/src/validation"
+	"yu/golang/internal/app"
+	"yu/golang/internal/app/validation"
 )
 
 type Article struct {
@@ -24,7 +24,7 @@ type Article struct {
 }
 
 func main() {
-	filter := src.ArticleFilter{
+	filter := app.ArticleFilter{
 		Id:       map[string]uint64{"min": 1},
 		RegionId: map[string]uint8{"min": 1, "max": 25},
 		Hash:     map[string]uint8{"minLen": 1},

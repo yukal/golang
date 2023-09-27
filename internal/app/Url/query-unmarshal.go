@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"reflect"
 	"strconv"
-	"yu/golang/src"
+	"yu/golang/internal/app"
 )
 
 // https://github.com/gin-gonic/gin/issues/1310
@@ -36,7 +36,7 @@ func fillStruct(mval reflect.Value, queries url.Values, path string, index int) 
 	fieldType := mval.Type().Field(index)
 	ckey := getQueryPath(path, fieldType.Tag.Get("query"))
 
-	if src.IsPrimitive(fieldVal.Interface()) {
+	if app.IsPrimitive(fieldVal.Interface()) {
 		if value, ok := queries[ckey]; ok {
 
 			SetValue(fieldVal, value[0])
@@ -56,7 +56,7 @@ func fillStruct(mval reflect.Value, queries url.Values, path string, index int) 
 func fillSlise(val reflect.Value, item reflect.Value, queries url.Values, path string, index int) {
 	ckey := getQueryPath(path, strconv.Itoa(index))
 
-	if src.IsPrimitive(item) {
+	if app.IsPrimitive(item) {
 		if value, ok := queries[ckey]; ok {
 
 			SetValue(val, value[0])

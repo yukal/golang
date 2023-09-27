@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"net/url"
-	"yu/golang/src"
-	"yu/golang/src/Url"
+	"yu/golang/internal/app"
+	"yu/golang/internal/app/Url"
 )
 
 func main() {
@@ -51,9 +51,9 @@ func main() {
 	}
 
 	// queryMap := Url.NewQueryMapR(u.RawQuery)
-	// fmt.Println(src.MustConvertToJson(queryMap))
+	// fmt.Println(app.MustConvertToJson(queryMap))
 
 	Url.UnmarshalQuery(u.Query(), &payload)
-	// fmt.Println(src.InspectData(payload))
-	fmt.Println(src.MustConvertToJson(payload))
+	// fmt.Println(app.InspectData(payload))
+	fmt.Println(app.MustConvertToJson(payload))
 }

@@ -2,7 +2,7 @@ package test
 
 import (
 	"testing"
-	"yu/golang/src/validation"
+	"yu/golang/internal/app/validation"
 )
 
 func TestIsEachMatches(t *testing.T) {

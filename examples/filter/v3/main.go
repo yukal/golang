@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"path"
 	"time"
-	"yu/golang/src/validation"
+	"yu/golang/internal/app"
+	"yu/golang/internal/app/validation"
 )
 
 type Article struct {
@@ -23,27 +26,13 @@ type Article struct {
 }
 
 func main() {
-	filter := validation.FilterMap{
-		"Id":       {"min": uint64(1)},
-		"RegionId": {"min": uint8(1), "max": uint8(25)},
-		"Hash":     {"match": `(?i)^[0-9a-f]{32}$`},
-		"Link":     {"match": `https://domain.com/data/[/\w]*`},
-		"Title":    {"minLen": uint8(5)},
-		"Message":  {"minLen": uint8(10)},
-		"Sex":      {"eq": uint8(2)},
-		"Age":      {"min": uint8(18), "max": uint8(45)},
-		"Height":   {"min": uint8(150), "max": uint8(200)},
-		"Weight":   {"min": uint8(45), "max": uint8(80)},
-		"Images": {
-			"minLen":    uint8(1),
-			"matchEach": `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`,
-		},
-		"Phones": {
-			"minLen":    uint8(1),
-			"matchEach": `^38[0-9]{10}$`,
-		},
-		"Date": {"year": uint16(2023)},
+	appPath, err := os.Getwd()
+	if err != nil {
+		panic(err)
 	}
+
+	settings := app.MustLoadSettings(
+		path.Join(appPath, "../../../data/settings.json"))
 
 	article := &Article{
 		Id:       100,
@@ -65,14 +54,13 @@ func main() {
 		Date:   time.Now(),
 	}
 
-	if !filter.IsValid(article) {
-		// panic(errors.New("not valid"))
+	if !validation.IsValid(settings.Task.Filter, article) {
 		fmt.Println("Not valid!")
 	} else {
 		fmt.Println("Valid!")
 	}
 
-	if errs := filter.Validate(article); len(errs) > 0 {
+	if errs := validation.Validate(settings.Task.Filter, article); len(errs) > 0 {
 		for n, field := range errs {
 			fmt.Printf("%d. Wrong %s\n", n+1, field)
 		}

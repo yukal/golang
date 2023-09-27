@@ -3,10 +3,8 @@ package test
 import (
 	"testing"
 	"time"
-	"yu/golang/src/validation"
+	"yu/golang/internal/app/validation"
 )
-
-// TODO: write tests
 
 func TestIsValid(t *testing.T) {
 	type Article struct {
