@@ -17,19 +17,17 @@ func inspectRecursively(data reflect.Value, depth int) (text string) {
 	switch data.Kind() {
 	case reflect.Struct:
 		if fieldsCount := data.Type().NumField(); fieldsCount > 0 {
-			text = inspectStruct(data, fieldsCount-1, depth)
+			text = inspectStruct(data, 0, depth)
 		}
 
 	case reflect.Slice:
 		if length := data.Len(); length > 0 {
-			text = inspectSlice(data, length-1, depth)
+			text = inspectSlice(data, 0, depth)
 		}
 
 	case reflect.Map:
-		keys := data.MapKeys()
-
-		if length := len(keys); length > 0 {
-			text = inspectMap(data, keys, length-1, depth)
+		if keys := data.MapKeys(); len(keys) > 0 {
+			text = inspectMap(data, keys, depth)
 		}
 
 	case reflect.Interface:
@@ -48,8 +46,8 @@ func inspectStruct(data reflect.Value, index, depth int) (text string) {
 
 	text = toText(field.Name, value, depth)
 
-	if index > 0 {
-		text += inspectStruct(data, index-1, depth)
+	if index < data.Type().NumField()-1 {
+		text += inspectStruct(data, index+1, depth)
 	}
 
 	return
@@ -58,19 +56,19 @@ func inspectStruct(data reflect.Value, index, depth int) (text string) {
 func inspectSlice(data reflect.Value, index, depth int) (text string) {
 	text = toText(strconv.Itoa(index), data.Index(index), depth)
 
-	if index > 0 {
-		text += inspectSlice(data, index-1, depth)
+	if index < data.Len()-1 {
+		text += inspectSlice(data, index+1, depth)
 	}
 
 	return
 }
 
-func inspectMap(data reflect.Value, keys []reflect.Value, index, depth int) (text string) {
-	value := data.MapIndex(keys[index])
+func inspectMap(data reflect.Value, keys []reflect.Value, depth int) (text string) {
+	value := data.MapIndex(keys[0])
 	text = toText(keys[0].String(), value, depth)
 
-	if index > 0 {
-		text += inspectMap(data, keys, index-1, depth)
+	if len(keys) > 1 {
+		text += inspectMap(data, keys[1:], depth)
 	}
 
 	return
