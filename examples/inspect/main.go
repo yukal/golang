@@ -29,6 +29,8 @@ func main() {
 	// settings.Task.Filter.Hash
 	// settings.Task.Filter.Date
 
-	fmt.Println(settings)
-	fmt.Println()
+	fmt.Println(app.InspectData(settings))
+
+	// Here settings.String() is implicitly called that calls app.InspectData(settings)
+	// fmt.Println(settings)
 }

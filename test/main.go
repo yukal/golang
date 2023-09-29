@@ -2,6 +2,7 @@ package test
 
 import (
 	"encoding/json"
+	"os"
 )
 
 func ConvertToJson(data any) (string, error) {
@@ -22,4 +23,12 @@ func ConvertToJsonI(data any) (string, error) {
 	}
 
 	return string(bytes), nil
+}
+
+func ReadFile(path string) (string, error) {
+	if b, err := os.ReadFile(path); err != nil {
+		return "", err
+	} else {
+		return string(b), nil
+	}
 }
