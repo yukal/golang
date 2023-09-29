@@ -10,6 +10,9 @@ import (
 
 var result any
 
+// go test ./test/settings/...
+// go test -run TestInspect ./test/settings
+
 func TestInspectData(t *testing.T) {
 	expect, err := test.ReadFile("./data/settings.yaml")
 	if err != nil {

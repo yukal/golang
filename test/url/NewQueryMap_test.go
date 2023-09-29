@@ -6,6 +6,9 @@ import (
 	"yu/golang/test"
 )
 
+// go test -run TestNewQueryMapR ./test/url
+// go test -run TestNewQueryMapL ./test/url
+
 func TestNewQueryMapR(t *testing.T) {
 
 	t.Run("query with empty value [1]", func(t *testing.T) {

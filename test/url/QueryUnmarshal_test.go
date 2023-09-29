@@ -7,6 +7,8 @@ import (
 	"yu/golang/test"
 )
 
+// go test -run TestQueryUnmarshal ./test/url
+
 func TestQueryUnmarshal(t *testing.T) {
 	t.Run("query with empty value", func(t *testing.T) {
 		type Payload struct {
