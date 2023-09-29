@@ -8,7 +8,7 @@ import (
 
 func InspectData(data any) string {
 	return strings.TrimSpace(
-		inspectRecursively(reflect.ValueOf(data), 0),
+		inspectRecursively(reflect.Indirect(reflect.ValueOf(data)), 0),
 	)
 }
 
