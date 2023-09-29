@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -26,7 +27,7 @@ func inspectRecursively(data reflect.Value, depth int) (text string) {
 		}
 
 	case reflect.Map:
-		if keys := data.MapKeys(); len(keys) > 0 {
+		if keys := sortMapKeys(data.MapKeys()); len(keys) > 0 {
 			text = inspectMap(data, keys, depth)
 		}
 
@@ -63,9 +64,9 @@ func inspectSlice(data reflect.Value, index, depth int) (text string) {
 	return
 }
 
-func inspectMap(data reflect.Value, keys []reflect.Value, depth int) (text string) {
-	value := data.MapIndex(keys[0])
-	text = toText(keys[0].String(), value, depth)
+func inspectMap(data reflect.Value, keys []string, depth int) (text string) {
+	value := data.MapIndex(reflect.ValueOf(keys[0]))
+	text = toText(keys[0], value, depth)
 
 	if len(keys) > 1 {
 		text += inspectMap(data, keys[1:], depth)
@@ -117,4 +118,15 @@ func toText(key string, value reflect.Value, depth int) (text string) {
 	}
 
 	return
+}
+
+func sortMapKeys(refKeys []reflect.Value) []string {
+	sortKeys := make([]string, 0, len(refKeys))
+
+	for _, v := range refKeys {
+		sortKeys = append(sortKeys, v.String())
+	}
+
+	sort.Strings(sortKeys)
+	return sortKeys
 }
