@@ -42,7 +42,7 @@ func inspectRecursively(data reflect.Value, depth int) (text string) {
 		}
 	}
 
-	return text
+	return
 }
 
 func inspectStruct(data reflect.Value, index, depth int) (text string) {
