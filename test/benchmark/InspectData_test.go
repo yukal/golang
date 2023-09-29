@@ -1,29 +1,22 @@
 package test
 
 import (
-	"net/url"
 	"testing"
 	"yu/golang/internal/app"
 	"yu/golang/internal/app/Url"
 )
 
+const query = "text=hello+world!&filter[slice][0][regionId]=2&filter[slice][0][phone]=380001234567&filter[slice][0][phone]=&filter[slice][0][data][min]=21&filter[slice][0][data][max]=41&filter[slice][0][data][conf][isActual]=true&filter[slice][0][data][conf][isUniq]=0&filter[slice][0][data][conf][min]=1&filter[slice][0][data][conf][max]=9&filter[slice][1][regionId]=4&filter[slice][1][phone]=380001234567&filter[slice][1][data][min]=4&filter[slice][1][data][max]=8&filter[slice][1][data][conf][isActual]=&filter[slice][1][data][conf][isUniq]=true&filter[text]=%D0%BF%D1%80%D0%B8%D0%B2%D1%96%D1%82!&filter[orderBy][0]=user_id+DESC&filter[orderBy][1]=created_at+DESC&filter[limit]=12&filter[offset]=6"
+
 // go test -bench=^BenchmarkInspectData -benchtime=1000x -benchmem ./test/benchmark
 
 func BenchmarkInspectData(b *testing.B) {
-	var payload Payload
-	var res string
-	const query = `filter[data][0][regionId]=1&filter[data][0][phone]=380001234567&filter[data][0][age][min]=18&filter[data][0][age][max]=28&filter[data][0][nes][nes2][isActual]=true&filter[data][0][nes][nes2][isUniq]=0&filter[data][1][regionId]=2&filter[data][1][phone]=380007654321&filter[data][1][age][min]=21&filter[data][1][age][max]=41&filter[data][1][nes][nes2][isActual]=&filter[data][1][nes][nes2][isUniq]=true&filter[text]=%D0%BF%D1%80%D0%B8%D0%B2%D1%96%D1%82!&filter[orderBy][0]=user_id+DESC&filter[orderBy][1]=created_at+DESC&filter[limit]=12&filter[offset]=6`
-
-	u, err := url.ParseQuery(query)
-	if err != nil {
-		b.Fatal(err)
-	}
-
-	Url.UnmarshalQuery(u, &payload)
+	var r string
+	qmap := Url.NewQueryMapR(query)
 
 	for n := 0; n < b.N; n++ {
-		res = app.InspectData(payload)
+		r = app.InspectData(qmap)
 	}
 
-	result = res
+	result = r
 }

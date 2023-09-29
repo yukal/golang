@@ -1,0 +1,44 @@
+{
+  "paths": {
+    "images": "data/img",
+    "database": "data/database.sqlite"
+  },
+  "server": {
+    "protocol": "https",
+    "host": "domain.com",
+    "urls": {
+      "report": "orders/report.php",
+      "orders": "orders/daily.php"
+    }
+  },
+  "task": {
+    "items": [
+      {"Region": "kv", "PageNum": 80},
+      {"Region": "lv", "PageNum": 80},
+      {"Region": "od", "PageNum": 60},
+      {"Region": "vn", "PageNum": 40}
+    ],
+    "filter": {
+      "Id":       {"min": 1},
+      "RegionId": {"min": 1, "max": 25},
+      "Hash":     {"minLen": 1},
+      "Link":     {"minLen": 1},
+      "Title":    {"minLen": 5},
+      "Message":  {"minLen": 10},
+      "Sex":      {"eq": 2},
+      "Age":      {"min": 16, "max": 55},
+      "Height":   {"min": 150, "max": 200},
+      "Weight":   {"min": 45, "max": 80},
+      "Images":   {"minLen": 1},
+      "Phones":   {"minLen": 1}
+    },
+    "timeout": {
+      "lapInterval": "10m",
+      "reqInterval": "250ms",
+      "reqTTL": "10s",
+      "reqEconnRefused": "30s",
+      "reqError": "5s",
+      "reqEmptyList": "1m"
+    }
+  }
+}

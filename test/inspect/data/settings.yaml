@@ -1,0 +1,60 @@
+Paths:
+  Database: "data/database.sqlite"
+  Images: "data/img"
+Server:
+  Protocol: "https"
+  Host: "domain.com"
+  Urls:
+    orders: "orders/daily.php"
+    report: "orders/report.php"
+Task:
+  Items:
+    0:
+      Region: "kv"
+      PageNum: 80
+    1:
+      Region: "lv"
+      PageNum: 80
+    2:
+      Region: "od"
+      PageNum: 60
+    3:
+      Region: "vn"
+      PageNum: 40
+  Filter:
+    Id:
+      min: 1
+    RegionId:
+      max: 25
+      min: 1
+    Hash:
+      minLen: 1
+    Link:
+      minLen: 1
+    Title:
+      minLen: 5
+    Message:
+      minLen: 10
+    Sex:
+      eq: 2
+    Age:
+      max: 55
+      min: 16
+    Height:
+      max: 200
+      min: 150
+    Weight:
+      max: 80
+      min: 45
+    Images:
+      minLen: 1
+    Phones:
+      minLen: 1
+    Date:
+  Timeout:
+    LapInterval: "10m"
+    ReqInterval: "250ms"
+    ReqTTL: "10s"
+    ReqEconnRefused: "30s"
+    ReqError: "5s"
+    ReqEmptyList: "1m"
