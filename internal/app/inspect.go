@@ -17,12 +17,12 @@ func InspectData(data any) string {
 func inspectRecursively(data reflect.Value, depth int) (text string) {
 	switch data.Kind() {
 	case reflect.Struct:
-		if fieldsCount := data.Type().NumField(); fieldsCount > 0 {
+		if data.Type().NumField() > 0 {
 			text = inspectStruct(data, 0, depth)
 		}
 
 	case reflect.Slice:
-		if length := data.Len(); length > 0 {
+		if data.Len() > 0 {
 			text = inspectSlice(data, 0, depth)
 		}
 
