@@ -7,6 +7,9 @@ go clean -testcache
 # Run all tests
 go test ./test/...
 
+# Run all unit tests
+go test ./test/unit/...
+
 # Run specific test using name and location
 go test -run TestNewQueryMapR ./test/url
 go test -run TestNewQueryMapL ./test/url
