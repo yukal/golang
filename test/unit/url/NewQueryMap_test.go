@@ -6,8 +6,9 @@ import (
 	"yu/golang/test"
 )
 
-// go test -run TestNewQueryMapR ./test/url
-// go test -run TestNewQueryMapL ./test/url
+// go test ./test/unit/url...
+// go test -run TestNewQueryMapR ./test/unit/url
+// go test -run TestNewQueryMapL ./test/unit/url
 
 func TestNewQueryMapR(t *testing.T) {
 

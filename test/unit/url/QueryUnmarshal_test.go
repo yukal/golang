@@ -7,7 +7,8 @@ import (
 	"yu/golang/test"
 )
 
-// go test -run TestQueryUnmarshal ./test/url
+// go test ./test/unit/url...
+// go test -run TestQueryUnmarshal ./test/unit/url
 
 func TestQueryUnmarshal(t *testing.T) {
 	t.Run("query with empty value", func(t *testing.T) {
