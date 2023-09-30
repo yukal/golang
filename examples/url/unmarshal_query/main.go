@@ -50,10 +50,7 @@ func main() {
 		panic(err)
 	}
 
-	// queryMap := Url.NewQueryMapR(u.RawQuery)
-	// fmt.Println(app.MustConvertToJson(queryMap))
-
 	Url.UnmarshalQuery(u.Query(), &payload)
-	// fmt.Println(app.InspectData(payload))
-	fmt.Println(app.MustConvertToJson(payload))
+	fmt.Println(app.InspectData(payload))
+	// fmt.Println(app.MustConvertToJson(payload))
 }
