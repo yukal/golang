@@ -80,7 +80,3 @@ func MustLoadSettings(jsonFilename string) (settings *AppSettings) {
 
 	return
 }
-
-func (s AppSettings) String() string {
-	return InspectData(s)
-}
