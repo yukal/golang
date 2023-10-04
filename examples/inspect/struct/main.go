@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	settings := app.MustLoadSettings("../../data/settings.json")
+	settings := app.MustLoadSettings("../../../data/settings.json")
 
 	// settings.Paths.Database
 	// settings.Paths.Images
