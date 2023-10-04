@@ -22,9 +22,7 @@ func InspectData(data any) string {
 }
 
 func inspectRecursively(key string, value reflect.Value, depth int) (text string) {
-	indent := strings.Repeat(" ", depth*2)
-	text = indent
-	// text = fmt.Sprintf("%s%s:", indent, key)
+	text = strings.Repeat(" ", depth*2)
 
 	if value.Kind() == reflect.Interface {
 		value = reflect.ValueOf(value.Interface())
