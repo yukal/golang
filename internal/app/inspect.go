@@ -11,80 +11,80 @@ import (
 const MAX_DEPTH = 16
 
 func InspectData(data any) string {
-	key := ""
 	value := reflect.Indirect(reflect.ValueOf(data))
 
-	if value.IsValid() {
-		key = value.Type().String()
-	} else {
-		key = value.Kind().String()
+	if !value.IsValid() {
+		return fmt.Sprintf("%#v\n", data)
 	}
 
+	key := value.Type().String()
 	return inspectRecursively(key, value, 0)
 }
 
 func inspectRecursively(key string, value reflect.Value, depth int) (text string) {
-	separ := " "
+	indent := strings.Repeat(" ", depth*2)
+	text = indent
+	// text = fmt.Sprintf("%s%s:", indent, key)
 
 	if value.Kind() == reflect.Interface {
 		value = reflect.ValueOf(value.Interface())
 	}
 
+	if value.Kind() == reflect.Pointer {
+		value = value.Elem()
+	}
+
 	switch value.Kind() {
-	// case reflect.Interface:
-	// 	text = fmt.Sprintf("%v\n", reflect.ValueOf(value.Interface()))
-	// 	text = inspectRecursively("", reflect.ValueOf(value.Interface()), cmap, depth)
+	case reflect.Interface:
+		text += fmt.Sprintf("%v\n", reflect.ValueOf(value.Interface()))
+		// text += inspectRecursively("", reflect.ValueOf(value.Interface()), depth)
+
+	case reflect.Invalid:
+		text += key + ": <nil>\n"
 
 	case reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Int,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint,
 		reflect.Float32, reflect.Float64,
 		reflect.Complex64, reflect.Complex128,
-		reflect.Bool,
-		reflect.Invalid:
+		reflect.Bool:
 
-		text = fmt.Sprintf("%v\n", value)
+		text += fmt.Sprintf("%s: %v\n", key, value)
 
 	case reflect.String, reflect.Chan, reflect.Func, reflect.UnsafePointer:
-		text = fmt.Sprintf("%#v\n", value)
+		text += fmt.Sprintf("%s: %#v\n", key, value)
 
 	case reflect.Uintptr:
-		text = fmt.Sprintf("uintptr(%#v)\n", value)
+		text += fmt.Sprintf("%s: uintptr(%#v)\n", key, value)
 
 	case reflect.Pointer:
 		// TODO: avoid infinite tree
-		text = inspectRecursively(key, value.Elem(), depth)
+		text += fmt.Sprintf("%s", inspectRecursively(key, value.Elem(), depth))
 
 	case reflect.Struct:
 		// TODO: avoid infinite tree
 
 		if value.Type().NumField() > 0 && depth < MAX_DEPTH {
-			text = inspectStruct(value, 0, depth+1)
-			separ = "\n"
+			text += fmt.Sprintf("%s:\n%s", key, inspectStruct(value, 0, depth+1))
 		} else {
-			text = value.Type().String() + "{}\n"
+			text += fmt.Sprintf("%s: %s{}\n", key, value.Type().String())
 		}
 
 	case reflect.Slice, reflect.Array:
 		if value.Len() > 0 && depth < MAX_DEPTH {
-			text = inspectSlice(value, 0, depth+1)
-			separ = "\n"
+			text += fmt.Sprintf("%s:\n%s", key, inspectSlice(value, 0, depth+1))
 		} else {
-			text = value.Type().String() + "{}\n"
+			text += fmt.Sprintf("%s: %s{}\n", key, value.Type().String())
 		}
 
 	case reflect.Map:
 		// TODO: avoid infinite tree
 
 		if keys := value.MapKeys(); len(keys) > 0 && depth < MAX_DEPTH {
-			text = inspectMap(value, sortMapKeys(keys), depth+1)
-			separ = "\n"
+			text += fmt.Sprintf("%s:\n%s", key, inspectMap(value, sortMapKeys(keys), depth+1))
 		} else {
-			text = value.Type().String() + "{}\n"
+			text += fmt.Sprintf("%s: %s{}\n", key, value.Type().String())
 		}
 	}
-
-	indent := strings.Repeat(" ", depth*2)
-	text = fmt.Sprintf("%s%s:%s%s", indent, key, separ, text)
 
 	return
 }
