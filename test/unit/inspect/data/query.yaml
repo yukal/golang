@@ -1,28 +1,29 @@
-filter:
-  data:
-    0:
-      age:
-        max: "28"
-        min: "18"
-      nes:
-        nes2:
-          isActual: "true"
-          isUniq: "0"
-      phone: "380001234567"
-      regionId: "1"
-    1:
-      age:
-        max: "41"
-        min: "21"
-      nes:
-        nes2:
-          isActual: ""
-          isUniq: "true"
-      phone: "380007654321"
-      regionId: "2"
-  limit: "12"
-  offset: "6"
-  orderBy:
-    0: "user_id DESC"
-    1: "created_at DESC"
-  text: "привіт!"
+Url.QueryMap:
+  filter:
+    data:
+      0:
+        age:
+          max: "28"
+          min: "18"
+        nes:
+          nes2:
+            isActual: "true"
+            isUniq: "0"
+        phone: "380001234567"
+        regionId: "1"
+      1:
+        age:
+          max: "41"
+          min: "21"
+        nes:
+          nes2:
+            isActual: ""
+            isUniq: "true"
+        phone: "380007654321"
+        regionId: "2"
+    limit: "12"
+    offset: "6"
+    orderBy:
+      0: "user_id DESC"
+      1: "created_at DESC"
+    text: "привіт!"
