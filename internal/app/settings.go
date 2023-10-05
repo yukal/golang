@@ -61,9 +61,7 @@ type AppSettingsTimeout struct {
 	ReqEmptyList    string `json:"reqEmptyList"`
 }
 
-func MustLoadSettings(jsonFilename string) AppSettings {
-	var settings AppSettings
-
+func MustLoadSettings(jsonFilename string) (settings *AppSettings) {
 	file, err := os.Open(jsonFilename)
 	if err != nil {
 		panic(err)
@@ -80,9 +78,5 @@ func MustLoadSettings(jsonFilename string) AppSettings {
 		panic(err)
 	}
 
-	return settings
-}
-
-func (s AppSettings) String() string {
-	return InspectData(s)
+	return
 }

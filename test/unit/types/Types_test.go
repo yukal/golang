@@ -8,6 +8,9 @@ import (
 	"yu/golang/internal/app"
 )
 
+// go test ./test/unit/types...
+// go test -run TestTypes ./test/unit/types
+
 func TestTypes(t *testing.T) {
 	t.Run("Convert types within ranges", func(t *testing.T) {
 		t.Run("Uint8ToInt8Range", func(t *testing.T) {

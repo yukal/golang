@@ -27,7 +27,7 @@ func fillTree(val reflect.Value, queries url.Values, path string) {
 		itemType := getItemType(val.Interface())
 		item := reflect.Indirect(reflect.New(itemType))
 
-		fillSlise(val, item, queries, path, 0)
+		fillSlice(val, item, queries, path, 0)
 	}
 }
 
@@ -53,14 +53,14 @@ func fillStruct(mval reflect.Value, queries url.Values, path string, index int) 
 	}
 }
 
-func fillSlise(val reflect.Value, item reflect.Value, queries url.Values, path string, index int) {
+func fillSlice(val reflect.Value, item reflect.Value, queries url.Values, path string, index int) {
 	ckey := getQueryPath(path, strconv.Itoa(index))
 
 	if app.IsPrimitive(item) {
 		if value, ok := queries[ckey]; ok {
 
 			SetValue(val, value[0])
-			fillSlise(val, item, queries, path, index+1)
+			fillSlice(val, item, queries, path, index+1)
 
 		}
 	} else {
@@ -70,7 +70,7 @@ func fillSlise(val reflect.Value, item reflect.Value, queries url.Values, path s
 
 		if proto != fmt.Sprint(item) {
 			val.Set(reflect.Append(val, item))
-			fillSlise(val, reflect.New(item.Type()).Elem(), queries, path, index+1)
+			fillSlice(val, reflect.New(item.Type()).Elem(), queries, path, index+1)
 		}
 
 	}
