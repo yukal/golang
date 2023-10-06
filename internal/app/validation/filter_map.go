@@ -3,11 +3,11 @@ package validation
 type FilterMap map[string]map[string]any
 
 func (filter FilterMap) IsValid(anyStruct any) bool {
-	flag, _ := checkIsValid(filter, anyStruct, true)
+	flag, _ := CheckIsValid(filter, anyStruct, true)
 	return flag
 }
 
 func (filter FilterMap) Validate(anyStruct any) (errList []string) {
-	_, wrongFields := checkIsValid(filter, anyStruct, false)
+	_, wrongFields := CheckIsValid(filter, anyStruct, false)
 	return wrongFields
 }

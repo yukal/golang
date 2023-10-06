@@ -18,16 +18,16 @@ type IFilterInstance interface {
 }
 
 func IsValid[T IFilterType](filter T, anyStruct any) bool {
-	flag, _ := checkIsValid(filter, anyStruct, true)
+	flag, _ := CheckIsValid(filter, anyStruct, true)
 	return flag
 }
 
 func Validate[T IFilterType](filter T, anyStruct any) []string {
-	_, wrongFields := checkIsValid(filter, anyStruct, false)
+	_, wrongFields := CheckIsValid(filter, anyStruct, false)
 	return wrongFields
 }
 
-func checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
+func CheckIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
 	var errList []string
 
 	filterVal := reflect.Indirect(reflect.ValueOf(filter))
