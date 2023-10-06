@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 	"yu/golang/internal/app"
-	"yu/golang/internal/app/Url"
+	"yu/golang/pkg/Url"
 	"yu/golang/test"
 )
 

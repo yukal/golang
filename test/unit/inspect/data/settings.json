@@ -13,24 +13,24 @@
   },
   "task": {
     "items": [
-      {"Region": "kv", "PageNum": 80},
-      {"Region": "lv", "PageNum": 80},
-      {"Region": "od", "PageNum": 60},
-      {"Region": "vn", "PageNum": 40}
+      {"region": "kv", "pageNum": 80},
+      {"region": "lv", "pageNum": 80},
+      {"region": "od", "pageNum": 60},
+      {"region": "vn", "pageNum": 40}
     ],
     "filter": {
-      "Id":       {"min": 1},
-      "RegionId": {"min": 1, "max": 25},
-      "Hash":     {"minLen": 1},
-      "Link":     {"minLen": 1},
-      "Title":    {"minLen": 5},
-      "Message":  {"minLen": 10},
-      "Sex":      {"eq": 2},
-      "Age":      {"min": 16, "max": 55},
-      "Height":   {"min": 150, "max": 200},
-      "Weight":   {"min": 45, "max": 80},
-      "Images":   {"minLen": 1},
-      "Phones":   {"minLen": 1}
+      "id":       {"min": 1},
+      "regionId": {"min": 1, "max": 25},
+      "hash":     {"minLen": 1},
+      "link":     {"minLen": 1},
+      "title":    {"minLen": 5},
+      "message":  {"minLen": 10},
+      "sex":      {"eq": 2},
+      "age":      {"min": 16, "max": 55},
+      "height":   {"min": 150, "max": 200},
+      "weight":   {"min": 45, "max": 80},
+      "images":   {"minLen": 1},
+      "phones":   {"minLen": 1}
     },
     "timeout": {
       "lapInterval": "10m",

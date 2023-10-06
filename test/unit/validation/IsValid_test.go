@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 	"time"
-	"yu/golang/internal/app/validation"
+	"yu/golang/pkg/validation"
 )
 
 func TestIsValid(t *testing.T) {

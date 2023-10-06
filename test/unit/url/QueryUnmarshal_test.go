@@ -3,7 +3,7 @@ package test
 import (
 	"net/url"
 	"testing"
-	"yu/golang/internal/app/Url"
+	"yu/golang/pkg/Url"
 	"yu/golang/test"
 )
 

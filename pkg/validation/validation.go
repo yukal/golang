@@ -5,29 +5,9 @@ import (
 	"regexp"
 	"strings"
 	"time"
-	"yu/golang/internal/app"
 )
 
-type IFilterType interface {
-	FilterMap | app.ArticleFilter
-}
-
-type IFilterInstance interface {
-	IsValid(anyStruct any) bool
-	Validate(anyStruct any) []string
-}
-
-func IsValid[T IFilterType](filter T, anyStruct any) bool {
-	flag, _ := checkIsValid(filter, anyStruct, true)
-	return flag
-}
-
-func Validate[T IFilterType](filter T, anyStruct any) []string {
-	_, wrongFields := checkIsValid(filter, anyStruct, false)
-	return wrongFields
-}
-
-func checkIsValid[T IFilterType](filter T, anyStruct any, strict bool) (bool, []string) {
+func CheckIsValid(filter any, anyStruct any, strict bool) (bool, []string) {
 	var errList []string
 
 	filterVal := reflect.Indirect(reflect.ValueOf(filter))

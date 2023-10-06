@@ -6,6 +6,7 @@ import (
 	"path"
 	"time"
 	"yu/golang/internal/app"
+	"yu/golang/pkg/validation"
 )
 
 type Article struct {
@@ -22,6 +23,16 @@ type Article struct {
 	Images   []string
 	Phones   []string
 	Date     time.Time
+}
+
+func (article *Article) IsValid(filter any) bool {
+	flag, _ := validation.CheckIsValid(filter, article, true)
+	return flag
+}
+
+func (article *Article) Validate(filter any) []string {
+	_, wrongFields := validation.CheckIsValid(filter, article, false)
+	return wrongFields
 }
 
 func main() {
@@ -53,15 +64,13 @@ func main() {
 		Date:   time.Now(),
 	}
 
-	filter := settings.Task.Filter
-
-	if !filter.IsValid(article) {
+	if !article.IsValid(settings.Task.Filter) {
 		fmt.Println("Not valid!")
 	} else {
 		fmt.Println("Valid!")
 	}
 
-	if errs := filter.Validate(article); len(errs) > 0 {
+	if errs := article.Validate(settings.Task.Filter); len(errs) > 0 {
 		for n, field := range errs {
 			fmt.Printf("%d. Wrong %s\n", n+1, field)
 		}

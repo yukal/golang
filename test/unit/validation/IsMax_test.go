@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 	"yu/golang/internal/app"
-	"yu/golang/internal/app/validation"
+	"yu/golang/pkg/validation"
 )
 
 func TestIsMax(t *testing.T) {

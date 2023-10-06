@@ -2,7 +2,7 @@ package test
 
 import (
 	"testing"
-	"yu/golang/internal/app/Url"
+	"yu/golang/pkg/Url"
 	"yu/golang/test"
 )
 
