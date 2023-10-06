@@ -6,7 +6,6 @@ import (
 	"path"
 	"time"
 	"yu/golang/internal/app"
-	"yu/golang/internal/app/validation"
 )
 
 type Article struct {
@@ -54,13 +53,15 @@ func main() {
 		Date:   time.Now(),
 	}
 
-	if !validation.IsValid(settings.Task.Filter, article) {
+	filter := settings.Task.Filter
+
+	if !filter.IsValid(article) {
 		fmt.Println("Not valid!")
 	} else {
 		fmt.Println("Valid!")
 	}
 
-	if errs := validation.Validate(settings.Task.Filter, article); len(errs) > 0 {
+	if errs := filter.Validate(article); len(errs) > 0 {
 		for n, field := range errs {
 			fmt.Printf("%d. Wrong %s\n", n+1, field)
 		}

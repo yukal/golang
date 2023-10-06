@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"os"
+	"yu/golang/internal/app/validation"
 )
 
 type AppSettings struct {
@@ -36,6 +37,15 @@ type AppSettingsTaskItems struct {
 	PageNum uint16 `json:"pageNum"`
 }
 
+type AppSettingsTimeout struct {
+	LapInterval     string `json:"lapInterval"`
+	ReqInterval     string `json:"reqInterval"`
+	ReqTTL          string `json:"reqTTL"`
+	ReqEconnRefused string `json:"reqEconnRefused"`
+	ReqError        string `json:"reqError"`
+	ReqEmptyList    string `json:"reqEmptyList"`
+}
+
 type ArticleFilter struct {
 	Id       map[string]uint64 `json:"id"`
 	RegionId map[string]uint8  `json:"regionId"`
@@ -52,13 +62,14 @@ type ArticleFilter struct {
 	Date     map[string]uint16 `json:"date"`
 }
 
-type AppSettingsTimeout struct {
-	LapInterval     string `json:"lapInterval"`
-	ReqInterval     string `json:"reqInterval"`
-	ReqTTL          string `json:"reqTTL"`
-	ReqEconnRefused string `json:"reqEconnRefused"`
-	ReqError        string `json:"reqError"`
-	ReqEmptyList    string `json:"reqEmptyList"`
+func (f *ArticleFilter) IsValid(anyStruct any) bool {
+	flag, _ := validation.CheckIsValid(f, anyStruct, true)
+	return flag
+}
+
+func (f *ArticleFilter) Validate(anyStruct any) []string {
+	_, wrongFields := validation.CheckIsValid(f, anyStruct, false)
+	return wrongFields
 }
 
 func MustLoadSettings(jsonFilename string) (settings *AppSettings) {
