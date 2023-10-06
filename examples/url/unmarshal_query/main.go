@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 	"yu/golang/internal/app"
-	"yu/golang/internal/app/Url"
+	"yu/golang/pkg/Url"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package test
 import (
 	"net/url"
 	"testing"
-	"yu/golang/internal/app/Url"
+	"yu/golang/pkg/Url"
 )
 
 // go test -bench=^BenchmarkQuery -benchtime=1000x -benchmem ./test/benchmark

@@ -2,7 +2,7 @@ package test
 
 import (
 	"testing"
-	"yu/golang/internal/app/Url"
+	"yu/golang/pkg/Url"
 )
 
 // go test -bench=^BenchmarkNewQueryMap -benchtime=1000x -benchmem ./test/benchmark
