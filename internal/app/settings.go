@@ -32,24 +32,24 @@ type AppSettingsTask struct {
 }
 
 type AppSettingsTaskItems struct {
-	Region  string `json:"Region"`
-	PageNum uint16 `json:"PageNum"`
+	Region  string `json:"region"`
+	PageNum uint16 `json:"pageNum"`
 }
 
 type ArticleFilter struct {
-	Id       map[string]uint64 `json:"Id"`
-	RegionId map[string]uint8  `json:"RegionId"`
-	Hash     map[string]uint8  `json:"Hash"`
-	Link     map[string]uint8  `json:"Link"`
-	Title    map[string]uint8  `json:"Title"`
-	Message  map[string]uint8  `json:"Message"`
-	Sex      map[string]uint8  `json:"Sex"`
-	Age      map[string]uint8  `json:"Age"`
-	Height   map[string]uint8  `json:"Height"`
-	Weight   map[string]uint8  `json:"Weight"`
-	Images   map[string]uint8  `json:"Images"`
-	Phones   map[string]uint8  `json:"Phones"`
-	Date     map[string]uint16 `json:"Date"`
+	Id       map[string]uint64 `json:"id"`
+	RegionId map[string]uint8  `json:"regionId"`
+	Hash     map[string]uint8  `json:"hash"`
+	Link     map[string]uint8  `json:"link"`
+	Title    map[string]uint8  `json:"title"`
+	Message  map[string]uint8  `json:"message"`
+	Sex      map[string]uint8  `json:"sex"`
+	Age      map[string]uint8  `json:"age"`
+	Height   map[string]uint8  `json:"height"`
+	Weight   map[string]uint8  `json:"weight"`
+	Images   map[string]uint8  `json:"images"`
+	Phones   map[string]uint8  `json:"phones"`
+	Date     map[string]uint16 `json:"date"`
 }
 
 type AppSettingsTimeout struct {
