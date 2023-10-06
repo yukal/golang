@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"yu/golang/internal/app/validation"
+	"yu/golang/pkg/validation"
 )
 
 type Article struct {

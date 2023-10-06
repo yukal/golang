@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"os"
-	"yu/golang/internal/app/validation"
+	"yu/golang/pkg/validation"
 )
 
 type AppSettings struct {

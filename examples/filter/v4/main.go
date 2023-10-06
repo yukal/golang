@@ -6,7 +6,7 @@ import (
 	"path"
 	"time"
 	"yu/golang/internal/app"
-	"yu/golang/internal/app/validation"
+	"yu/golang/pkg/validation"
 )
 
 type Article struct {
