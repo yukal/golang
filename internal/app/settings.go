@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"os"
-	"yu/golang/pkg/validation"
 )
 
 type AppSettings struct {
@@ -60,16 +59,6 @@ type ArticleFilter struct {
 	Images   map[string]uint8  `json:"images"`
 	Phones   map[string]uint8  `json:"phones"`
 	Date     map[string]uint16 `json:"date"`
-}
-
-func (f *ArticleFilter) IsValid(anyStruct any) bool {
-	flag, _ := validation.CheckIsValid(f, anyStruct, true)
-	return flag
-}
-
-func (f *ArticleFilter) Validate(anyStruct any) []string {
-	_, wrongFields := validation.CheckIsValid(f, anyStruct, false)
-	return wrongFields
 }
 
 func MustLoadSettings(jsonFilename string) (settings *AppSettings) {
