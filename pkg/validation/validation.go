@@ -173,6 +173,10 @@ func checkField(rules, value reflect.Value) string {
 }
 
 func Compare(action string, proto, value reflect.Value) string {
+	if !proto.IsValid() || !value.IsValid() {
+		return ""
+	}
+
 	switch action {
 	case NON_ZERO:
 		if value.IsZero() {
