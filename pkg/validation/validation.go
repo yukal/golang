@@ -1,127 +1,368 @@
 package validation
 
 import (
+	"fmt"
 	"reflect"
 	"regexp"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
-func CheckIsValid(filter any, anyStruct any, strict bool) (bool, []string) {
-	var errList []string
+const (
+	NON_ZERO  = "NonZero"
+	NON_EMPTY = "NonEmpty"
 
-	filterVal := reflect.Indirect(reflect.ValueOf(filter))
-	structVal := reflect.Indirect(reflect.ValueOf(anyStruct))
-	structType := structVal.Type()
+	MsgMinFields   = "must contain at least %d valid fields"
+	MsgMaxFields   = "must contain up to %d valid fields"
+	MsgMinStrLen   = "must contain at least %d characters"
+	MsgMaxStrLen   = "must contain up to %d characters"
+	MsgEqStrLen    = "must contain exactly %d characters"
+	MsgRangeStrLen = "must contain %d..%d characters"
+	MsgMinSetLen   = "must contain at least %d items"
+	MsgMaxSetLen   = "must contain up to %d items"
+	MsgEqSetLen    = "must contain exactly %d items"
+	MsgRangeSetLen = "must contain %d..%d items"
+	MsgMin         = "must be at least %d"
+	MsgMax         = "must be up to %d"
+	MsgEq          = "must be exactly %d"
+	MsgRange       = "must be in the range %d..%d"
+	MsgNotValid    = "is not valid"
+	MsgEmpty       = "is empty"
+	// MsgNotMatch  = "is not match"
+)
 
-	if !strict {
-		errList = make([]string, 0, structType.NumField())
-	}
+type Group []any
+type Range [2]any
+type Rule [2]any
 
-	for i := 0; i < structType.NumField(); i++ {
-		var filterItem reflect.Value
+type FilterItem struct {
+	Field    string
+	Check    any
+	Optional bool
+	// Unsafe   bool
+}
 
-		field := structType.Field(i)
-		value := structVal.FieldByName(field.Name)
+type Filter []FilterItem
 
-		switch filterVal.Kind() {
-		case reflect.Struct:
-			filterItem = filterVal.FieldByName(field.Name)
+// data should be a type of struct{ ... }
+func (filter Filter) IsValid(data any) bool {
+	return len(checkIsValid(filter, data)) == 0
+}
 
-		case reflect.Map:
-			filterItem = filterVal.MapIndex(reflect.ValueOf(field.Name))
+// data should be a type of struct{ ... }
+func (filter Filter) Validate(data any) []string {
+	return checkIsValid(filter, data)
+}
+
+func checkIsValid(filter Filter, data any) []string {
+	refValData := reflect.Indirect(reflect.ValueOf(data))
+	refTypData := refValData.Type()
+
+	hints := make([]string, 0, refTypData.NumField())
+	successFields := 0
+
+	for _, filterStruct := range filter {
+		// field := refTypData.Field(i)
+		// field, fieldExist := refTypData.FieldByName(filterStruct.Field)
+		rules := reflect.Indirect(reflect.ValueOf(filterStruct.Check))
+
+		if field, exist := refTypData.FieldByName(filterStruct.Field); exist {
+			tagName := filterStruct.Field
+			// tagName = field.Tag.Get("json")
+
+			if tagNameJson, exist := field.Tag.Lookup("json"); exist {
+				tagName = tagNameJson
+			}
+
+			value := refValData.FieldByName(filterStruct.Field)
+
+			if filterStruct.Optional && value.IsZero() {
+				continue
+			}
+
+			if hint := checkField(rules, value); hint != "" {
+				hints = append(hints, tagName+" "+hint)
+			} else {
+				successFields++
+			}
+
+			continue
 		}
 
-		switch filterItem.Kind() {
-		case reflect.Invalid:
-			continue
+		var (
+			action = ""
+			value  = reflect.ValueOf(nil)
+			proto  reflect.Value
+		)
 
-		case reflect.Map:
-			for _, rule := range filterItem.MapKeys() {
-				ruleVal := filterItem.MapIndex(rule)
-				// fmt.Println(field.Name, rule, ruleVal)
+		switch rules.Type().String() {
+		// case "string":
+		// case "validation.Group":
+		case "validation.Rule":
+			action = rules.Index(0).Elem().String()
+			proto = rules.Index(1).Elem()
 
-				if !Compare(rule.String(), ruleVal.Interface(), value.Interface()) {
-					if strict {
-						return false, errList
-					}
+			if strings.Contains(action, "-fields") {
+				value = reflect.ValueOf(successFields)
+			}
 
-					errList = append(errList, strings.ToLower(field.Name))
-					break
+			if hint := Compare(action, proto, value); hint != "" {
+				hints = append(hints, "body "+hint)
+			}
+		}
+	}
+
+	return hints
+}
+
+func checkField(rules, value reflect.Value) string {
+	switch rules.Type().String() {
+	case "validation.Group":
+
+		for n := 0; n < rules.Len(); n++ {
+			item := rules.Index(n)
+
+			if item.Kind() == reflect.Interface {
+				item = reflect.Indirect(reflect.ValueOf(
+					item.Interface(),
+				))
+			}
+
+			switch item.Type().String() {
+			case "validation.Range":
+				if hint := Compare("range", rules, value); hint != "" {
+					return hint
+				}
+
+			case "validation.Rule":
+				action := item.Index(0).Elem().String()
+				proto := item.Index(1).Elem()
+
+				if hint := Compare(action, proto, value); hint != "" {
+					return hint
+				}
+
+			case "string":
+				action := item.Elem().String()
+				proto := reflect.ValueOf(nil)
+
+				if hint := Compare(action, proto, value); hint != "" {
+					return hint
 				}
 			}
-			break
 		}
 
+	case "validation.Range":
+		return Compare("range", rules, value)
+
+	case "validation.Rule":
+		action := rules.Index(0).Elem().String()
+		proto := rules.Index(1).Elem()
+
+		return Compare(action, proto, value)
+
+	case "string":
+		action := rules.String()
+		proto := reflect.ValueOf(nil)
+
+		return Compare(action, proto, value)
 	}
 
-	return true, errList
+	return ""
 }
 
-func Compare(rule string, filterVal, comparableVal any) bool {
-	refVal := reflect.Indirect(reflect.ValueOf(comparableVal))
+func Compare(action string, proto, value reflect.Value) string {
+	if !proto.IsValid() || !value.IsValid() {
+		return ""
+	}
 
-	switch rule {
+	switch action {
+	case NON_ZERO:
+		if value.IsZero() {
+			return MsgEmpty
+		}
 
-	case "min", "minLen":
-		return IsMin(filterVal, comparableVal)
+	case "min-fields":
+		if !IsMin(proto.Interface(), value.Interface()) {
+			return fmt.Sprintf(MsgMinFields, proto.Interface())
+		}
 
-	case "max", "maxLen":
-		return IsMax(filterVal, comparableVal)
+	case "range":
+		hint := ""
 
-	case "eq", "len":
-		return IsEqual(filterVal, comparableVal)
+		valMin := proto.Index(0)
+		valMax := proto.Index(1)
+
+		switch value.Kind() {
+		case reflect.String:
+			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+			hint = fmt.Sprintf(MsgRangeStrLen, valMin.Interface(), valMax.Interface())
+
+		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+			value = reflect.ValueOf(value.Len())
+			hint = fmt.Sprintf(MsgRangeSetLen, valMin.Interface(), valMax.Interface())
+
+		default:
+			hint = fmt.Sprintf(MsgRange, valMin.Interface(), valMax.Interface())
+		}
+
+		if !IsMin(valMin.Interface(), value.Interface()) {
+			return hint
+		}
+
+		if !IsMax(valMax.Interface(), value.Interface()) {
+			return hint
+		}
+
+	case "min":
+		hint := ""
+
+		switch value.Kind() {
+		case reflect.String:
+			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+			hint = fmt.Sprintf(MsgMinStrLen, proto.Interface())
+
+		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+			value = reflect.ValueOf(value.Len())
+			hint = fmt.Sprintf(MsgMinSetLen, proto.Interface())
+
+		default:
+			hint = fmt.Sprintf(MsgMin, proto.Interface())
+		}
+
+		if !IsMin(proto.Interface(), value.Interface()) {
+			return hint
+		}
+	case "max":
+		hint := ""
+
+		switch value.Kind() {
+		case reflect.String:
+			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+			hint = fmt.Sprintf(MsgMaxStrLen, proto.Interface())
+
+		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+			value = reflect.ValueOf(value.Len())
+			hint = fmt.Sprintf(MsgMaxSetLen, proto.Interface())
+
+		default:
+			hint = fmt.Sprintf(MsgMax, proto.Interface())
+		}
+
+		if !IsMax(proto.Interface(), value.Interface()) {
+			return hint
+		}
+	case "eq":
+		hint := ""
+
+		switch value.Kind() {
+		case reflect.String:
+			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+			hint = fmt.Sprintf(MsgEqStrLen, proto.Interface())
+
+		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+			value = reflect.ValueOf(value.Len())
+			hint = fmt.Sprintf(MsgEqSetLen, proto.Interface())
+
+		default:
+			hint = fmt.Sprintf(MsgEq, proto.Interface())
+		}
+		if !IsEqual(proto.Interface(), value.Interface()) {
+			return hint
+		}
 
 	case "match":
-		return IsMatch(filterVal, comparableVal)
+		if !IsMatch(proto.Interface(), value.Interface()) {
+			return MsgNotValid
+		}
 
 	case "matchEach":
-		return IsEachMatches(filterVal, comparableVal)
-
-	case "eachMin", "eachMinLen":
-		res := true
-		for n := 0; n < refVal.Len(); n++ {
-			res = res && IsMin(filterVal, refVal.Index(n).Interface())
+		if !IsEachMatches(proto.Interface(), value.Interface()) {
+			return MsgNotValid
 		}
 
-		return res
-
-	case "eachMax", "eachMaxLen":
-		res := true
-		for n := 0; n < refVal.Len(); n++ {
-			res = res && IsMax(filterVal, refVal.Index(n).Interface())
+	case "eachMin":
+		success := true
+		for n := 0; n < value.Len(); n++ {
+			success = success && IsMin(proto.Interface(), value.Index(n).Interface())
 		}
 
-		return res
-
-	case "eachEq", "eachLen":
-		res := true
-		for n := 0; n < refVal.Len(); n++ {
-			res = res && IsEqual(filterVal, refVal.Index(n).Interface())
+		if !success {
+			return fmt.Sprintf(MsgMin, proto.Interface())
 		}
 
-		return res
+	case "eachMax":
+		success := true
+		for n := 0; n < value.Len(); n++ {
+			success = success && IsMax(proto.Interface(), value.Index(n).Interface())
+		}
+
+		if !success {
+			return fmt.Sprintf(MsgMax, proto.Interface())
+		}
+
+	case "eachEq":
+		success := true
+		for n := 0; n < value.Len(); n++ {
+			success = success && IsEqual(proto.Interface(), value.Index(n).Interface())
+		}
+
+		if !success {
+			return fmt.Sprintf(MsgEq, proto.Interface())
+		}
+
+	case "eachMinLen":
+		success := true
+		for n := 0; n < value.Len(); n++ {
+			success = success && IsMin(proto.Interface(), value.Index(n).Interface())
+		}
+
+		if !success {
+			return fmt.Sprintf(MsgMinStrLen, proto.Interface())
+		}
+
+	case "eachMaxLen":
+		success := true
+		for n := 0; n < value.Len(); n++ {
+			success = success && IsMax(proto.Interface(), value.Index(n).Interface())
+		}
+
+		if !success {
+			return fmt.Sprintf(MsgMaxStrLen, proto.Interface())
+		}
+
+	case "eachLen":
+		success := true
+		for n := 0; n < value.Len(); n++ {
+			success = success && IsEqual(proto.Interface(), value.Index(n).Interface())
+		}
+
+		if !success {
+			return fmt.Sprintf(MsgEqStrLen, proto.Interface())
+		}
 
 	case "year":
-		return IsYearEqual(filterVal, comparableVal)
-
+		if !IsYearEqual(proto.Interface(), value.Interface()) {
+			return fmt.Sprintf(MsgEq, proto.Interface())
+		}
 	}
 
-	return true
+	return ""
 }
 
-func IsMatch(regex, val any) (flag bool) {
-	if reflect.ValueOf(regex).Kind() == reflect.String &&
-		reflect.ValueOf(val).Kind() == reflect.String {
-		flag, _ = regexp.MatchString(regex.(string), val.(string))
+func IsMatch(reg, value any) (flag bool) {
+	if reflect.ValueOf(reg).Kind() == reflect.String &&
+		reflect.ValueOf(value).Kind() == reflect.String {
+		flag, _ = regexp.MatchString(reg.(string), value.(string))
 	}
 
-	return flag
+	return
 }
 
-func IsEachMatches(reg, val any) bool {
+func IsEachMatches(reg, value any) bool {
 	refReg := reflect.ValueOf(reg)
-	refVal := reflect.ValueOf(val)
+	refVal := reflect.ValueOf(value)
 
 	if refReg.Kind() == reflect.Invalid || refVal.Kind() == reflect.Invalid {
 		return false
@@ -153,13 +394,13 @@ func IsEachMatches(reg, val any) bool {
 	return isValid
 }
 
-func IsYearEqual(filterVal, val any) bool {
-	value := reflect.ValueOf(val)
+func IsYearEqual(proto, value any) bool {
+	refVal := reflect.ValueOf(value)
 
-	if value.Kind() != reflect.Invalid {
-		if value.Type().String() == "time.Time" {
+	if refVal.Kind() != reflect.Invalid {
+		if refVal.Type().String() == "time.Time" {
 
-			return IsEqual(filterVal, val.(time.Time).Year())
+			return IsEqual(proto, value.(time.Time).Year())
 
 		}
 	}
@@ -168,261 +409,254 @@ func IsYearEqual(filterVal, val any) bool {
 }
 
 // https://go.dev/ref/spec#Numeric_types
-func IsMin(filterVal, val any) bool {
-	refVal := reflect.Indirect(reflect.ValueOf(val))
-
-	switch refVal.Kind() {
-	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
-		val = refVal.Len()
-	}
-
-	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
+func IsMin(proto, value any) bool {
+	types := reflect.ValueOf(value).Kind().String() + ":" + reflect.ValueOf(proto).Kind().String()
 
 	switch types {
 
 	// int
 
 	case "int8:int8":
-		return val.(int8) >= filterVal.(int8)
+		return value.(int8) >= proto.(int8)
 
 	case "int8:int16":
-		return int16(val.(int8)) >= filterVal.(int16)
+		return int16(value.(int8)) >= proto.(int16)
 
 	case "int8:int32", "int8:rune":
-		return int32(val.(int8)) >= filterVal.(int32)
+		return int32(value.(int8)) >= proto.(int32)
 
 	case "int8:int64":
-		return int64(val.(int8)) >= filterVal.(int64)
+		return int64(value.(int8)) >= proto.(int64)
 
 	case "int8:int":
-		return int(val.(int8)) >= filterVal.(int)
+		return int(value.(int8)) >= proto.(int)
 
 	case "int16:int8":
-		return val.(int16) >= int16(filterVal.(int8))
+		return value.(int16) >= int16(proto.(int8))
 
 	case "int16:int16":
-		return val.(int16) >= filterVal.(int16)
+		return value.(int16) >= proto.(int16)
 
 	case "int16:int32", "int16:rune":
-		return int32(val.(int16)) >= filterVal.(int32)
+		return int32(value.(int16)) >= proto.(int32)
 
 	case "int16:int64":
-		return int64(val.(int16)) >= filterVal.(int64)
+		return int64(value.(int16)) >= proto.(int64)
 
 	case "int16:int":
-		return int(val.(int16)) >= filterVal.(int)
+		return int(value.(int16)) >= proto.(int)
 
 	case "int32:int8", "rune:int8":
-		return val.(int32) >= int32(filterVal.(int8))
+		return value.(int32) >= int32(proto.(int8))
 
 	case "int32:int16", "rune:int16":
-		return val.(int32) >= int32(filterVal.(int16))
+		return value.(int32) >= int32(proto.(int16))
 
 	case "int32:int32", "int32:rune", "rune:int32", "rune:rune":
-		return val.(int32) >= filterVal.(int32)
+		return value.(int32) >= proto.(int32)
 
 	case "int32:int64", "rune:int64":
-		return int64(val.(int32)) >= filterVal.(int64)
+		return int64(value.(int32)) >= proto.(int64)
 
 	case "int32:int", "rune:int":
-		return int(val.(int32)) >= filterVal.(int)
+		return int(value.(int32)) >= proto.(int)
 
 	case "int64:int8":
-		return val.(int64) >= int64(filterVal.(int8))
+		return value.(int64) >= int64(proto.(int8))
 
 	case "int64:int16":
-		return val.(int64) >= int64(filterVal.(int16))
+		return value.(int64) >= int64(proto.(int16))
 
 	case "int64:int32", "int64:rune":
-		return val.(int64) >= int64(filterVal.(int32))
+		return value.(int64) >= int64(proto.(int32))
 
 	case "int64:int64":
-		return val.(int64) >= filterVal.(int64)
+		return value.(int64) >= proto.(int64)
 
 	case "int64:int":
-		return val.(int64) >= int64(filterVal.(int))
+		return value.(int64) >= int64(proto.(int))
 
 	case "int:int8":
-		return val.(int) >= int(filterVal.(int8))
+		return value.(int) >= int(proto.(int8))
 
 	case "int:int16":
-		return val.(int) >= int(filterVal.(int16))
+		return value.(int) >= int(proto.(int16))
 
 	case "int:int32", "int:rune":
-		return val.(int) >= int(filterVal.(int32))
+		return value.(int) >= int(proto.(int32))
 
 	case "int:int64":
-		return int64(val.(int)) >= filterVal.(int64)
+		return int64(value.(int)) >= proto.(int64)
 
 	case "int:int":
-		return val.(int) >= filterVal.(int)
+		return value.(int) >= proto.(int)
 
 	// ............................................................
 	// int & uint
 
 	case "int8:uint8", "int8:byte":
-		if val.(int8) >= 0 {
-			return uint8(val.(int8)) >= filterVal.(uint8)
+		if value.(int8) >= 0 {
+			return uint8(value.(int8)) >= proto.(uint8)
 		}
 		return false
 
 	case "int8:uint16":
-		if val.(int8) >= 0 {
-			return uint16(val.(int8)) >= filterVal.(uint16)
+		if value.(int8) >= 0 {
+			return uint16(value.(int8)) >= proto.(uint16)
 		}
 		return false
 
 	case "int8:uint32":
-		if val.(int8) >= 0 {
-			return uint32(val.(int8)) >= filterVal.(uint32)
+		if value.(int8) >= 0 {
+			return uint32(value.(int8)) >= proto.(uint32)
 		}
 		return false
 
 	case "int8:uint64":
-		if val.(int8) >= 0 {
-			return uint64(val.(int8)) >= filterVal.(uint64)
+		if value.(int8) >= 0 {
+			return uint64(value.(int8)) >= proto.(uint64)
 		}
 		return false
 
 	case "int8:uint":
-		if val.(int8) >= 0 {
-			return uint(val.(int8)) >= filterVal.(uint)
+		if value.(int8) >= 0 {
+			return uint(value.(int8)) >= proto.(uint)
 		}
 		return false
 
 	// ...
 
 	case "int16:uint8", "int16:byte":
-		return val.(int16) >= int16(filterVal.(uint8))
+		return value.(int16) >= int16(proto.(uint8))
 
 	case "int16:uint16":
-		if val.(int16) >= 0 {
-			return uint16(val.(int16)) >= filterVal.(uint16)
+		if value.(int16) >= 0 {
+			return uint16(value.(int16)) >= proto.(uint16)
 		}
 		return false
 
 	case "int16:uint32":
-		if val.(int16) >= 0 {
-			return uint32(val.(int16)) >= filterVal.(uint32)
+		if value.(int16) >= 0 {
+			return uint32(value.(int16)) >= proto.(uint32)
 		}
 		return false
 
 	case "int16:uint64":
-		if val.(int16) >= 0 {
-			return uint64(val.(int16)) >= filterVal.(uint64)
+		if value.(int16) >= 0 {
+			return uint64(value.(int16)) >= proto.(uint64)
 		}
 		return false
 
 	case "int16:uint":
-		if val.(int16) >= 0 {
-			return uint(val.(int16)) >= filterVal.(uint)
+		if value.(int16) >= 0 {
+			return uint(value.(int16)) >= proto.(uint)
 		}
 		return false
 
 	// ...
 
 	case "int32:uint8", "int32:byte":
-		return val.(int32) >= int32(filterVal.(uint8))
+		return value.(int32) >= int32(proto.(uint8))
 
 	case "int32:uint16":
-		return val.(int32) >= int32(filterVal.(uint16))
+		return value.(int32) >= int32(proto.(uint16))
 
 	case "int32:uint32":
-		if val.(int32) >= 0 {
-			return uint32(val.(int32)) >= filterVal.(uint32)
+		if value.(int32) >= 0 {
+			return uint32(value.(int32)) >= proto.(uint32)
 		}
 		return false
 
 	case "int32:uint64":
-		if val.(int32) >= 0 {
-			return uint64(val.(int32)) >= filterVal.(uint64)
+		if value.(int32) >= 0 {
+			return uint64(value.(int32)) >= proto.(uint64)
 		}
 		return false
 
 	case "int32:uint":
-		if val.(int32) >= 0 {
-			return uint(val.(int32)) >= filterVal.(uint)
+		if value.(int32) >= 0 {
+			return uint(value.(int32)) >= proto.(uint)
 		}
 		return false
 
 	// ...
 
 	case "int64:uint8", "int64:byte":
-		return val.(int64) >= int64(filterVal.(uint8))
+		return value.(int64) >= int64(proto.(uint8))
 
 	case "int64:uint16":
-		return val.(int64) >= int64(filterVal.(uint16))
+		return value.(int64) >= int64(proto.(uint16))
 
 	case "int64:uint32":
-		return val.(int64) >= int64(filterVal.(uint32))
+		return value.(int64) >= int64(proto.(uint32))
 
 	case "int64:uint64":
-		if val.(int64) >= 0 {
-			return uint64(val.(int64)) >= uint64(filterVal.(uint64))
+		if value.(int64) >= 0 {
+			return uint64(value.(int64)) >= uint64(proto.(uint64))
 		}
 		return false
 
 	case "int64:uint":
-		if val.(int64) >= 0 {
-			return uint64(val.(int64)) >= uint64(filterVal.(uint))
+		if value.(int64) >= 0 {
+			return uint64(value.(int64)) >= uint64(proto.(uint))
 		}
 		return false
 
 	// ...
 
 	case "int:uint8", "int:byte":
-		return val.(int) >= int(filterVal.(uint8))
+		return value.(int) >= int(proto.(uint8))
 
 	case "int:uint16":
-		return val.(int) >= int(filterVal.(uint16))
+		return value.(int) >= int(proto.(uint16))
 
 	case "int:uint32":
-		if val.(int) >= 0 {
-			return uint64(val.(int)) >= uint64(filterVal.(uint32))
+		if value.(int) >= 0 {
+			return uint64(value.(int)) >= uint64(proto.(uint32))
 		}
 		return false
 
 	case "int:uint64":
-		if val.(int) >= 0 {
-			return uint64(val.(int)) >= filterVal.(uint64)
+		if value.(int) >= 0 {
+			return uint64(value.(int)) >= proto.(uint64)
 		}
 		return false
 
 	case "int:uint":
-		if val.(int) >= 0 {
-			return uint(val.(int)) >= filterVal.(uint)
+		if value.(int) >= 0 {
+			return uint(value.(int)) >= proto.(uint)
 		}
 		return false
 
 	// ...
 
 	case "rune:uint8", "rune:byte":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) >= uint32(filterVal.(uint8))
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) >= uint32(proto.(uint8))
 		}
 		return false
 
 	case "rune:uint16":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) >= uint32(filterVal.(uint16))
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) >= uint32(proto.(uint16))
 		}
 		return false
 
 	case "rune:uint32":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) >= filterVal.(uint32)
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) >= proto.(uint32)
 		}
 		return false
 
 	case "rune:uint64":
-		if val.(rune) >= 0 {
-			return uint64(val.(rune)) >= filterVal.(uint64)
+		if value.(rune) >= 0 {
+			return uint64(value.(rune)) >= proto.(uint64)
 		}
 		return false
 
 	case "rune:uint":
-		if val.(rune) >= 0 {
-			return uint(val.(rune)) >= filterVal.(uint)
+		if value.(rune) >= 0 {
+			return uint(value.(rune)) >= proto.(uint)
 		}
 		return false
 
@@ -430,196 +664,196 @@ func IsMin(filterVal, val any) bool {
 	// uint
 
 	case "uint8:uint8", "uint8:byte", "byte:uint8", "byte:byte":
-		return val.(uint8) >= filterVal.(uint8)
+		return value.(uint8) >= proto.(uint8)
 
 	case "uint8:uint16", "byte:uint16":
-		return uint16(val.(uint8)) >= filterVal.(uint16)
+		return uint16(value.(uint8)) >= proto.(uint16)
 
 	case "uint8:uint32", "byte:uint32":
-		return uint32(val.(uint8)) >= filterVal.(uint32)
+		return uint32(value.(uint8)) >= proto.(uint32)
 
 	case "uint8:uint64", "byte:uint64":
-		return uint64(val.(uint8)) >= filterVal.(uint64)
+		return uint64(value.(uint8)) >= proto.(uint64)
 
 	case "uint8:uint", "byte:uint":
-		return uint(val.(uint8)) >= filterVal.(uint)
+		return uint(value.(uint8)) >= proto.(uint)
 
 	case "uint16:uint8", "uint16:byte":
-		return val.(uint16) >= uint16(filterVal.(uint8))
+		return value.(uint16) >= uint16(proto.(uint8))
 
 	case "uint16:uint16":
-		return val.(uint16) >= filterVal.(uint16)
+		return value.(uint16) >= proto.(uint16)
 	case "uint16:uint32":
-		return uint32(val.(uint16)) >= filterVal.(uint32)
+		return uint32(value.(uint16)) >= proto.(uint32)
 	case "uint16:uint64":
-		return uint64(val.(uint16)) >= filterVal.(uint64)
+		return uint64(value.(uint16)) >= proto.(uint64)
 	case "uint16:uint":
-		return uint(val.(uint16)) >= filterVal.(uint)
+		return uint(value.(uint16)) >= proto.(uint)
 
 	case "uint32:uint8", "uint32:byte":
-		return val.(uint32) >= uint32(filterVal.(uint8))
+		return value.(uint32) >= uint32(proto.(uint8))
 	case "uint32:uint16":
-		return val.(uint32) >= uint32(filterVal.(uint16))
+		return value.(uint32) >= uint32(proto.(uint16))
 	case "uint32:uint32":
-		return val.(uint32) >= filterVal.(uint32)
+		return value.(uint32) >= proto.(uint32)
 	case "uint32:uint64":
-		return uint64(val.(uint32)) >= filterVal.(uint64)
+		return uint64(value.(uint32)) >= proto.(uint64)
 	case "uint32:uint":
-		return uint(val.(uint32)) >= filterVal.(uint)
+		return uint(value.(uint32)) >= proto.(uint)
 
 	case "uint64:uint8", "uint64:byte":
-		return val.(uint64) >= uint64(filterVal.(uint8))
+		return value.(uint64) >= uint64(proto.(uint8))
 	case "uint64:uint16":
-		return val.(uint64) >= uint64(filterVal.(uint16))
+		return value.(uint64) >= uint64(proto.(uint16))
 	case "uint64:uint32":
-		return val.(uint64) >= uint64(filterVal.(uint32))
+		return value.(uint64) >= uint64(proto.(uint32))
 	case "uint64:uint64":
-		return val.(uint64) >= filterVal.(uint64)
+		return value.(uint64) >= proto.(uint64)
 	case "uint64:uint":
-		return val.(uint64) >= uint64(filterVal.(uint))
+		return value.(uint64) >= uint64(proto.(uint))
 
 	case "uint:uint8", "uint:byte":
-		return val.(uint) >= uint(filterVal.(uint8))
+		return value.(uint) >= uint(proto.(uint8))
 	case "uint:uint16":
-		return val.(uint) >= uint(filterVal.(uint16))
+		return value.(uint) >= uint(proto.(uint16))
 	case "uint:uint32":
-		return val.(uint) >= uint(filterVal.(uint32))
+		return value.(uint) >= uint(proto.(uint32))
 	case "uint:uint64":
-		return uint64(val.(uint)) >= filterVal.(uint64)
+		return uint64(value.(uint)) >= proto.(uint64)
 	case "uint:uint":
-		return val.(uint) >= filterVal.(uint)
+		return value.(uint) >= proto.(uint)
 
 	// ............................................................
 	// uint & int
 
 	case "uint8:int8", "byte:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint8) >= uint8(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint8) >= uint8(proto.(int8))
 		}
 		return true
 
 	case "uint8:int16", "byte:int16":
-		return int16(val.(uint8)) >= filterVal.(int16)
+		return int16(value.(uint8)) >= proto.(int16)
 
 	case "uint8:int32", "uint8:rune", "byte:int32", "byte:rune":
-		return int32(val.(uint8)) >= filterVal.(int32)
+		return int32(value.(uint8)) >= proto.(int32)
 
 	case "uint8:int64", "byte:int64":
-		return int64(val.(uint8)) >= filterVal.(int64)
+		return int64(value.(uint8)) >= proto.(int64)
 
 	case "uint8:int", "byte:int":
-		return int(val.(uint8)) >= filterVal.(int)
+		return int(value.(uint8)) >= proto.(int)
 
 	// ...
 
 	case "uint16:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint16) >= uint16(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint16) >= uint16(proto.(int8))
 		}
 		return true
 
 	case "uint16:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint16) >= uint16(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint16) >= uint16(proto.(int16))
 		}
 		return true
 
 	case "uint16:int32", "uint16:rune":
-		return int32(val.(uint16)) >= filterVal.(int32)
+		return int32(value.(uint16)) >= proto.(int32)
 
 	case "uint16:int64":
-		return int64(val.(uint16)) >= filterVal.(int64)
+		return int64(value.(uint16)) >= proto.(int64)
 
 	case "uint16:int":
-		return int(val.(uint16)) >= filterVal.(int)
+		return int(value.(uint16)) >= proto.(int)
 
 	// ...
 
 	case "uint32:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint32) >= uint32(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint32) >= uint32(proto.(int8))
 		}
 		return true
 
 	case "uint32:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint32) >= uint32(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint32) >= uint32(proto.(int16))
 		}
 		return true
 
 	case "uint32:int32", "uint32:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint32) >= uint32(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint32) >= uint32(proto.(int32))
 		}
 		return true
 
 	case "uint32:int64":
-		return int64(val.(uint32)) >= filterVal.(int64)
+		return int64(value.(uint32)) >= proto.(int64)
 
 	case "uint32:int":
-		return int64(val.(uint32)) >= int64(filterVal.(int))
+		return int64(value.(uint32)) >= int64(proto.(int))
 
 	// ...
 
 	case "uint64:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint64) >= uint64(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint64) >= uint64(proto.(int8))
 		}
 		return true
 
 	case "uint64:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint64) >= uint64(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint64) >= uint64(proto.(int16))
 		}
 		return true
 
 	case "uint64:int32", "uint64:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint64) >= uint64(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint64) >= uint64(proto.(int32))
 		}
 		return true
 
 	case "uint64:int64":
-		if filterVal.(int64) >= 0 {
-			return val.(uint64) >= uint64(filterVal.(int64))
+		if proto.(int64) >= 0 {
+			return value.(uint64) >= uint64(proto.(int64))
 		}
 		return true
 
 	case "uint64:int":
-		if filterVal.(int) >= 0 {
-			return val.(uint64) >= uint64(filterVal.(int))
+		if proto.(int) >= 0 {
+			return value.(uint64) >= uint64(proto.(int))
 		}
 		return true
 
 	// ...
 
 	case "uint:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint) >= uint(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint) >= uint(proto.(int8))
 		}
 		return true
 
 	case "uint:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint) >= uint(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint) >= uint(proto.(int16))
 		}
 		return true
 
 	case "uint:int32":
-		if filterVal.(int32) >= 0 {
-			return val.(uint) >= uint(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint) >= uint(proto.(int32))
 		}
 		return true
 
 	case "uint:int64":
-		if filterVal.(int64) >= 0 {
-			return uint64(val.(uint)) >= uint64(filterVal.(int64))
+		if proto.(int64) >= 0 {
+			return uint64(value.(uint)) >= uint64(proto.(int64))
 		}
 		return true
 
 	case "uint:int":
-		if filterVal.(int) >= 0 {
-			return val.(uint) >= uint(filterVal.(int))
+		if proto.(int) >= 0 {
+			return value.(uint) >= uint(proto.(int))
 		}
 		return true
 
@@ -628,261 +862,254 @@ func IsMin(filterVal, val any) bool {
 	return false
 }
 
-func IsMax(filterVal, val any) bool {
-	refVal := reflect.Indirect(reflect.ValueOf(val))
-
-	switch refVal.Kind() {
-	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
-		val = refVal.Len()
-	}
-
-	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
+func IsMax(proto, value any) bool {
+	types := reflect.ValueOf(value).Kind().String() + ":" + reflect.ValueOf(proto).Kind().String()
 
 	switch types {
 
 	// int
 
 	case "int8:int8":
-		return val.(int8) <= filterVal.(int8)
+		return value.(int8) <= proto.(int8)
 
 	case "int8:int16":
-		return int16(val.(int8)) <= filterVal.(int16)
+		return int16(value.(int8)) <= proto.(int16)
 
 	case "int8:int32", "int8:rune":
-		return int32(val.(int8)) <= filterVal.(int32)
+		return int32(value.(int8)) <= proto.(int32)
 
 	case "int8:int64":
-		return int64(val.(int8)) <= filterVal.(int64)
+		return int64(value.(int8)) <= proto.(int64)
 
 	case "int8:int":
-		return int(val.(int8)) <= filterVal.(int)
+		return int(value.(int8)) <= proto.(int)
 
 	case "int16:int8":
-		return val.(int16) <= int16(filterVal.(int8))
+		return value.(int16) <= int16(proto.(int8))
 
 	case "int16:int16":
-		return val.(int16) <= filterVal.(int16)
+		return value.(int16) <= proto.(int16)
 
 	case "int16:int32", "int16:rune":
-		return int32(val.(int16)) <= filterVal.(int32)
+		return int32(value.(int16)) <= proto.(int32)
 
 	case "int16:int64":
-		return int64(val.(int16)) <= filterVal.(int64)
+		return int64(value.(int16)) <= proto.(int64)
 
 	case "int16:int":
-		return int(val.(int16)) <= filterVal.(int)
+		return int(value.(int16)) <= proto.(int)
 
 	case "int32:int8", "rune:int8":
-		return val.(int32) <= int32(filterVal.(int8))
+		return value.(int32) <= int32(proto.(int8))
 
 	case "int32:int16", "rune:int16":
-		return val.(int32) <= int32(filterVal.(int16))
+		return value.(int32) <= int32(proto.(int16))
 
 	case "int32:int32", "int32:rune", "rune:int32", "rune:rune":
-		return val.(int32) <= filterVal.(int32)
+		return value.(int32) <= proto.(int32)
 
 	case "int32:int64", "rune:int64":
-		return int64(val.(int32)) <= filterVal.(int64)
+		return int64(value.(int32)) <= proto.(int64)
 
 	case "int32:int", "rune:int":
-		return int(val.(int32)) <= filterVal.(int)
+		return int(value.(int32)) <= proto.(int)
 
 	case "int64:int8":
-		return val.(int64) <= int64(filterVal.(int8))
+		return value.(int64) <= int64(proto.(int8))
 
 	case "int64:int16":
-		return val.(int64) <= int64(filterVal.(int16))
+		return value.(int64) <= int64(proto.(int16))
 
 	case "int64:int32", "int64:rune":
-		return val.(int64) <= int64(filterVal.(int32))
+		return value.(int64) <= int64(proto.(int32))
 
 	case "int64:int64":
-		return val.(int64) <= filterVal.(int64)
+		return value.(int64) <= proto.(int64)
 
 	case "int64:int":
-		return val.(int64) <= int64(filterVal.(int))
+		return value.(int64) <= int64(proto.(int))
 
 	case "int:int8":
-		return val.(int) <= int(filterVal.(int8))
+		return value.(int) <= int(proto.(int8))
 
 	case "int:int16":
-		return val.(int) <= int(filterVal.(int16))
+		return value.(int) <= int(proto.(int16))
 
 	case "int:int32", "int:rune":
-		return val.(int) <= int(filterVal.(int32))
+		return value.(int) <= int(proto.(int32))
 
 	case "int:int64":
-		return int64(val.(int)) <= filterVal.(int64)
+		return int64(value.(int)) <= proto.(int64)
 
 	case "int:int":
-		return val.(int) <= filterVal.(int)
+		return value.(int) <= proto.(int)
 
 	// ............................................................
 	// int & uint
 
 	case "int8:uint8", "int8:byte":
-		if val.(int8) >= 0 {
-			return uint8(val.(int8)) <= filterVal.(uint8)
+		if value.(int8) >= 0 {
+			return uint8(value.(int8)) <= proto.(uint8)
 		}
 		return true
 
 	case "int8:uint16":
-		if val.(int8) >= 0 {
-			return uint16(val.(int8)) <= filterVal.(uint16)
+		if value.(int8) >= 0 {
+			return uint16(value.(int8)) <= proto.(uint16)
 		}
 		return true
 
 	case "int8:uint32":
-		if val.(int8) >= 0 {
-			return uint32(val.(int8)) <= filterVal.(uint32)
+		if value.(int8) >= 0 {
+			return uint32(value.(int8)) <= proto.(uint32)
 		}
 		return true
 
 	case "int8:uint64":
-		if val.(int8) >= 0 {
-			return uint64(val.(int8)) <= filterVal.(uint64)
+		if value.(int8) >= 0 {
+			return uint64(value.(int8)) <= proto.(uint64)
 		}
 		return true
 
 	case "int8:uint":
-		if val.(int8) >= 0 {
-			return uint(val.(int8)) <= filterVal.(uint)
+		if value.(int8) >= 0 {
+			return uint(value.(int8)) <= proto.(uint)
 		}
 		return true
 
 	// ...
 
 	case "int16:uint8", "int16:byte":
-		return val.(int16) <= int16(filterVal.(uint8))
+		return value.(int16) <= int16(proto.(uint8))
 
 	case "int16:uint16":
-		if val.(int16) >= 0 {
-			return uint16(val.(int16)) <= filterVal.(uint16)
+		if value.(int16) >= 0 {
+			return uint16(value.(int16)) <= proto.(uint16)
 		}
 		return true
 
 	case "int16:uint32":
-		if val.(int16) >= 0 {
-			return uint32(val.(int16)) <= filterVal.(uint32)
+		if value.(int16) >= 0 {
+			return uint32(value.(int16)) <= proto.(uint32)
 		}
 		return true
 
 	case "int16:uint64":
-		if val.(int16) >= 0 {
-			return uint64(val.(int16)) <= filterVal.(uint64)
+		if value.(int16) >= 0 {
+			return uint64(value.(int16)) <= proto.(uint64)
 		}
 		return true
 
 	case "int16:uint":
-		if val.(int16) >= 0 {
-			return uint(val.(int16)) <= filterVal.(uint)
+		if value.(int16) >= 0 {
+			return uint(value.(int16)) <= proto.(uint)
 		}
 		return true
 
 	// ...
 
 	case "int32:uint8", "int32:byte":
-		return val.(int32) <= int32(filterVal.(uint8))
+		return value.(int32) <= int32(proto.(uint8))
 
 	case "int32:uint16":
-		return val.(int32) <= int32(filterVal.(uint16))
+		return value.(int32) <= int32(proto.(uint16))
 
 	case "int32:uint32":
-		if val.(int32) >= 0 {
-			return uint32(val.(int32)) <= filterVal.(uint32)
+		if value.(int32) >= 0 {
+			return uint32(value.(int32)) <= proto.(uint32)
 		}
 		return true
 
 	case "int32:uint64":
-		if val.(int32) >= 0 {
-			return uint64(val.(int32)) <= filterVal.(uint64)
+		if value.(int32) >= 0 {
+			return uint64(value.(int32)) <= proto.(uint64)
 		}
 		return true
 
 	case "int32:uint":
-		if val.(int32) >= 0 {
-			return uint(val.(int32)) <= filterVal.(uint)
+		if value.(int32) >= 0 {
+			return uint(value.(int32)) <= proto.(uint)
 		}
 		return true
 
 	// ...
 
 	case "int64:uint8", "int64:byte":
-		return val.(int64) <= int64(filterVal.(uint8))
+		return value.(int64) <= int64(proto.(uint8))
 
 	case "int64:uint16":
-		return val.(int64) <= int64(filterVal.(uint16))
+		return value.(int64) <= int64(proto.(uint16))
 
 	case "int64:uint32":
-		return val.(int64) <= int64(filterVal.(uint32))
+		return value.(int64) <= int64(proto.(uint32))
 
 	case "int64:uint64":
-		if val.(int64) >= 0 {
-			return uint64(val.(int64)) <= uint64(filterVal.(uint64))
+		if value.(int64) >= 0 {
+			return uint64(value.(int64)) <= uint64(proto.(uint64))
 		}
 		return true
 
 	case "int64:uint":
-		if val.(int64) >= 0 {
-			return uint64(val.(int64)) <= uint64(filterVal.(uint))
+		if value.(int64) >= 0 {
+			return uint64(value.(int64)) <= uint64(proto.(uint))
 		}
 		return true
 
 	// ...
 
 	case "int:uint8", "int:byte":
-		return val.(int) <= int(filterVal.(uint8))
+		return value.(int) <= int(proto.(uint8))
 
 	case "int:uint16":
-		return val.(int) <= int(filterVal.(uint16))
+		return value.(int) <= int(proto.(uint16))
 
 	case "int:uint32":
-		if val.(int) >= 0 {
-			return uint(val.(int)) <= uint(filterVal.(uint32))
+		if value.(int) >= 0 {
+			return uint(value.(int)) <= uint(proto.(uint32))
 		}
 		return true
 
 	case "int:uint64":
-		if val.(int) >= 0 {
-			return uint64(val.(int)) <= filterVal.(uint64)
+		if value.(int) >= 0 {
+			return uint64(value.(int)) <= proto.(uint64)
 		}
 		return true
 
 	case "int:uint":
-		if val.(int) >= 0 {
-			return uint(val.(int)) <= filterVal.(uint)
+		if value.(int) >= 0 {
+			return uint(value.(int)) <= proto.(uint)
 		}
 		return true
 
 	// ...
 
 	case "rune:uint8", "rune:byte":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) <= uint32(filterVal.(uint8))
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) <= uint32(proto.(uint8))
 		}
 		return false
 
 	case "rune:uint16":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) <= uint32(filterVal.(uint16))
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) <= uint32(proto.(uint16))
 		}
 		return false
 
 	case "rune:uint32":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) <= filterVal.(uint32)
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) <= proto.(uint32)
 		}
 		return false
 
 	case "rune:uint64":
-		if val.(rune) >= 0 {
-			return uint64(val.(rune)) <= filterVal.(uint64)
+		if value.(rune) >= 0 {
+			return uint64(value.(rune)) <= proto.(uint64)
 		}
 		return false
 
 	case "rune:uint":
-		if val.(rune) >= 0 {
-			return uint(val.(rune)) <= filterVal.(uint)
+		if value.(rune) >= 0 {
+			return uint(value.(rune)) <= proto.(uint)
 		}
 		return false
 
@@ -890,196 +1117,196 @@ func IsMax(filterVal, val any) bool {
 	// uint
 
 	case "uint8:uint8", "uint8:byte", "byte:uint8", "byte:byte":
-		return val.(uint8) <= filterVal.(uint8)
+		return value.(uint8) <= proto.(uint8)
 
 	case "uint8:uint16", "byte:uint16":
-		return uint16(val.(uint8)) <= filterVal.(uint16)
+		return uint16(value.(uint8)) <= proto.(uint16)
 
 	case "uint8:uint32", "byte:uint32":
-		return uint32(val.(uint8)) <= filterVal.(uint32)
+		return uint32(value.(uint8)) <= proto.(uint32)
 
 	case "uint8:uint64", "byte:uint64":
-		return uint64(val.(uint8)) <= filterVal.(uint64)
+		return uint64(value.(uint8)) <= proto.(uint64)
 
 	case "uint8:uint", "byte:uint":
-		return uint(val.(uint8)) <= filterVal.(uint)
+		return uint(value.(uint8)) <= proto.(uint)
 
 	case "uint16:uint8", "uint16:byte":
-		return val.(uint16) <= uint16(filterVal.(uint8))
+		return value.(uint16) <= uint16(proto.(uint8))
 
 	case "uint16:uint16":
-		return val.(uint16) <= filterVal.(uint16)
+		return value.(uint16) <= proto.(uint16)
 	case "uint16:uint32":
-		return uint32(val.(uint16)) <= filterVal.(uint32)
+		return uint32(value.(uint16)) <= proto.(uint32)
 	case "uint16:uint64":
-		return uint64(val.(uint16)) <= filterVal.(uint64)
+		return uint64(value.(uint16)) <= proto.(uint64)
 	case "uint16:uint":
-		return uint(val.(uint16)) <= filterVal.(uint)
+		return uint(value.(uint16)) <= proto.(uint)
 
 	case "uint32:uint8", "uint32:byte":
-		return val.(uint32) <= uint32(filterVal.(uint8))
+		return value.(uint32) <= uint32(proto.(uint8))
 	case "uint32:uint16":
-		return val.(uint32) <= uint32(filterVal.(uint16))
+		return value.(uint32) <= uint32(proto.(uint16))
 	case "uint32:uint32":
-		return val.(uint32) <= filterVal.(uint32)
+		return value.(uint32) <= proto.(uint32)
 	case "uint32:uint64":
-		return uint64(val.(uint32)) <= filterVal.(uint64)
+		return uint64(value.(uint32)) <= proto.(uint64)
 	case "uint32:uint":
-		return uint(val.(uint32)) <= filterVal.(uint)
+		return uint(value.(uint32)) <= proto.(uint)
 
 	case "uint64:uint8", "uint64:byte":
-		return val.(uint64) <= uint64(filterVal.(uint8))
+		return value.(uint64) <= uint64(proto.(uint8))
 	case "uint64:uint16":
-		return val.(uint64) <= uint64(filterVal.(uint16))
+		return value.(uint64) <= uint64(proto.(uint16))
 	case "uint64:uint32":
-		return val.(uint64) <= uint64(filterVal.(uint32))
+		return value.(uint64) <= uint64(proto.(uint32))
 	case "uint64:uint64":
-		return val.(uint64) <= filterVal.(uint64)
+		return value.(uint64) <= proto.(uint64)
 	case "uint64:uint":
-		return val.(uint64) <= uint64(filterVal.(uint))
+		return value.(uint64) <= uint64(proto.(uint))
 
 	case "uint:uint8", "uint:byte":
-		return val.(uint) <= uint(filterVal.(uint8))
+		return value.(uint) <= uint(proto.(uint8))
 	case "uint:uint16":
-		return val.(uint) <= uint(filterVal.(uint16))
+		return value.(uint) <= uint(proto.(uint16))
 	case "uint:uint32":
-		return val.(uint) <= uint(filterVal.(uint32))
+		return value.(uint) <= uint(proto.(uint32))
 	case "uint:uint64":
-		return uint64(val.(uint)) <= filterVal.(uint64)
+		return uint64(value.(uint)) <= proto.(uint64)
 	case "uint:uint":
-		return val.(uint) <= filterVal.(uint)
+		return value.(uint) <= proto.(uint)
 
 	// ............................................................
 	// uint & int
 
 	case "uint8:int8", "byte:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint8) <= uint8(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint8) <= uint8(proto.(int8))
 		}
 		return false
 
 	case "uint8:int16", "byte:int16":
-		return int16(val.(uint8)) <= filterVal.(int16)
+		return int16(value.(uint8)) <= proto.(int16)
 
 	case "uint8:int32", "uint8:rune", "byte:int32", "byte:rune":
-		return int32(val.(uint8)) <= filterVal.(int32)
+		return int32(value.(uint8)) <= proto.(int32)
 
 	case "uint8:int64", "byte:int64":
-		return int64(val.(uint8)) <= filterVal.(int64)
+		return int64(value.(uint8)) <= proto.(int64)
 
 	case "uint8:int", "byte:int":
-		return int(val.(uint8)) <= filterVal.(int)
+		return int(value.(uint8)) <= proto.(int)
 
 	// ...
 
 	case "uint16:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint16) <= uint16(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint16) <= uint16(proto.(int8))
 		}
 		return false
 
 	case "uint16:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint16) <= uint16(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint16) <= uint16(proto.(int16))
 		}
 		return false
 
 	case "uint16:int32", "uint16:rune":
-		return int32(val.(uint16)) <= filterVal.(int32)
+		return int32(value.(uint16)) <= proto.(int32)
 
 	case "uint16:int64":
-		return int64(val.(uint16)) <= filterVal.(int64)
+		return int64(value.(uint16)) <= proto.(int64)
 
 	case "uint16:int":
-		return int(val.(uint16)) <= filterVal.(int)
+		return int(value.(uint16)) <= proto.(int)
 
 	// ...
 
 	case "uint32:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint32) <= uint32(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint32) <= uint32(proto.(int8))
 		}
 		return false
 
 	case "uint32:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint32) <= uint32(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint32) <= uint32(proto.(int16))
 		}
 		return false
 
 	case "uint32:int32", "uint32:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint32) <= uint32(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint32) <= uint32(proto.(int32))
 		}
 		return false
 
 	case "uint32:int64":
-		return int64(val.(uint32)) <= filterVal.(int64)
+		return int64(value.(uint32)) <= proto.(int64)
 
 	case "uint32:int":
-		return int64(val.(uint32)) <= int64(filterVal.(int))
+		return int64(value.(uint32)) <= int64(proto.(int))
 
 	// ...
 
 	case "uint64:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint64) <= uint64(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint64) <= uint64(proto.(int8))
 		}
 		return false
 
 	case "uint64:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint64) <= uint64(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint64) <= uint64(proto.(int16))
 		}
 		return false
 
 	case "uint64:int32", "uint64:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint64) <= uint64(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint64) <= uint64(proto.(int32))
 		}
 		return false
 
 	case "uint64:int64":
-		if filterVal.(int64) >= 0 {
-			return val.(uint64) <= uint64(filterVal.(int64))
+		if proto.(int64) >= 0 {
+			return value.(uint64) <= uint64(proto.(int64))
 		}
 		return false
 
 	case "uint64:int":
-		if filterVal.(int) >= 0 {
-			return val.(uint64) <= uint64(filterVal.(int))
+		if proto.(int) >= 0 {
+			return value.(uint64) <= uint64(proto.(int))
 		}
 		return false
 
 	// ...
 
 	case "uint:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint) <= uint(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint) <= uint(proto.(int8))
 		}
 		return false
 
 	case "uint:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint) <= uint(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint) <= uint(proto.(int16))
 		}
 		return false
 
 	case "uint:int32", "uint:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint) <= uint(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint) <= uint(proto.(int32))
 		}
 		return false
 
 	case "uint:int64":
-		if filterVal.(int64) >= 0 {
-			return uint64(val.(uint)) <= uint64(filterVal.(int64))
+		if proto.(int64) >= 0 {
+			return uint64(value.(uint)) <= uint64(proto.(int64))
 		}
 		return false
 
 	case "uint:int":
-		if filterVal.(int) >= 0 {
-			return val.(uint) <= uint(filterVal.(int))
+		if proto.(int) >= 0 {
+			return value.(uint) <= uint(proto.(int))
 		}
 		return false
 
@@ -1088,421 +1315,414 @@ func IsMax(filterVal, val any) bool {
 	return false
 }
 
-func IsEqual(filterVal, val any) bool {
-	refVal := reflect.Indirect(reflect.ValueOf(val))
-
-	switch refVal.Kind() {
-	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
-		val = refVal.Len()
-	}
-
-	types := reflect.ValueOf(val).Kind().String() + ":" + reflect.ValueOf(filterVal).Kind().String()
+func IsEqual(proto, value any) bool {
+	types := reflect.ValueOf(value).Kind().String() + ":" + reflect.ValueOf(proto).Kind().String()
 
 	switch types {
 
 	// int
 
 	case "int8:int8":
-		return val.(int8) == filterVal.(int8)
+		return value.(int8) == proto.(int8)
 
 	case "int8:int16":
-		return int16(val.(int8)) == filterVal.(int16)
+		return int16(value.(int8)) == proto.(int16)
 
 	case "int8:int32", "int8:rune":
-		return int32(val.(int8)) == filterVal.(int32)
+		return int32(value.(int8)) == proto.(int32)
 
 	case "int8:int64":
-		return int64(val.(int8)) == filterVal.(int64)
+		return int64(value.(int8)) == proto.(int64)
 
 	case "int8:int":
-		return int(val.(int8)) == filterVal.(int)
+		return int(value.(int8)) == proto.(int)
 
 	case "int16:int8":
-		return val.(int16) == int16(filterVal.(int8))
+		return value.(int16) == int16(proto.(int8))
 
 	case "int16:int16":
-		return val.(int16) == filterVal.(int16)
+		return value.(int16) == proto.(int16)
 
 	case "int16:int32", "int16:rune":
-		return int32(val.(int16)) == filterVal.(int32)
+		return int32(value.(int16)) == proto.(int32)
 
 	case "int16:int64":
-		return int64(val.(int16)) == filterVal.(int64)
+		return int64(value.(int16)) == proto.(int64)
 
 	case "int16:int":
-		return int(val.(int16)) == filterVal.(int)
+		return int(value.(int16)) == proto.(int)
 
 	case "int32:int8", "rune:int8":
-		return val.(int32) == int32(filterVal.(int8))
+		return value.(int32) == int32(proto.(int8))
 
 	case "int32:int16", "rune:int16":
-		return val.(int32) == int32(filterVal.(int16))
+		return value.(int32) == int32(proto.(int16))
 
 	case "int32:int32", "int32:rune", "rune:int32", "rune:rune":
-		return val.(int32) == filterVal.(int32)
+		return value.(int32) == proto.(int32)
 
 	case "int32:int64", "rune:int64":
-		return int64(val.(int32)) == filterVal.(int64)
+		return int64(value.(int32)) == proto.(int64)
 
 	case "int32:int", "rune:int":
-		return int(val.(int32)) == filterVal.(int)
+		return int(value.(int32)) == proto.(int)
 
 	case "int64:int8":
-		return val.(int64) == int64(filterVal.(int8))
+		return value.(int64) == int64(proto.(int8))
 
 	case "int64:int16":
-		return val.(int64) == int64(filterVal.(int16))
+		return value.(int64) == int64(proto.(int16))
 
 	case "int64:int32", "int64:rune":
-		return val.(int64) == int64(filterVal.(int32))
+		return value.(int64) == int64(proto.(int32))
 
 	case "int64:int64":
-		return val.(int64) == filterVal.(int64)
+		return value.(int64) == proto.(int64)
 
 	case "int64:int":
-		return val.(int64) == int64(filterVal.(int))
+		return value.(int64) == int64(proto.(int))
 
 	case "int:int8":
-		return val.(int) == int(filterVal.(int8))
+		return value.(int) == int(proto.(int8))
 
 	case "int:int16":
-		return val.(int) == int(filterVal.(int16))
+		return value.(int) == int(proto.(int16))
 
 	case "int:int32", "int:rune":
-		return val.(int) == int(filterVal.(int32))
+		return value.(int) == int(proto.(int32))
 
 	case "int:int64":
-		return int64(val.(int)) == filterVal.(int64)
+		return int64(value.(int)) == proto.(int64)
 
 	case "int:int":
-		return val.(int) == filterVal.(int)
+		return value.(int) == proto.(int)
 
 	// ............................................................
 	// int & uint
 
 	case "int8:uint8", "int8:byte":
-		if val.(int8) >= 0 {
-			return uint8(val.(int8)) == filterVal.(uint8)
+		if value.(int8) >= 0 {
+			return uint8(value.(int8)) == proto.(uint8)
 		}
 
 	case "int8:uint16":
-		if val.(int8) >= 0 {
-			return uint16(val.(int8)) == filterVal.(uint16)
+		if value.(int8) >= 0 {
+			return uint16(value.(int8)) == proto.(uint16)
 		}
 
 	case "int8:uint32":
-		if val.(int8) >= 0 {
-			return uint32(val.(int8)) == filterVal.(uint32)
+		if value.(int8) >= 0 {
+			return uint32(value.(int8)) == proto.(uint32)
 		}
 
 	case "int8:uint64":
-		if val.(int8) >= 0 {
-			return uint64(val.(int8)) == filterVal.(uint64)
+		if value.(int8) >= 0 {
+			return uint64(value.(int8)) == proto.(uint64)
 		}
 
 	case "int8:uint":
-		if val.(int8) >= 0 {
-			return uint(val.(int8)) == filterVal.(uint)
+		if value.(int8) >= 0 {
+			return uint(value.(int8)) == proto.(uint)
 		}
 
 	// ...
 
 	case "int16:uint8", "int16:byte":
-		return val.(int16) == int16(filterVal.(uint8))
+		return value.(int16) == int16(proto.(uint8))
 
 	case "int16:uint16":
-		if val.(int16) >= 0 {
-			return uint16(val.(int16)) == filterVal.(uint16)
+		if value.(int16) >= 0 {
+			return uint16(value.(int16)) == proto.(uint16)
 		}
 
 	case "int16:uint32":
-		if val.(int16) >= 0 {
-			return uint32(val.(int16)) == filterVal.(uint32)
+		if value.(int16) >= 0 {
+			return uint32(value.(int16)) == proto.(uint32)
 		}
 
 	case "int16:uint64":
-		if val.(int16) >= 0 {
-			return uint64(val.(int16)) == filterVal.(uint64)
+		if value.(int16) >= 0 {
+			return uint64(value.(int16)) == proto.(uint64)
 		}
 
 	case "int16:uint":
-		if val.(int16) >= 0 {
-			return uint(val.(int16)) == filterVal.(uint)
+		if value.(int16) >= 0 {
+			return uint(value.(int16)) == proto.(uint)
 		}
 
 	// ...
 
 	case "int32:uint8", "int32:byte":
-		return val.(int32) == int32(filterVal.(uint8))
+		return value.(int32) == int32(proto.(uint8))
 
 	case "int32:uint16":
-		return val.(int32) == int32(filterVal.(uint16))
+		return value.(int32) == int32(proto.(uint16))
 
 	case "int32:uint32":
-		if val.(int32) >= 0 {
-			return uint32(val.(int32)) == filterVal.(uint32)
+		if value.(int32) >= 0 {
+			return uint32(value.(int32)) == proto.(uint32)
 		}
 
 	case "int32:uint64":
-		if val.(int32) >= 0 {
-			return uint64(val.(int32)) == filterVal.(uint64)
+		if value.(int32) >= 0 {
+			return uint64(value.(int32)) == proto.(uint64)
 		}
 
 	case "int32:uint":
-		if val.(int32) >= 0 {
-			return uint(val.(int32)) == filterVal.(uint)
+		if value.(int32) >= 0 {
+			return uint(value.(int32)) == proto.(uint)
 		}
 
 	// ...
 
 	case "int64:uint8", "int64:byte":
-		return val.(int64) == int64(filterVal.(uint8))
+		return value.(int64) == int64(proto.(uint8))
 
 	case "int64:uint16":
-		return val.(int64) == int64(filterVal.(uint16))
+		return value.(int64) == int64(proto.(uint16))
 
 	case "int64:uint32":
-		return val.(int64) == int64(filterVal.(uint32))
+		return value.(int64) == int64(proto.(uint32))
 
 	case "int64:uint64":
-		if val.(int64) >= 0 {
-			return uint64(val.(int64)) == uint64(filterVal.(uint64))
+		if value.(int64) >= 0 {
+			return uint64(value.(int64)) == uint64(proto.(uint64))
 		}
 
 	case "int64:uint":
-		if val.(int64) >= 0 {
-			return uint64(val.(int64)) == uint64(filterVal.(uint))
+		if value.(int64) >= 0 {
+			return uint64(value.(int64)) == uint64(proto.(uint))
 		}
 
 	// ...
 
 	case "int:uint8", "int:byte":
-		return val.(int) == int(filterVal.(uint8))
+		return value.(int) == int(proto.(uint8))
 
 	case "int:uint16":
-		return val.(int) == int(filterVal.(uint16))
+		return value.(int) == int(proto.(uint16))
 
 	case "int:uint32":
-		if val.(int) >= 0 {
-			return uint(val.(int)) == uint(filterVal.(uint32))
+		if value.(int) >= 0 {
+			return uint(value.(int)) == uint(proto.(uint32))
 		}
 
 	case "int:uint64":
-		if val.(int) >= 0 {
-			return uint64(val.(int)) == filterVal.(uint64)
+		if value.(int) >= 0 {
+			return uint64(value.(int)) == proto.(uint64)
 		}
 
 	case "int:uint":
-		if val.(int) >= 0 {
-			return uint(val.(int)) == filterVal.(uint)
+		if value.(int) >= 0 {
+			return uint(value.(int)) == proto.(uint)
 		}
 
 	// ...
 
 	case "rune:uint8", "rune:byte":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) == uint32(filterVal.(uint8))
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) == uint32(proto.(uint8))
 		}
 
 	case "rune:uint16":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) == uint32(filterVal.(uint16))
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) == uint32(proto.(uint16))
 		}
 
 	case "rune:uint32":
-		if val.(rune) >= 0 {
-			return uint32(val.(rune)) == filterVal.(uint32)
+		if value.(rune) >= 0 {
+			return uint32(value.(rune)) == proto.(uint32)
 		}
 
 	case "rune:uint64":
-		if val.(rune) >= 0 {
-			return uint64(val.(rune)) == filterVal.(uint64)
+		if value.(rune) >= 0 {
+			return uint64(value.(rune)) == proto.(uint64)
 		}
 
 	case "rune:uint":
-		if val.(rune) >= 0 {
-			return uint(val.(rune)) == filterVal.(uint)
+		if value.(rune) >= 0 {
+			return uint(value.(rune)) == proto.(uint)
 		}
 
 	// ............................................................
 	// uint
 
 	case "uint8:uint8", "uint8:byte", "byte:uint8", "byte:byte":
-		return val.(uint8) == filterVal.(uint8)
+		return value.(uint8) == proto.(uint8)
 
 	case "uint8:uint16", "byte:uint16":
-		return uint16(val.(uint8)) == filterVal.(uint16)
+		return uint16(value.(uint8)) == proto.(uint16)
 
 	case "uint8:uint32", "byte:uint32":
-		return uint32(val.(uint8)) == filterVal.(uint32)
+		return uint32(value.(uint8)) == proto.(uint32)
 
 	case "uint8:uint64", "byte:uint64":
-		return uint64(val.(uint8)) == filterVal.(uint64)
+		return uint64(value.(uint8)) == proto.(uint64)
 
 	case "uint8:uint", "byte:uint":
-		return uint(val.(uint8)) == filterVal.(uint)
+		return uint(value.(uint8)) == proto.(uint)
 
 	case "uint16:uint8", "uint16:byte":
-		return val.(uint16) == uint16(filterVal.(uint8))
+		return value.(uint16) == uint16(proto.(uint8))
 
 	case "uint16:uint16":
-		return val.(uint16) == filterVal.(uint16)
+		return value.(uint16) == proto.(uint16)
 	case "uint16:uint32":
-		return uint32(val.(uint16)) == filterVal.(uint32)
+		return uint32(value.(uint16)) == proto.(uint32)
 	case "uint16:uint64":
-		return uint64(val.(uint16)) == filterVal.(uint64)
+		return uint64(value.(uint16)) == proto.(uint64)
 	case "uint16:uint":
-		return uint(val.(uint16)) == filterVal.(uint)
+		return uint(value.(uint16)) == proto.(uint)
 
 	case "uint32:uint8", "uint32:byte":
-		return val.(uint32) == uint32(filterVal.(uint8))
+		return value.(uint32) == uint32(proto.(uint8))
 	case "uint32:uint16":
-		return val.(uint32) == uint32(filterVal.(uint16))
+		return value.(uint32) == uint32(proto.(uint16))
 	case "uint32:uint32":
-		return val.(uint32) == filterVal.(uint32)
+		return value.(uint32) == proto.(uint32)
 	case "uint32:uint64":
-		return uint64(val.(uint32)) == filterVal.(uint64)
+		return uint64(value.(uint32)) == proto.(uint64)
 	case "uint32:uint":
-		return uint(val.(uint32)) == filterVal.(uint)
+		return uint(value.(uint32)) == proto.(uint)
 
 	case "uint64:uint8", "uint64:byte":
-		return val.(uint64) == uint64(filterVal.(uint8))
+		return value.(uint64) == uint64(proto.(uint8))
 	case "uint64:uint16":
-		return val.(uint64) == uint64(filterVal.(uint16))
+		return value.(uint64) == uint64(proto.(uint16))
 	case "uint64:uint32":
-		return val.(uint64) == uint64(filterVal.(uint32))
+		return value.(uint64) == uint64(proto.(uint32))
 	case "uint64:uint64":
-		return val.(uint64) == filterVal.(uint64)
+		return value.(uint64) == proto.(uint64)
 	case "uint64:uint":
-		return val.(uint64) == uint64(filterVal.(uint))
+		return value.(uint64) == uint64(proto.(uint))
 
 	case "uint:uint8", "uint:byte":
-		return val.(uint) == uint(filterVal.(uint8))
+		return value.(uint) == uint(proto.(uint8))
 	case "uint:uint16":
-		return val.(uint) == uint(filterVal.(uint16))
+		return value.(uint) == uint(proto.(uint16))
 	case "uint:uint32":
-		return val.(uint) == uint(filterVal.(uint32))
+		return value.(uint) == uint(proto.(uint32))
 	case "uint:uint64":
-		return uint64(val.(uint)) == filterVal.(uint64)
+		return uint64(value.(uint)) == proto.(uint64)
 	case "uint:uint":
-		return val.(uint) == filterVal.(uint)
+		return value.(uint) == proto.(uint)
 
 	// ............................................................
 	// uint & int
 
 	case "uint8:int8", "byte:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint8) == uint8(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint8) == uint8(proto.(int8))
 		}
 
 	case "uint8:int16", "byte:int16":
-		return int16(val.(uint8)) == filterVal.(int16)
+		return int16(value.(uint8)) == proto.(int16)
 
 	case "uint8:int32", "uint8:rune", "byte:int32", "byte:rune":
-		return int32(val.(uint8)) == filterVal.(int32)
+		return int32(value.(uint8)) == proto.(int32)
 
 	case "uint8:int64", "byte:int64":
-		return int64(val.(uint8)) == filterVal.(int64)
+		return int64(value.(uint8)) == proto.(int64)
 
 	case "uint8:int", "byte:int":
-		return int(val.(uint8)) == filterVal.(int)
+		return int(value.(uint8)) == proto.(int)
 
 	// ...
 
 	case "uint16:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint16) == uint16(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint16) == uint16(proto.(int8))
 		}
 
 	case "uint16:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint16) == uint16(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint16) == uint16(proto.(int16))
 		}
 
 	case "uint16:int32", "uint16:rune":
-		return int32(val.(uint16)) == filterVal.(int32)
+		return int32(value.(uint16)) == proto.(int32)
 
 	case "uint16:int64":
-		return int64(val.(uint16)) == filterVal.(int64)
+		return int64(value.(uint16)) == proto.(int64)
 
 	case "uint16:int":
-		return int(val.(uint16)) == filterVal.(int)
+		return int(value.(uint16)) == proto.(int)
 
 	// ...
 
 	case "uint32:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint32) == uint32(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint32) == uint32(proto.(int8))
 		}
 
 	case "uint32:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint32) == uint32(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint32) == uint32(proto.(int16))
 		}
 
 	case "uint32:int32", "uint32:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint32) == uint32(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint32) == uint32(proto.(int32))
 		}
 
 	case "uint32:int64":
-		return int64(val.(uint32)) == filterVal.(int64)
+		return int64(value.(uint32)) == proto.(int64)
 
 	case "uint32:int":
-		return int64(val.(uint32)) == int64(filterVal.(int))
+		return int64(value.(uint32)) == int64(proto.(int))
 
 	// ...
 
 	case "uint64:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint64) == uint64(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint64) == uint64(proto.(int8))
 		}
 
 	case "uint64:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint64) == uint64(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint64) == uint64(proto.(int16))
 		}
 
 	case "uint64:int32", "uint64:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint64) == uint64(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint64) == uint64(proto.(int32))
 		}
 
 	case "uint64:int64":
-		if filterVal.(int64) >= 0 {
-			return val.(uint64) == uint64(filterVal.(int64))
+		if proto.(int64) >= 0 {
+			return value.(uint64) == uint64(proto.(int64))
 		}
 
 	case "uint64:int":
-		if filterVal.(int) >= 0 {
-			return val.(uint64) == uint64(filterVal.(int))
+		if proto.(int) >= 0 {
+			return value.(uint64) == uint64(proto.(int))
 		}
 
 	// ...
 
 	case "uint:int8":
-		if filterVal.(int8) >= 0 {
-			return val.(uint) == uint(filterVal.(int8))
+		if proto.(int8) >= 0 {
+			return value.(uint) == uint(proto.(int8))
 		}
 
 	case "uint:int16":
-		if filterVal.(int16) >= 0 {
-			return val.(uint) == uint(filterVal.(int16))
+		if proto.(int16) >= 0 {
+			return value.(uint) == uint(proto.(int16))
 		}
 
 	case "uint:int32", "uint:rune":
-		if filterVal.(int32) >= 0 {
-			return val.(uint) == uint(filterVal.(int32))
+		if proto.(int32) >= 0 {
+			return value.(uint) == uint(proto.(int32))
 		}
 
 	case "uint:int64":
-		if filterVal.(int64) >= 0 {
-			return uint64(val.(uint)) == uint64(filterVal.(int64))
+		if proto.(int64) >= 0 {
+			return uint64(value.(uint)) == uint64(proto.(int64))
 		}
 
 	case "uint:int":
-		if filterVal.(int) >= 0 {
-			return val.(uint) == uint(filterVal.(int))
+		if proto.(int) >= 0 {
+			return value.(uint) == uint(proto.(int))
 		}
 
 	}
