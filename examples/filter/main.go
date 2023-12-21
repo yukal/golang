@@ -98,7 +98,7 @@ func main() {
 		{
 			// This rule is useful in cases where the count of optional elements prevails
 			// and you do not know exactly which will be filled (non-zero).
-			// this rule useful at the last position of validation rules
+			// It should be at the last position of the validation rules
 			Check: validation.Rule{"min-fields", 2},
 		},
 	}
