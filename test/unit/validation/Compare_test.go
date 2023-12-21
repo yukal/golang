@@ -1,67 +1,61 @@
 package test
 
 import (
+	"reflect"
 	"testing"
 	"yu/golang/pkg/validation"
 )
 
 func TestCompare(t *testing.T) {
+	var (
+		strEmpty    = ""
+		strFilled   = "love"
+		arrEmpty    = [0]string{}
+		arrFilled   = [4]string{"c", "o", "d", "e"}
+		sliceEmpty  = []string{}
+		sliceFilled = []string{"t", "e", "s", "t"}
+		mapEmpty    = map[string]string{}
+		mapFilled   = map[string]string{
+			"i": "val1",
+			"t": "val2",
+			"e": "val3",
+			"m": "val3",
+		}
+	)
+
 	t.Run("eq", func(t *testing.T) {
 
 		t.Run("numeric", func(t *testing.T) {
-			t.Run("IsEqual(0,-1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("IsEqual(4,-4)", func(t *testing.T) {
+				const expect = "must be exactly 4"
 
-				if res := validation.Compare("eq", 0, -1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(-4)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("IsEqual(0,0)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("IsEqual(4,4)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("eq", 0, 0); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(4)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("IsEqual(0,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("IsEqual(4,8)", func(t *testing.T) {
+				const expect = "must be exactly 4"
 
-				if res := validation.Compare("eq", 0, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(8)
 
-			// ......................
-
-			t.Run("IsEqual(1,-1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
-
-				if res := validation.Compare("eq", 1, -1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
-
-			t.Run("IsEqual(1,0)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
-
-				if res := validation.Compare("eq", 1, 0); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
-
-			t.Run("IsEqual(1,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("eq", 1, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -69,42 +63,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("array", func(t *testing.T) {
-			var arrEmpty [0]string
-			var arrFilled [1]string
-
 			t.Run("IsEqual(0,arrEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("eq", 0, arrEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("IsEqual(4,arrEmpty)", func(t *testing.T) {
+				const expect = "must contain exactly 4 items"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("IsEqual(0,arrFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain exactly 0 items"
 
-				if res := validation.Compare("eq", 0, arrFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrFilled)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("IsEqual(1,arrEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("IsEqual(4,arrFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("eq", 1, arrEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrFilled)
 
-			t.Run("IsEqual(1,arrFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("eq", 1, arrFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -112,42 +111,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("slice", func(t *testing.T) {
-			sliceEmpty := []string{}
-			sliceFilled := []string{"1"}
-
 			t.Run("IsEqual(0,sliceEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("eq", 0, sliceEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("IsEqual(4,sliceEmpty)", func(t *testing.T) {
+				const expect = "must contain exactly 4 items"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("IsEqual(0,sliceFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain exactly 0 items"
 
-				if res := validation.Compare("eq", 0, sliceFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceFilled)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("IsEqual(1,sliceEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("IsEqual(4,sliceFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("eq", 1, sliceEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceFilled)
 
-			t.Run("IsEqual(1,sliceFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("eq", 1, sliceFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -155,42 +159,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("map", func(t *testing.T) {
-			mapEmpty := map[string]string{}
-			mapFilled := map[string]string{"item": "val"}
-
 			t.Run("IsEqual(0,mapEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("eq", 0, mapEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("IsEqual(4,mapEmpty)", func(t *testing.T) {
+				const expect = "must contain exactly 4 items"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("IsEqual(0,mapFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain exactly 0 items"
 
-				if res := validation.Compare("eq", 0, mapFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapFilled)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("IsEqual(1,mapEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("IsEqual(4,mapFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("eq", 1, mapEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapFilled)
 
-			t.Run("IsEqual(1,mapFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("eq", 1, mapFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -198,42 +207,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("string", func(t *testing.T) {
-			strEmpty := ""
-			strFilled := "a"
-
 			t.Run("IsEqual(0,strEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("eq", 0, strEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("IsEqual(4,strEmpty)", func(t *testing.T) {
+				const expect = "must contain exactly 4 characters"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strEmpty)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("IsEqual(0,strFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain exactly 0 characters"
 
-				if res := validation.Compare("eq", 0, strFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strFilled)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("IsEqual(1,strEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("IsEqual(4,strFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("eq", 1, strEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strFilled)
 
-			t.Run("IsEqual(1,strFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("eq", 1, strFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -242,29 +256,35 @@ func TestCompare(t *testing.T) {
 
 		t.Run("emptiness", func(t *testing.T) {
 			t.Run("IsEqual(nil,nil)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("eq", nil, nil); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(nil)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("IsEqual(1,nil)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("eq", 1, nil); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(1)
+				value := reflect.ValueOf(nil)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("IsEqual(nil,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("eq", nil, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(1)
+
+				if res := validation.Compare("eq", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -273,59 +293,36 @@ func TestCompare(t *testing.T) {
 	t.Run("max", func(t *testing.T) {
 
 		t.Run("numeric", func(t *testing.T) {
-			t.Run("max(0,-1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("max(4,-4)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("max", 0, -1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(-4)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("max(0,0)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("max(4,4)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("max", 0, 0); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(4)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("max(0,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("max(4,8)", func(t *testing.T) {
+				const expect = "must be up to 4"
 
-				if res := validation.Compare("max", 0, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(8)
 
-			// ......................
-
-			t.Run("max(1,-1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, -1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
-
-			t.Run("max(1,0)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, 0); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
-
-			t.Run("max(1,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -333,42 +330,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("array", func(t *testing.T) {
-			var arrEmpty [0]string
-			var arrFilled [1]string
-
 			t.Run("max(0,arrEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("max", 0, arrEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("max(4,arrEmpty)", func(t *testing.T) {
+				const expect = ""
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("max(0,arrFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain up to 0 items"
 
-				if res := validation.Compare("max", 0, arrFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrFilled)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("max(1,arrEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("max(4,arrFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("max", 1, arrEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrFilled)
 
-			t.Run("max(1,arrFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, arrFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -376,42 +378,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("slice", func(t *testing.T) {
-			sliceEmpty := []string{}
-			sliceFilled := []string{"1"}
-
 			t.Run("max(0,sliceEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("max", 0, sliceEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("max(4,sliceEmpty)", func(t *testing.T) {
+				const expect = ""
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("max(0,sliceFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain up to 0 items"
 
-				if res := validation.Compare("max", 0, sliceFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceFilled)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("max(1,sliceEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("max(4,sliceFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("max", 1, sliceEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceFilled)
 
-			t.Run("max(1,sliceFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, sliceFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -419,42 +426,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("map", func(t *testing.T) {
-			mapEmpty := map[string]string{}
-			mapFilled := map[string]string{"item": "val"}
-
 			t.Run("max(0,mapEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("max", 0, mapEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("max(4,mapEmpty)", func(t *testing.T) {
+				const expect = ""
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("max(0,mapFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain up to 0 items"
 
-				if res := validation.Compare("max", 0, mapFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapFilled)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("max(1,mapEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("max(4,mapFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("max", 1, mapEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapFilled)
 
-			t.Run("max(1,mapFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, mapFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -462,42 +474,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("string", func(t *testing.T) {
-			strEmpty := ""
-			strFilled := "a"
-
 			t.Run("max(0,strEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("max", 0, strEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("max(4,strEmpty)", func(t *testing.T) {
+				const expect = ""
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strEmpty)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("max(0,strFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = "must contain up to 0 characters"
 
-				if res := validation.Compare("max", 0, strFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strFilled)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("max(1,strEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("max(4,strFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("max", 1, strEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strFilled)
 
-			t.Run("max(1,strFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("max", 1, strFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -506,29 +523,35 @@ func TestCompare(t *testing.T) {
 
 		t.Run("emptiness", func(t *testing.T) {
 			t.Run("max(nil,nil)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("max", nil, nil); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(nil)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("max(1,nil)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("max", 1, nil); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(1)
+				value := reflect.ValueOf(nil)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("max(nil,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("max", nil, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(1)
+
+				if res := validation.Compare("max", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -536,61 +559,37 @@ func TestCompare(t *testing.T) {
 	})
 
 	t.Run("min", func(t *testing.T) {
-
 		t.Run("numeric", func(t *testing.T) {
-			t.Run("min(0,-1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("min(4,-4)", func(t *testing.T) {
+				const expect = "must be at least 4"
 
-				if res := validation.Compare("min", 0, -1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(-4)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("min(0,0)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("min(4,4)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("min", 0, 0); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(4)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("min(0,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+			t.Run("min(4,8)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("min", 0, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(8)
 
-			// ......................
-
-			t.Run("min(1,-1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
-
-				if res := validation.Compare("min", 1, -1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
-
-			t.Run("min(1,0)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
-
-				if res := validation.Compare("min", 1, 0); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
-
-			t.Run("min(1,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("min", 1, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -598,42 +597,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("array", func(t *testing.T) {
-			var arrEmpty [0]string
-			var arrFilled [1]string
-
 			t.Run("min(0,arrEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, arrEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("min(4,arrEmpty)", func(t *testing.T) {
+				const expect = "must contain at least 4 items"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("min(0,arrFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, arrFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrFilled)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("min(1,arrEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("min(4,arrFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("min", 1, arrEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrFilled)
 
-			t.Run("min(1,arrFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("min", 1, arrFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -641,42 +645,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("slice", func(t *testing.T) {
-			sliceEmpty := []string{}
-			sliceFilled := []string{"1"}
-
 			t.Run("min(0,sliceEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, sliceEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("min(4,sliceEmpty)", func(t *testing.T) {
+				const expect = "must contain at least 4 items"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("min(0,sliceFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, sliceFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceFilled)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("min(1,sliceEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("min(4,sliceFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("min", 1, sliceEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceFilled)
 
-			t.Run("min(1,sliceFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("min", 1, sliceFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -684,42 +693,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("map", func(t *testing.T) {
-			mapEmpty := map[string]string{}
-			mapFilled := map[string]string{"item": "val"}
-
 			t.Run("min(0,mapEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, mapEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("min(4,mapEmpty)", func(t *testing.T) {
+				const expect = "must contain at least 4 items"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("min(0,mapFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, mapFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapFilled)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("min(1,mapEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("min(4,mapFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("min", 1, mapEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapFilled)
 
-			t.Run("min(1,mapFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("min", 1, mapFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -727,42 +741,47 @@ func TestCompare(t *testing.T) {
 		// ...
 
 		t.Run("string", func(t *testing.T) {
-			strEmpty := ""
-			strFilled := "val"
-
 			t.Run("min(0,strEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, strEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
+				}
+			})
+
+			t.Run("min(4,strEmpty)", func(t *testing.T) {
+				const expect = "must contain at least 4 characters"
+
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strEmpty)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("min(0,strFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
+				const expect = ""
 
-				if res := validation.Compare("min", 0, strFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strFilled)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
-			t.Run("min(1,strEmpty)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+			t.Run("min(4,strFilled)", func(t *testing.T) {
+				const expect = ""
 
-				if res := validation.Compare("min", 1, strEmpty); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-				}
-			})
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strFilled)
 
-			t.Run("min(1,strFilled)", func(t *testing.T) {
-				t.Parallel()
-				const expect = true
-
-				if res := validation.Compare("min", 1, strFilled); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
@@ -771,33 +790,38 @@ func TestCompare(t *testing.T) {
 
 		t.Run("emptiness", func(t *testing.T) {
 			t.Run("min(nil,nil)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("min", nil, nil); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(nil)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("min(1,nil)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("min", 1, nil); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(1)
+				value := reflect.ValueOf(nil)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 
 			t.Run("min(nil,1)", func(t *testing.T) {
-				t.Parallel()
-				const expect = false
+				const expect = ""
 
-				if res := validation.Compare("min", nil, 1); res != expect {
-					t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(1)
+
+				if res := validation.Compare("min", proto, value); res != expect {
+					t.Errorf("Expect( %v ) => Got( %v )", expect, res)
 				}
 			})
 		})
-
 	})
 
 }
