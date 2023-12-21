@@ -10,25 +10,26 @@ import (
 )
 
 type Article struct {
-	Id       uint64
-	RegionId uint8
-	Hash     string
-	Link     string
-	Title    string
-	Message  string
-	Sex      uint8
-	Age      uint8
-	Height   uint16
-	Weight   uint16
-	Images   []string
-	Phones   []string
-	Date     time.Time
+	Id       uint64    `json:"id"`
+	RegionId uint8     `json:"regionId"`
+	Hash     string    `json:"hash"`
+	Link     string    `json:"link"`
+	Title    string    `json:"title"`
+	Message  string    `json:"message"`
+	Sex      uint8     `json:"sex"`
+	Age      uint8     `json:"age"`
+	Height   uint16    `json:"height"`
+	Weight   uint16    `json:"weight"`
+	Images   []string  `json:"images"`
+	Phones   []string  `json:"phones"`
+	Date     time.Time `json:"date"`
 }
 
 func main() {
 	filter := validation.Filter{
 		{
 			Field: "Id",
+			// means the initial value for each type, e.g. string(""), int(0)
 			Check: validation.NON_ZERO,
 		},
 		{
@@ -45,6 +46,7 @@ func main() {
 		},
 		{
 			Field: "Title",
+			// the range for string type means the length in a range of n1..n2
 			Check: validation.Range{5, 25},
 		},
 		{
@@ -73,7 +75,9 @@ func main() {
 		{
 			Field: "Images",
 			Check: validation.Group{
+				// at least 1 item in a collection
 				validation.Rule{"min", 1},
+				// each must match the regex mask
 				validation.Rule{"matchEach", `(?i)[0-9a-f]{32}\.(?:png|jpe?g)$`},
 			},
 		},
@@ -88,7 +92,14 @@ func main() {
 		},
 		{
 			Field: "Date",
+			// must contain exactly 2024 year
 			Check: validation.Rule{"year", 2024},
+		},
+		{
+			// This rule is useful in cases where the count of optional elements prevails
+			// and you do not know exactly which will be filled (non-zero).
+			// this rule useful at the last position of validation rules
+			Check: validation.Rule{"min-fields", 2},
 		},
 	}
 
