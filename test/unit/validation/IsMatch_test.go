@@ -3,65 +3,46 @@ package test
 import (
 	"testing"
 	"yu/golang/pkg/validation"
+
+	. "github.com/franela/goblin"
 )
 
 func TestIsMatch(t *testing.T) {
+	g := Goblin(t)
 
-	t.Run("IsMatch(hexadecimal,hex)", func(t *testing.T) {
-		const expect = true
+	g.Describe("IsMatch", func() {
+		g.It("success when value match the mask", func() {
+			result := validation.IsMatch(
+				`(?i)^[0-9a-f]{32}$`,
+				"b0fb0c19711bcf3b73f41c909f66bded")
 
-		reg := `(?i)^[0-9a-f]{32}$`
-		val := "b0fb0c19711bcf3b73f41c909f66bded"
-
-		if res := validation.IsMatch(reg, val); res != expect {
-			t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-		}
-	})
-
-	t.Run("IsMatch(hexadecimal,non-hex)", func(t *testing.T) {
-		const expect = false
-
-		reg := `(?i)^[0-9a-f]{32}$`
-		val := "Z0fz0c19711bcf3b73f41c909f66bded"
-
-		if res := validation.IsMatch(reg, val); res != expect {
-			t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-		}
-	})
-
-	// ...
-
-	t.Run("emptiness", func(t *testing.T) {
-		t.Run("IsMatch(nil,nil)", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsMatch(nil, nil); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			g.Assert(result).IsTrue()
 		})
 
-		t.Run("IsMatch(nil,emptyStr)", func(t *testing.T) {
-			const expect = false
+		g.It("failure when a value does not match the mask", func() {
+			result := validation.IsMatch(
+				`(?i)^[0-9a-f]{32}$`,
+				"Z0fz0c19711bcf3b73f41c909f66bded")
 
-			if res := validation.IsMatch(nil, ""); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			g.Assert(result).IsFalse()
 		})
 
-		t.Run("IsMatch(emptyStr,nil)", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsMatch("", nil); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+		g.It("success when given an empty mask", func() {
+			result := validation.IsMatch("", "abra")
+			g.Assert(result).IsTrue()
 		})
 
-		t.Run("IsMatch(emptyStr,emptyStr)", func(t *testing.T) {
-			const expect = true
+		g.It("failure when given nil instead of mask", func() {
+			result := validation.IsEachMatches(nil, "cadabra")
+			g.Assert(result).IsFalse()
+		})
 
-			if res := validation.IsMatch("", ""); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+		g.It(`failure when given args: ("", nil)`, func() {
+			g.Assert(validation.IsMatch("", nil)).IsFalse()
+		})
+
+		g.It(`failure when given args: (nil, nil)`, func() {
+			g.Assert(validation.IsMatch(nil, nil)).IsFalse()
 		})
 	})
 

@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+const WRONG_LENGTH = "unexpected length"
+
 func ConvertToJson(data any) (string, error) {
 	bytes, err := json.Marshal(data)
 

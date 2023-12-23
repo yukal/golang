@@ -3,199 +3,141 @@ package test
 import (
 	"testing"
 	"yu/golang/pkg/validation"
+
+	. "github.com/franela/goblin"
 )
 
 func TestIsEachMatches(t *testing.T) {
+	g := Goblin(t)
 
-	// TODO: check chan (channels)
-	t.Run("FilledSlice", func(t *testing.T) {
-		const expect = true
+	// TODO: check channels
 
+	g.Describe("slice", func() {
 		reg := `(?i)^[0-9a-f]{32}$`
-		data := []string{"b0fb0c19711bcf3b73f41c909f66bded"}
 
-		if res := validation.IsEachMatches(reg, data); res != expect {
-			t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-		}
+		g.It("success when values match the mask", func() {
+			result := validation.IsEachMatches(reg, []string{
+				"b0fb0c19711bcf3b73f41c909f66bded",
+				"f41c909f66bdedb0fb0c19711bcf3b73",
+			})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("success when given an empty slice", func() {
+			result := validation.IsEachMatches(reg, []string{
+				// empty
+			})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It(`success when given an empty mask`, func() {
+			result := validation.IsEachMatches(``, []string{"str"})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("failure when given nil instead of mask", func() {
+			result := validation.IsEachMatches(nil, []string{})
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when at least 1 value does not match", func() {
+			result := validation.IsEachMatches(reg, []string{
+				"b0fb0c19711bcf3b73f41c909f66bded",
+				"zzz",
+			})
+			g.Assert(result).IsFalse()
+		})
+
 	})
 
-	t.Run("FilledArray", func(t *testing.T) {
-		const expect = true
-
+	g.Describe("array", func() {
 		reg := `^38[0-9]{10}$`
-		data := [1]string{"380001234567"}
 
-		if res := validation.IsEachMatches(reg, data); res != expect {
-			t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-		}
+		g.It("success when values match the mask", func() {
+			result := validation.IsEachMatches(reg, [2]string{
+				"380001234567",
+				"380007654321",
+			})
+
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("success when given an empty array", func() {
+			result := validation.IsEachMatches(reg, [0]string{
+				// empty
+			})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It(`success when given an empty mask`, func() {
+			result := validation.IsEachMatches(``, [1]string{"str"})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("failure when given nil instead of mask", func() {
+			result := validation.IsEachMatches(nil, [0]string{})
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when at least 1 value does not match", func() {
+			result := validation.IsEachMatches(reg, []string{
+				"380001234567",
+				"0001234567",
+			})
+			g.Assert(result).IsFalse()
+		})
+
 	})
 
-	t.Run("FilledMap", func(t *testing.T) {
-		const expect = true
-
+	g.Describe("map", func() {
 		reg := `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`
-		data := map[string]string{
-			"img1": "https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
-			"img2": "https://img.domain.com/4792592a98f8b9143de71d1db403d163.jpg",
-			"img3": "https://img.domain.com/92f2b876b8ea94f711d2173539e73802.png",
-		}
 
-		if res := validation.IsEachMatches(reg, data); res != expect {
-			t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-		}
+		g.It("success when values match the mask", func() {
+			result := validation.IsEachMatches(reg, map[string]string{
+				"img1": "https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
+				"img2": "https://img.domain.com/4792592a98f8b9143de71d1db403d163.jpg",
+				"img3": "https://img.domain.com/92f2b876b8ea94f711d2173539e73802.png",
+			})
+
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("success when given an empty map", func() {
+			result := validation.IsEachMatches(reg, map[string]string{
+				// empty
+			})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It(`success when given an empty mask`, func() {
+			result := validation.IsEachMatches(``, map[string]string{"k": "v"})
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("failure when given nil instead of mask", func() {
+			result := validation.IsEachMatches(nil, map[string]string{})
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when at least 1 value does not match", func() {
+			result := validation.IsEachMatches(reg, map[string]string{
+				"img1": "https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
+				"img2": "https://hack.it/animation.gif",
+			})
+			g.Assert(result).IsFalse()
+		})
+
 	})
 
-	// ...
-
-	t.Run("emptiness", func(t *testing.T) {
-		t.Run("nil_&_nil", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsEachMatches(nil, nil); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+	g.Describe("emptiness", func() {
+		g.It(`failure when given args: ("", nil)`, func() {
+			result := validation.IsEachMatches(``, nil)
+			g.Assert(result).IsFalse()
 		})
 
-		t.Run("nil_&_EmptySlice", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsEachMatches(nil, []string{}); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("nil_&_EmptyArray)", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsEachMatches(nil, [0]string{}); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("nil_&_EmptyMap)", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsEachMatches(nil, map[string]string{}); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("EmptyRegex_&_nil", func(t *testing.T) {
-			const expect = false
-
-			if res := validation.IsEachMatches(``, nil); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		// ...
-
-		t.Run("EmptyRegex_&_EmptySlice)", func(t *testing.T) {
-			const expect = true
-
-			reg := ``
-			data := []string{}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("EmptyRegex_&_EmptyArray", func(t *testing.T) {
-			const expect = true
-
-			reg := ``
-			data := [0]string{}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("EmptyRegex_&_EmptyMap", func(t *testing.T) {
-			const expect = true
-
-			reg := ``
-			data := map[string]string{}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		// ...
-
-		t.Run("EmptyRegex_&_FilledSlice", func(t *testing.T) {
-			const expect = true
-
-			reg := ``
-			data := []string{"str"}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("EmptyRegex_&_FilledArray)", func(t *testing.T) {
-			const expect = true
-
-			reg := ``
-			data := [1]string{"str"}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("EmptyRegex_&_FilledMap)", func(t *testing.T) {
-			const expect = true
-
-			reg := ``
-			data := map[string]string{"key": "val"}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		// ...
-
-		t.Run("FilledRegex_&_EmptyData", func(t *testing.T) {
-			const expect = false
-
-			reg := `(?i)^[0-9a-f]{32}$`
-			data := []string{""}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("FilledRegex_&_EmptyData)", func(t *testing.T) {
-			const expect = false
-
-			reg := `^38[0-9]{10}$`
-			data := [1]string{""}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("FilledRegex_&_EmptyData)", func(t *testing.T) {
-			const expect = false
-
-			reg := `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`
-			data := map[string]string{
-				"img1": "",
-				"img2": "",
-				"img3": "",
-			}
-
-			if res := validation.IsEachMatches(reg, data); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+		g.It("failure when given args: (nil, nil)", func() {
+			result := validation.IsEachMatches(nil, nil)
+			g.Assert(result).IsFalse()
 		})
 	})
-
 }

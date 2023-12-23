@@ -1,162 +1,176 @@
 package test
 
 import (
-	"fmt"
-	"strings"
 	"testing"
 	"time"
-	"yu/golang/internal/app"
 	"yu/golang/pkg/validation"
+	"yu/golang/test"
+
+	. "github.com/franela/goblin"
 )
 
 func TestValidate(t *testing.T) {
 	type Article struct {
-		Id       uint64
-		RegionId uint8
-		Hash     string
-		Link     string
-		Title    string
-		Message  string
-		Sex      uint8
-		Age      uint8
-		Height   uint16
-		Weight   uint16
+		Id       uint64 `json:"id"`
+		RegionId uint8  `json:"regionId"`
+		Hash     string `json:"hash"`
+		Link     string `json:"link"`
+		Title    string `json:"title"`
+		Message  string `json:"message"`
+		Sex      uint8  `json:"sex"`
+		Age      uint8  `json:"age"`
+		Height   uint16 `json:"height"`
+		Weight   uint16 `json:"weight"`
 
-		Images []string
-		Phones []string
+		Images []string `json:"images"`
+		Phones []string `json:"phones"`
 
-		EmptyArr  [0]string
-		FilledArr [3]string
+		EmptyArr  [0]string `json:"emptyArr"`
+		FilledArr [3]string `json:"filledArr"`
 
-		Map map[string]string
+		Map map[string]string `json:"map"`
 
-		Date time.Time
+		Date time.Time `json:"date"`
 	}
 
-	// TODO: Write tests using other validation rules
+	g := Goblin(t)
 
-	t.Run("range", func(t *testing.T) {
-		filter := validation.Filter{
-			{
-				Field: "RegionId",
-				Check: validation.Range{1, 25},
-			},
-		}
+	g.Describe("Range (string)", func() {
+		g.It("success when given value within the range", func() {
+			filter := validation.Filter{
+				{
+					Field: "Title",
+					Check: validation.Range{10, 20},
+				},
+			}
 
-		t.Run("string", func(t *testing.T) {
-			t.Run("success within range", func(t *testing.T) {
-				expect := []string{}
-
-				filter := validation.Filter{
-					{
-						Field: "Title",
-						Check: validation.Range{10, 20},
-					},
-				}
-
-				hints := filter.Validate(Article{
-					Title: "love is...",
-				})
-
-				if diffs := app.SliceDifference(hints, expect); len(diffs) > 0 {
-					t.Errorf("Expect( %v ) => Got( %v )", expect, diffs)
-				}
+			hints := filter.Validate(Article{
+				Title: "love is...",
 			})
 
-			t.Run("fail with short text", func(t *testing.T) {
-				expect := []string{"Title must contain 8..16 characters"}
-
-				filter := validation.Filter{
-					{
-						Field: "Title",
-						Check: validation.Range{8, 16},
-					},
-				}
-
-				hints := filter.Validate(Article{
-					Title: "smile",
-				})
-
-				if diffs := app.SliceDifference(hints, expect); len(diffs) > 0 {
-					t.Errorf("Expect( %v ) => Got( %v )", expect, diffs)
-				}
-			})
-
-			t.Run("fail with long text", func(t *testing.T) {
-				expect := []string{"Title must contain 5..15 characters"}
-
-				filter := validation.Filter{
-					{
-						Field: "Title",
-						Check: validation.Range{5, 15},
-					},
-				}
-
-				hints := filter.Validate(Article{
-					Title: "somebody to love",
-				})
-
-				if diffs := app.SliceDifference(hints, expect); len(diffs) > 0 {
-					t.Errorf("Expect( %v ) => Got( %v )", expect, diffs)
-				}
-			})
+			g.Assert(len(hints)).Equal(0, test.WRONG_LENGTH)
 		})
 
-		t.Run("int", func(t *testing.T) {
-			t.Run("success on first pos", func(t *testing.T) {
-				article := Article{RegionId: 1}
+		g.It("failure when given too-short text", func() {
+			const expect = "title must contain 8..16 characters"
 
-				if hints := filter.Validate(article); len(hints) > 0 {
-					t.Error(strings.Join(hints, ",\n"))
-				}
+			filter := validation.Filter{
+				{
+					Field: "Title",
+					Check: validation.Range{8, 16},
+				},
+			}
+
+			hints := filter.Validate(Article{
+				Title: "smile",
 			})
 
-			t.Run("success on last pos", func(t *testing.T) {
-				article := Article{RegionId: 25}
+			g.Assert(len(hints)).Equal(1, test.WRONG_LENGTH)
+			g.Assert(hints[0]).Equal(expect)
+		})
 
-				if hints := filter.Validate(article); len(hints) > 0 {
-					t.Error(strings.Join(hints, ",\n"))
-				}
+		g.It("failure when given too-long text", func() {
+			const expect = "title must contain 5..15 characters"
+
+			filter := validation.Filter{
+				{
+					Field: "Title",
+					Check: validation.Range{5, 15},
+				},
+			}
+
+			hints := filter.Validate(Article{
+				Title: "somebody to love",
 			})
 
-			t.Run("fail on below the permissible limit", func(t *testing.T) {
-				expect := []string{"RegionId must be in the range 1..25"}
-
-				hints := filter.Validate(Article{
-					RegionId: 0,
-				})
-
-				if diffs := app.SliceDifference(hints, expect); len(diffs) > 0 {
-					t.Errorf("Expect( %v ) => Got( %v )", expect, diffs)
-				}
-			})
-
-			t.Run("fail on above the permissible limit", func(t *testing.T) {
-				expect := []string{"RegionId must be in the range 1..25"}
-
-				hints := filter.Validate(Article{
-					RegionId: 26,
-				})
-
-				if diffs := app.SliceDifference(hints, expect); len(diffs) > 0 {
-					t.Errorf("Expect( %v ) => Got( %v )", expect, diffs)
-				}
-			})
+			g.Assert(len(hints)).Equal(1, test.WRONG_LENGTH)
+			g.Assert(hints[0]).Equal(expect)
 		})
 	})
 
-	t.Run("year", func(t *testing.T) {
-		t.Run("same", func(t *testing.T) {
-			var (
-				tm  time.Time
-				err error
-			)
-
-			if tm, err = time.Parse(time.RFC3339, "2006-01-02T15:04:05Z"); err != nil {
-				t.Error(err)
+	g.Describe("Range (integer)", func() {
+		g.It("success when given value within the range", func() {
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
 			}
 
-			article := Article{Date: tm}
+			hints := filter.Validate(Article{
+				RegionId: 15,
+			})
+
+			g.Assert(len(hints)).Equal(0, test.WRONG_LENGTH)
+		})
+
+		g.It("success when given an empty filter", func() {
+			filter := validation.Filter{}
+			hints := filter.Validate(Article{
+				RegionId: 15,
+			})
+
+			g.Assert(len(hints)).Equal(0, test.WRONG_LENGTH)
+		})
+
+		g.It("failure when given an empty data", func() {
+			const expect = "regionId must be in the range 1..25"
+
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			hints := filter.Validate(Article{})
+
+			g.Assert(len(hints)).Equal(1, test.WRONG_LENGTH)
+			g.Assert(hints[0]).Equal(expect)
+		})
+
+		g.It("failure when sending below-range value", func() {
+			const expect = "regionId must be in the range 1..25"
+
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			hints := filter.Validate(Article{
+				RegionId: 0,
+			})
+
+			g.Assert(len(hints)).Equal(1, test.WRONG_LENGTH)
+			g.Assert(hints[0]).Equal(expect)
+		})
+
+		g.It("failure when sending above-range value", func() {
+			const expect = "regionId must be in the range 1..25"
+
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			hints := filter.Validate(Article{
+				RegionId: 26,
+			})
+
+			g.Assert(len(hints)).Equal(1, test.WRONG_LENGTH)
+			g.Assert(hints[0]).Equal(expect)
+		})
+	})
+
+	g.Describe("Rule (year)", func() {
+		g.It("success when the value match", func() {
+			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+			g.Assert(err).IsNil(err)
+
 			filter := validation.Filter{
 				{
 					Field: "Date",
@@ -164,72 +178,60 @@ func TestValidate(t *testing.T) {
 				},
 			}
 
-			if hints := filter.Validate(article); len(hints) > 0 {
-				t.Error(strings.Join(hints, ",\n"))
-			}
+			hints := filter.Validate(Article{
+				Date: tm,
+			})
+
+			g.Assert(len(hints)).Equal(0, test.WRONG_LENGTH)
 		})
 
-		t.Run("diff", func(t *testing.T) {
-			var (
-				expectMsg = fmt.Sprintf("Date "+validation.MsgEq, 2024)
-				tm        time.Time
-				err       error
-			)
+		g.It("success when given an empty filter", func() {
+			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+			g.Assert(err).IsNil(err)
 
-			if tm, err = time.Parse(time.RFC3339, "2006-01-02T15:04:05Z"); err != nil {
-				t.Error(err)
-			}
-
-			article := &Article{Date: tm}
-			filter := validation.Filter{
-				{
-					Field: "Date",
-					Check: validation.Rule{"year", 2024},
-				},
-			}
-
-			if hints := filter.Validate(article); len(hints) > 0 {
-				if hints[0] != expectMsg {
-					t.Errorf("Expect( %v ) => Got( %v )", expectMsg, hints[0])
-				}
-			}
-		})
-
-		t.Run("empty_data", func(t *testing.T) {
-			expectMsg := fmt.Sprintf("Date "+validation.MsgEq, 2024)
-
-			article := &Article{}
-			filter := validation.Filter{
-				{
-					Field: "Date",
-					Check: validation.Rule{"year", 2024},
-				},
-			}
-
-			if hints := filter.Validate(article); len(hints) > 0 {
-				if hints[0] != expectMsg {
-					t.Errorf("Expect( %v ) => Got( %v )", expectMsg, hints[0])
-				}
-			}
-		})
-
-		t.Run("empty_filter", func(t *testing.T) {
-			var (
-				expectHints = 0
-				tm          time.Time
-				err         error
-			)
-
-			if tm, err = time.Parse(time.RFC3339, "2006-01-02T15:04:05Z"); err != nil {
-				t.Error(err)
-			}
-
-			article := &Article{Date: tm}
 			filter := validation.Filter{}
+			hints := filter.Validate(Article{
+				Date: tm,
+			})
 
-			if hints := filter.Validate(article); len(hints) > expectHints {
-				t.Errorf("Expect( %v ) => Got( %v )", expectHints, len(hints))
+			g.Assert(len(hints)).Equal(0, test.WRONG_LENGTH)
+		})
+
+		g.It("failure when given an empty data", func() {
+			const expect = "date must be exactly 2024"
+
+			filter := validation.Filter{
+				{
+					Field: "Date",
+					Check: validation.Rule{"year", 2024},
+				},
 			}
+
+			hints := filter.Validate(Article{})
+
+			g.Assert(len(hints)).Equal(1)
+			g.Assert(hints[0]).Equal(expect)
+		})
+
+		g.It("failure when the value is not match", func() {
+			const expect = "date must be exactly 2024"
+
+			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+			g.Assert(err).IsNil(err)
+
+			filter := validation.Filter{
+				{
+					Field: "Date",
+					Check: validation.Rule{"year", 2024},
+				},
+			}
+
+			hints := filter.Validate(Article{
+				Date: tm,
+			})
+
+			g.Assert(len(hints)).Equal(1, test.WRONG_LENGTH)
+			g.Assert(hints[0]).Equal(expect)
 		})
 	})
 

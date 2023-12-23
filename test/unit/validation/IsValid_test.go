@@ -4,53 +4,218 @@ import (
 	"testing"
 	"time"
 	"yu/golang/pkg/validation"
+
+	. "github.com/franela/goblin"
 )
 
 func TestIsValid(t *testing.T) {
 	type Article struct {
-		Id       uint64 `json:"id"`
-		RegionId uint8  `json:"regionId"`
-		Hash     string `json:"hash"`
-		Link     string `json:"link"`
-		Title    string `json:"title"`
-		Message  string `json:"message"`
-		Sex      uint8  `json:"sex"`
-		Age      uint8  `json:"age"`
-		Height   uint16 `json:"height"`
-		Weight   uint16 `json:"weight"`
+		Id       uint64
+		RegionId uint8
+		Hash     string
+		Link     string
+		Title    string
+		Message  string
+		Sex      uint8
+		Age      uint8
+		Height   uint16
+		Weight   uint16
 
-		Images []string `json:"images"`
-		Phones []string `json:"phones"`
+		Images []string
+		Phones []string
 
-		EmptyArr  [0]string `json:"emptyArr"`
-		FilledArr [3]string `json:"filledArr"`
+		EmptyArr  [0]string
+		FilledArr [3]string
 
-		Map map[string]string `json:"map"`
+		Map map[string]string
 
-		Date time.Time `json:"date"`
+		Date time.Time
 	}
 
-	t.Run("min", func(t *testing.T) {
-		t.Run("min(1):0", func(t *testing.T) {
-			const expect = false
+	g := Goblin(t)
 
-			article := &Article{Id: 0}
+	g.Describe(`Rule "range" (text)`, func() {
+		g.It("success when given value within the range", func() {
 			filter := validation.Filter{
 				{
-					Field: "Id",
-					Check: validation.Rule{"min", 1},
+					Field: "Title",
+					Check: validation.Range{10, 20},
 				},
 			}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			result := filter.IsValid(Article{
+				Title: "love is...",
+			})
+
+			g.Assert(result).IsTrue()
 		})
 
-		t.Run("min(1):1", func(t *testing.T) {
-			const expect = true
+		g.It("failure when given too-short text", func() {
+			filter := validation.Filter{
+				{
+					Field: "Title",
+					Check: validation.Range{8, 16},
+				},
+			}
 
-			article := &Article{Id: 1}
+			result := filter.IsValid(Article{
+				Title: "smile",
+			})
+
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when given too-long text", func() {
+			filter := validation.Filter{
+				{
+					Field: "Title",
+					Check: validation.Range{5, 15},
+				},
+			}
+
+			result := filter.IsValid(Article{
+				Title: "somebody to love",
+			})
+
+			g.Assert(result).IsFalse()
+		})
+	})
+
+	g.Describe(`Rule "range" (numeric)`, func() {
+		g.It("success when given value within the range", func() {
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			result := filter.IsValid(Article{
+				RegionId: 15,
+			})
+
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("success when given an empty filter", func() {
+			filter := validation.Filter{}
+			result := filter.IsValid(Article{
+				RegionId: 15,
+			})
+
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("failure when given an empty data", func() {
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			result := filter.IsValid(Article{})
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when sending below-range value", func() {
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			result := filter.IsValid(Article{
+				RegionId: 0,
+			})
+
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when sending above-range value", func() {
+			filter := validation.Filter{
+				{
+					Field: "RegionId",
+					Check: validation.Range{1, 25},
+				},
+			}
+
+			result := filter.IsValid(Article{
+				RegionId: 26,
+			})
+
+			g.Assert(result).IsFalse()
+		})
+	})
+
+	g.Describe(`Rule "year"`, func() {
+		g.It("success when the value match", func() {
+			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+			g.Assert(err).IsNil(err)
+
+			filter := validation.Filter{
+				{
+					Field: "Date",
+					Check: validation.Rule{"year", 2006},
+				},
+			}
+
+			result := filter.IsValid(Article{
+				Date: tm,
+			})
+
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("success when given an empty filter", func() {
+			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+			g.Assert(err).IsNil(err)
+
+			filter := validation.Filter{}
+			result := filter.IsValid(Article{
+				Date: tm,
+			})
+
+			g.Assert(result).IsTrue()
+		})
+
+		g.It("failure when given an empty data", func() {
+			filter := validation.Filter{
+				{
+					Field: "Date",
+					Check: validation.Rule{"year", 2024},
+				},
+			}
+
+			result := filter.IsValid(Article{})
+
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("failure when the value is not match", func() {
+			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+			g.Assert(err).IsNil(err)
+
+			filter := validation.Filter{
+				{
+					Field: "Date",
+					Check: validation.Rule{"year", 2024},
+				},
+			}
+
+			result := filter.IsValid(Article{
+				Date: tm,
+			})
+
+			g.Assert(result).IsFalse()
+		})
+	})
+
+	// ...
+
+	g.Describe(`Rule "min"`, func() {
+		g.It("failure on min(1):0", func() {
 			filter := validation.Filter{
 				{
 					Field: "Id",
@@ -58,14 +223,25 @@ func TestIsValid(t *testing.T) {
 				},
 			}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
+			result := filter.IsValid(Article{Id: 0})
+			g.Assert(result).IsFalse()
+		})
+
+		g.It("success on min(1):1", func() {
+			filter := validation.Filter{
+				{
+					Field: "Id",
+					Check: validation.Rule{"min", 1},
+				},
 			}
+
+			result := filter.IsValid(Article{Id: 1})
+			g.Assert(result).IsTrue()
 		})
 
 		// ...
 
-		t.Run("min(0):string_empty", func(t *testing.T) {
+		g.It("min(0):string_empty", func() {
 			const expect = true
 
 			article := &Article{Title: ""}
@@ -81,7 +257,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(4):string_empty", func(t *testing.T) {
+		g.It("min(4):string_empty", func() {
 			const expect = false
 
 			article := &Article{Title: ""}
@@ -97,7 +273,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(0):string_filled", func(t *testing.T) {
+		g.It("min(0):string_filled", func() {
 			const expect = true
 
 			article := &Article{Title: "text"}
@@ -113,7 +289,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(4):string_filled", func(t *testing.T) {
+		g.It("min(4):string_filled", func() {
 			const expect = true
 
 			article := &Article{Title: "text"}
@@ -131,7 +307,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("min(0):array_empty", func(t *testing.T) {
+		g.It("min(0):array_empty", func() {
 			const expect = true
 
 			article := &Article{EmptyArr: [0]string{}}
@@ -147,7 +323,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(1):array_empty", func(t *testing.T) {
+		g.It("min(1):array_empty", func() {
 			const expect = false
 
 			article := &Article{EmptyArr: [0]string{}}
@@ -163,7 +339,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(0):array_filled", func(t *testing.T) {
+		g.It("min(0):array_filled", func() {
 			const expect = true
 
 			article := &Article{FilledArr: [3]string{"380001234567"}}
@@ -179,7 +355,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(1):array_filled", func(t *testing.T) {
+		g.It("min(1):array_filled", func() {
 			const expect = true
 
 			article := &Article{FilledArr: [3]string{"380001234567"}}
@@ -197,7 +373,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("min(0):slice_empty", func(t *testing.T) {
+		g.It("min(0):slice_empty", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{}}
@@ -213,7 +389,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(1):slice_empty", func(t *testing.T) {
+		g.It("min(1):slice_empty", func() {
 			const expect = false
 
 			article := &Article{Phones: []string{}}
@@ -229,7 +405,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(0):slice_filled", func(t *testing.T) {
+		g.It("min(0):slice_filled", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{"380001234567"}}
@@ -245,7 +421,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(1):slice_filled", func(t *testing.T) {
+		g.It("min(1):slice_filled", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{"380001234567"}}
@@ -263,7 +439,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("min(0):map_empty", func(t *testing.T) {
+		g.It("min(0):map_empty", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{}}
@@ -279,7 +455,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(1):map_empty", func(t *testing.T) {
+		g.It("min(1):map_empty", func() {
 			const expect = false
 
 			article := &Article{Map: map[string]string{}}
@@ -295,7 +471,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(0):map_filled", func(t *testing.T) {
+		g.It("min(0):map_filled", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{"key": "val"}}
@@ -311,7 +487,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("min(1):map_filled", func(t *testing.T) {
+		g.It("min(1):map_filled", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{"key": "val"}}
@@ -331,8 +507,8 @@ func TestIsValid(t *testing.T) {
 
 	// ...
 
-	t.Run("max", func(t *testing.T) {
-		t.Run("max(100):10", func(t *testing.T) {
+	g.Describe(`Rule "max"`, func() {
+		g.It("max(100):10", func() {
 			const expect = true
 
 			article := &Article{Id: 10}
@@ -348,7 +524,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(10):100", func(t *testing.T) {
+		g.It("max(10):100", func() {
 			const expect = false
 
 			article := &Article{Id: 100}
@@ -366,7 +542,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("max(20):string_empty", func(t *testing.T) {
+		g.It("max(20):string_empty", func() {
 			const expect = true
 
 			article := &Article{Title: ""}
@@ -382,7 +558,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(8):string_empty", func(t *testing.T) {
+		g.It("max(8):string_empty", func() {
 			const expect = true
 
 			article := &Article{Title: ""}
@@ -398,7 +574,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(20):string_filled", func(t *testing.T) {
+		g.It("max(20):string_filled", func() {
 			const expect = true
 
 			article := &Article{Title: "Hello Test!"}
@@ -414,7 +590,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(8):string_filled", func(t *testing.T) {
+		g.It("max(8):string_filled", func() {
 			const expect = false
 
 			article := &Article{Title: "Hello Test!"}
@@ -432,7 +608,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("max(3):array_empty", func(t *testing.T) {
+		g.It("max(3):array_empty", func() {
 			const expect = true
 
 			article := &Article{EmptyArr: [0]string{}}
@@ -448,7 +624,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(2):array_empty", func(t *testing.T) {
+		g.It("max(2):array_empty", func() {
 			const expect = true
 
 			article := &Article{EmptyArr: [0]string{}}
@@ -464,7 +640,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(3):array_filled", func(t *testing.T) {
+		g.It("max(3):array_filled", func() {
 			const expect = true
 
 			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
@@ -480,7 +656,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(2):array_filled", func(t *testing.T) {
+		g.It("max(2):array_filled", func() {
 			const expect = false
 
 			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
@@ -498,7 +674,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("max(3):slice_empty", func(t *testing.T) {
+		g.It("max(3):slice_empty", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{}}
@@ -514,7 +690,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(2):slice_empty", func(t *testing.T) {
+		g.It("max(2):slice_empty", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{}}
@@ -530,7 +706,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(3):slice_filled", func(t *testing.T) {
+		g.It("max(3):slice_filled", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{"A", "B", "C"}}
@@ -546,7 +722,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(2):slice_filled", func(t *testing.T) {
+		g.It("max(2):slice_filled", func() {
 			const expect = false
 
 			article := &Article{Phones: []string{"A", "B", "C"}}
@@ -564,7 +740,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("max(3):map_empty", func(t *testing.T) {
+		g.It("max(3):map_empty", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{}}
@@ -580,7 +756,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(2):map_empty", func(t *testing.T) {
+		g.It("max(2):map_empty", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{}}
@@ -596,7 +772,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(2):map_filled", func(t *testing.T) {
+		g.It("max(2):map_filled", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{
@@ -616,7 +792,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("max(1):map_filled", func(t *testing.T) {
+		g.It("max(1):map_filled", func() {
 			const expect = false
 
 			article := &Article{Map: map[string]string{
@@ -639,8 +815,8 @@ func TestIsValid(t *testing.T) {
 
 	// ...
 
-	t.Run("eq", func(t *testing.T) {
-		t.Run("eq(0):1", func(t *testing.T) {
+	g.Describe(`Rule "eq"`, func() {
+		g.It("eq(0):1", func() {
 			const expect = false
 
 			article := &Article{Id: 1}
@@ -656,7 +832,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(1):1", func(t *testing.T) {
+		g.It("eq(1):1", func() {
 			const expect = true
 
 			article := &Article{Id: 1}
@@ -674,7 +850,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("eq(0):string_empty", func(t *testing.T) {
+		g.It("eq(0):string_empty", func() {
 			const expect = true
 
 			article := &Article{Title: ""}
@@ -690,7 +866,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(11):string_empty", func(t *testing.T) {
+		g.It("eq(11):string_empty", func() {
 			const expect = false
 
 			article := &Article{Title: ""}
@@ -706,7 +882,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(0):string_filled", func(t *testing.T) {
+		g.It("eq(0):string_filled", func() {
 			const expect = false
 
 			article := &Article{Title: "Hello Test!"}
@@ -722,7 +898,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(11):string_filled", func(t *testing.T) {
+		g.It("eq(11):string_filled", func() {
 			const expect = true
 
 			article := &Article{Title: "Hello Test!"}
@@ -740,7 +916,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("eq(0):array_empty", func(t *testing.T) {
+		g.It("eq(0):array_empty", func() {
 			const expect = true
 
 			article := &Article{EmptyArr: [0]string{}}
@@ -756,7 +932,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(3):array_empty", func(t *testing.T) {
+		g.It("eq(3):array_empty", func() {
 			const expect = false
 
 			article := &Article{EmptyArr: [0]string{}}
@@ -772,7 +948,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(0):array_filled", func(t *testing.T) {
+		g.It("eq(0):array_filled", func() {
 			const expect = false
 
 			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
@@ -788,7 +964,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(3):array_filled", func(t *testing.T) {
+		g.It("eq(3):array_filled", func() {
 			const expect = true
 
 			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
@@ -806,7 +982,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("eq(0):slice_empty", func(t *testing.T) {
+		g.It("eq(0):slice_empty", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{}}
@@ -822,7 +998,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(3):slice_empty", func(t *testing.T) {
+		g.It("eq(3):slice_empty", func() {
 			const expect = false
 
 			article := &Article{Phones: []string{}}
@@ -838,7 +1014,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(0):slice_filled", func(t *testing.T) {
+		g.It("eq(0):slice_filled", func() {
 			const expect = false
 
 			article := &Article{Phones: []string{"A", "B", "C"}}
@@ -854,7 +1030,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(3):slice_filled", func(t *testing.T) {
+		g.It("eq(3):slice_filled", func() {
 			const expect = true
 
 			article := &Article{Phones: []string{"A", "B", "C"}}
@@ -872,7 +1048,7 @@ func TestIsValid(t *testing.T) {
 
 		// ...
 
-		t.Run("eq(0):map_empty", func(t *testing.T) {
+		g.It("eq(0):map_empty", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{}}
@@ -888,7 +1064,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(3):map_empty", func(t *testing.T) {
+		g.It("eq(3):map_empty", func() {
 			const expect = false
 
 			article := &Article{Map: map[string]string{}}
@@ -904,7 +1080,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(0):map_filled", func(t *testing.T) {
+		g.It("eq(0):map_filled", func() {
 			const expect = false
 
 			article := &Article{Map: map[string]string{
@@ -924,7 +1100,7 @@ func TestIsValid(t *testing.T) {
 			}
 		})
 
-		t.Run("eq(2):map_filled", func(t *testing.T) {
+		g.It("eq(2):map_filled", func() {
 			const expect = true
 
 			article := &Article{Map: map[string]string{
@@ -938,84 +1114,6 @@ func TestIsValid(t *testing.T) {
 					Check: validation.Rule{"eq", 2},
 				},
 			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-	})
-
-	// ...
-
-	t.Run("year", func(t *testing.T) {
-		t.Run("same", func(t *testing.T) {
-			const expect = true
-
-			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
-			if err != nil {
-				t.Error(err)
-			}
-
-			article := &Article{Date: tm}
-			filter := validation.Filter{
-				{
-					Field: "Date",
-					Check: validation.Rule{"year", 2006},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("diff", func(t *testing.T) {
-			const expect = false
-
-			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
-			if err != nil {
-				t.Error(err)
-			}
-
-			article := &Article{Date: tm}
-			filter := validation.Filter{
-				{
-					Field: "Date",
-					Check: validation.Rule{"year", 2024},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("empty_data", func(t *testing.T) {
-			const expect = false
-
-			article := &Article{}
-			filter := validation.Filter{
-				{
-					Field: "Date",
-					Check: validation.Rule{"year", 2024},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		t.Run("empty_filter", func(t *testing.T) {
-			const expect = true
-
-			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
-			if err != nil {
-				t.Error(err)
-			}
-
-			article := &Article{Date: tm}
-			filter := validation.Filter{}
 
 			if res := filter.IsValid(article); res != expect {
 				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)

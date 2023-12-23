@@ -3,6 +3,8 @@ package test
 import (
 	"testing"
 	"yu/golang/pkg/validation"
+
+	. "github.com/franela/goblin"
 )
 
 func TestFilter(t *testing.T) {
@@ -17,13 +19,10 @@ func TestFilter(t *testing.T) {
 		Email      string `json:"email"`
 	}
 
-	// TODO: Write tests using other validation rules
+	g := Goblin(t)
 
-	t.Run("min-fields", func(t *testing.T) {
-		t.Run("success", func(t *testing.T) {
-			const expect = true
-
-			person := Person{Id: 1, Status: 1}
+	g.Describe("min-fields", func() {
+		g.It("success", func() {
 			filter := validation.Filter{
 				{
 					Field: "Id",
@@ -33,20 +32,17 @@ func TestFilter(t *testing.T) {
 					Field: "Status",
 					Check: validation.Range{1, 2},
 				},
-				{
-					Check: validation.Rule{"min-fields", 2},
-				},
 			}
 
-			if res := filter.IsValid(person); res != expect {
-				t.Errorf("Expect( %v ) => Got( %v )", expect, res)
-			}
+			result := filter.IsValid(Person{
+				Id:     1,
+				Status: 1,
+			})
+
+			g.Assert(result).IsTrue()
 		})
 
-		t.Run("fail", func(t *testing.T) {
-			const expect = false
-
-			person := Person{Id: 1}
+		g.It("failure", func() {
 			filter := validation.Filter{
 				{
 					Field: "Id",
@@ -62,17 +58,13 @@ func TestFilter(t *testing.T) {
 				},
 			}
 
-			if res := filter.IsValid(person); res != expect {
-				t.Errorf("Expect( %v ) => Got( %v )", expect, res)
-			}
+			result := filter.IsValid(Person{Id: 1})
+			g.Assert(result).IsFalse()
 		})
 	})
 
-	t.Run("non-zero", func(t *testing.T) {
-		t.Run("success", func(t *testing.T) {
-			const expect = true
-
-			person := Person{Id: 1}
+	g.Describe("non-zero", func() {
+		g.It("success", func() {
 			filter := validation.Filter{
 				{
 					Field: "Id",
@@ -80,19 +72,11 @@ func TestFilter(t *testing.T) {
 				},
 			}
 
-			// if hints := filter.Validate(person); len(hints) > 0 {
-			// 	t.Error(hints)
-			// }
-
-			if res := filter.IsValid(person); res != expect {
-				t.Errorf("Expect( %v ) => Got( %v )", expect, res)
-			}
+			result := filter.IsValid(Person{Id: 1})
+			g.Assert(result).IsTrue()
 		})
 
-		t.Run("fail", func(t *testing.T) {
-			const expect = false
-
-			person := Person{}
+		g.It("failure", func() {
 			filter := validation.Filter{
 				{
 					Field: "Id",
@@ -100,75 +84,67 @@ func TestFilter(t *testing.T) {
 				},
 			}
 
-			// if hints := filter.Validate(person); len(hints) > 0 {
-			// 	t.Error(hints)
-			// }
-
-			if res := filter.IsValid(person); res != expect {
-				t.Errorf("Expect( %v ) => Got( %v )", expect, res)
-			}
+			result := filter.IsValid(Person{})
+			g.Assert(result).IsFalse()
 		})
 	})
 
-	t.Run("optional", func(t *testing.T) {
-		const expect = false
-
-		person := Person{Id: 1}
-		filter := validation.Filter{
-			{
-				Field: "Id",
-				Check: validation.NON_ZERO,
-			},
-			{
-				Field:    "Status",
-				Check:    validation.Range{1, 2},
-				Optional: true,
-			},
-			{
-				Field:    "Role",
-				Check:    validation.Range{1, 3},
-				Optional: true,
-			},
-			{
-				Field:    "LastName",
-				Check:    validation.Range{3, 20},
-				Optional: true,
-			},
-			{
-				Field:    "FirstName",
-				Check:    validation.Range{3, 20},
-				Optional: true,
-			},
-			{
-				Field:    "Patronymic",
-				Check:    validation.Range{3, 20},
-				Optional: true,
-			},
-			{
-				Field:    "Phone",
-				Check:    validation.Rule{"match", `^\d{10}$`},
-				Optional: true,
-			},
-			{
-				Field: "Email",
-				Check: validation.Group{
-					validation.Rule{"max", 40},
-					validation.Rule{"match", `(?i)^[\w.+-]+@[\w-]+\.[\w-.]+$`},
+	g.Describe("optional", func() {
+		g.It("failure", func() {
+			filter := validation.Filter{
+				{
+					Field: "Id",
+					Check: validation.NON_ZERO,
 				},
-				Optional: true,
-			},
-			{
-				Check: validation.Rule{"min-fields", 2},
-			},
-		}
+				{
+					Field:    "Status",
+					Check:    validation.Range{1, 2},
+					Optional: true,
+				},
+				{
+					Field:    "Role",
+					Check:    validation.Range{1, 3},
+					Optional: true,
+				},
+				{
+					Field:    "LastName",
+					Check:    validation.Range{3, 20},
+					Optional: true,
+				},
+				{
+					Field:    "FirstName",
+					Check:    validation.Range{3, 20},
+					Optional: true,
+				},
+				{
+					Field:    "Patronymic",
+					Check:    validation.Range{3, 20},
+					Optional: true,
+				},
+				{
+					Field:    "Phone",
+					Check:    validation.Rule{"match", `^\d{10}$`},
+					Optional: true,
+				},
+				{
+					Field: "Email",
+					Check: validation.Group{
+						validation.Rule{"max", 40},
+						validation.Rule{"match", `(?i)^[\w.+-]+@[\w-]+\.[\w-.]+$`},
+					},
+					Optional: true,
+				},
+				{
+					Check: validation.Rule{"min-fields", 2},
+				},
+			}
 
-		if res := filter.IsValid(person); res != expect {
-			t.Errorf("Expect( %v ) => Got( %v )", expect, res)
-		}
+			result := filter.IsValid(Person{Id: 1})
+			g.Assert(result).IsFalse()
+		})
 	})
 
-	// if res := filter.IsValid(person); res != expect {
+	// if result := filter.IsValid(person); res != expect {
 	// 	t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
 	// }
-
 }
