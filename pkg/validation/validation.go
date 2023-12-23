@@ -173,7 +173,7 @@ func checkField(rules, value reflect.Value) string {
 }
 
 func Compare(action string, proto, value reflect.Value) string {
-	if !proto.IsValid() || !value.IsValid() {
+	if !value.IsValid() {
 		return ""
 	}
 
@@ -182,7 +182,13 @@ func Compare(action string, proto, value reflect.Value) string {
 		if value.IsZero() {
 			return MsgEmpty
 		}
+	}
 
+	if !proto.IsValid() {
+		return ""
+	}
+
+	switch action {
 	case "min-fields":
 		if !IsMin(proto.Interface(), value.Interface()) {
 			return fmt.Sprintf(MsgMinFields, proto.Interface())

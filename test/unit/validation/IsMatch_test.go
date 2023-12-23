@@ -8,7 +8,6 @@ import (
 func TestIsMatch(t *testing.T) {
 
 	t.Run("IsMatch(hexadecimal,hex)", func(t *testing.T) {
-		t.Parallel()
 		const expect = true
 
 		reg := `(?i)^[0-9a-f]{32}$`
@@ -20,7 +19,6 @@ func TestIsMatch(t *testing.T) {
 	})
 
 	t.Run("IsMatch(hexadecimal,non-hex)", func(t *testing.T) {
-		t.Parallel()
 		const expect = false
 
 		reg := `(?i)^[0-9a-f]{32}$`
@@ -35,7 +33,6 @@ func TestIsMatch(t *testing.T) {
 
 	t.Run("emptiness", func(t *testing.T) {
 		t.Run("IsMatch(nil,nil)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsMatch(nil, nil); res != expect {
@@ -44,7 +41,6 @@ func TestIsMatch(t *testing.T) {
 		})
 
 		t.Run("IsMatch(nil,emptyStr)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsMatch(nil, ""); res != expect {
@@ -53,7 +49,6 @@ func TestIsMatch(t *testing.T) {
 		})
 
 		t.Run("IsMatch(emptyStr,nil)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsMatch("", nil); res != expect {
@@ -62,7 +57,6 @@ func TestIsMatch(t *testing.T) {
 		})
 
 		t.Run("IsMatch(emptyStr,emptyStr)", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			if res := validation.IsMatch("", ""); res != expect {
