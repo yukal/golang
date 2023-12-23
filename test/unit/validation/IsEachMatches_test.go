@@ -9,7 +9,6 @@ func TestIsEachMatches(t *testing.T) {
 
 	// TODO: check chan (channels)
 	t.Run("FilledSlice", func(t *testing.T) {
-		t.Parallel()
 		const expect = true
 
 		reg := `(?i)^[0-9a-f]{32}$`
@@ -21,7 +20,6 @@ func TestIsEachMatches(t *testing.T) {
 	})
 
 	t.Run("FilledArray", func(t *testing.T) {
-		t.Parallel()
 		const expect = true
 
 		reg := `^38[0-9]{10}$`
@@ -33,7 +31,6 @@ func TestIsEachMatches(t *testing.T) {
 	})
 
 	t.Run("FilledMap", func(t *testing.T) {
-		t.Parallel()
 		const expect = true
 
 		reg := `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`
@@ -52,7 +49,6 @@ func TestIsEachMatches(t *testing.T) {
 
 	t.Run("emptiness", func(t *testing.T) {
 		t.Run("nil_&_nil", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsEachMatches(nil, nil); res != expect {
@@ -61,7 +57,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("nil_&_EmptySlice", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsEachMatches(nil, []string{}); res != expect {
@@ -70,7 +65,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("nil_&_EmptyArray)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsEachMatches(nil, [0]string{}); res != expect {
@@ -79,7 +73,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("nil_&_EmptyMap)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsEachMatches(nil, map[string]string{}); res != expect {
@@ -88,7 +81,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("EmptyRegex_&_nil", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			if res := validation.IsEachMatches(``, nil); res != expect {
@@ -99,7 +91,6 @@ func TestIsEachMatches(t *testing.T) {
 		// ...
 
 		t.Run("EmptyRegex_&_EmptySlice)", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			reg := ``
@@ -111,7 +102,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("EmptyRegex_&_EmptyArray", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			reg := ``
@@ -123,7 +113,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("EmptyRegex_&_EmptyMap", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			reg := ``
@@ -137,7 +126,6 @@ func TestIsEachMatches(t *testing.T) {
 		// ...
 
 		t.Run("EmptyRegex_&_FilledSlice", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			reg := ``
@@ -149,7 +137,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("EmptyRegex_&_FilledArray)", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			reg := ``
@@ -161,7 +148,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("EmptyRegex_&_FilledMap)", func(t *testing.T) {
-			t.Parallel()
 			const expect = true
 
 			reg := ``
@@ -175,7 +161,6 @@ func TestIsEachMatches(t *testing.T) {
 		// ...
 
 		t.Run("FilledRegex_&_EmptyData", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			reg := `(?i)^[0-9a-f]{32}$`
@@ -187,7 +172,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("FilledRegex_&_EmptyData)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			reg := `^38[0-9]{10}$`
@@ -199,7 +183,6 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		t.Run("FilledRegex_&_EmptyData)", func(t *testing.T) {
-			t.Parallel()
 			const expect = false
 
 			reg := `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`
