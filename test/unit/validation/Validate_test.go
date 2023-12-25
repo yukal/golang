@@ -129,7 +129,7 @@ func TestValidate(t *testing.T) {
 			g.Assert(hints[0]).Equal(expect)
 		})
 
-		g.It("failure when sending below-range value", func() {
+		g.It("failure when given below-range value", func() {
 			const expect = "regionId must be in the range 1..25"
 
 			filter := validation.Filter{
@@ -147,7 +147,7 @@ func TestValidate(t *testing.T) {
 			g.Assert(hints[0]).Equal(expect)
 		})
 
-		g.It("failure when sending above-range value", func() {
+		g.It("failure when given above-range value", func() {
 			const expect = "regionId must be in the range 1..25"
 
 			filter := validation.Filter{

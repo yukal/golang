@@ -118,7 +118,7 @@ func TestIsValid(t *testing.T) {
 			g.Assert(result).IsFalse()
 		})
 
-		g.It("failure when sending below-range value", func() {
+		g.It("failure when given below-range value", func() {
 			filter := validation.Filter{
 				{
 					Field: "RegionId",
@@ -133,7 +133,7 @@ func TestIsValid(t *testing.T) {
 			g.Assert(result).IsFalse()
 		})
 
-		g.It("failure when sending above-range value", func() {
+		g.It("failure when given above-range value", func() {
 			filter := validation.Filter{
 				{
 					Field: "RegionId",
