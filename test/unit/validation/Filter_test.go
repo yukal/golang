@@ -7,6 +7,9 @@ import (
 	. "github.com/franela/goblin"
 )
 
+// go test ./test/unit/validation/...
+// go test -v -run TestFilter ./test/unit/validation/...
+
 func TestFilter(t *testing.T) {
 	type Person struct {
 		Id         uint16 `json:"id"`
@@ -21,7 +24,7 @@ func TestFilter(t *testing.T) {
 
 	g := Goblin(t)
 
-	g.Describe("min-fields", func() {
+	g.Describe(`Rule "min-fields"`, func() {
 		g.It("success", func() {
 			filter := validation.Filter{
 				{

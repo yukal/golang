@@ -8,6 +8,9 @@ import (
 	. "github.com/franela/goblin"
 )
 
+// go test ./test/unit/validation/...
+// go test -v -run TestCompare ./test/unit/validation/...
+
 func TestCompare(t *testing.T) {
 	var (
 		strEmpty    = ""
@@ -21,807 +24,640 @@ func TestCompare(t *testing.T) {
 			"i": "val1",
 			"t": "val2",
 			"e": "val3",
-			"m": "val3",
+			"m": "val4",
 		}
 	)
 
 	g := Goblin(t)
 
-	g.Describe("eq", func() {
+	g.Describe(`Rule "eq" (equal)`, func() {
 		g.Describe("numeric", func() {
-			g.It("IsEqual(4,-4)", func() {
-				const expect = "must be exactly 4"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(-4)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,4)", func() {
-				const expect = ""
-
+			g.It("success when the value equals the expected number", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(4)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("IsEqual(4,8)", func() {
-				const expect = "must be exactly 4"
+			g.It("failure when the value is less than the expected number", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(-4)
 
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must be exactly 4")
+			})
+
+			g.It("failure when the value is greater than the expected number", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(8)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must be exactly 4")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(1)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("array", func() {
-			g.It("IsEqual(0,arrEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(arrEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,arrEmpty)", func() {
-				const expect = "must contain exactly 4 items"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(arrEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(0,arrFilled)", func() {
-				const expect = "must contain exactly 0 items"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(arrFilled)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,arrFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length matches a filled array", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(arrFilled)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length matches an empty array", func() {
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(arrEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is less than expected", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 4 items")
+			})
+
+			g.It("failure when the length is greater than expected", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 2 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(arrFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("slice", func() {
-			g.It("IsEqual(0,sliceEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(sliceEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,sliceEmpty)", func() {
-				const expect = "must contain exactly 4 items"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(sliceEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(0,sliceFilled)", func() {
-				const expect = "must contain exactly 0 items"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(sliceFilled)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,sliceFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length matches a filled slice", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(sliceFilled)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length matches an empty slice", func() {
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(sliceEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is less than expected", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 4 items")
+			})
+
+			g.It("failure when the length is greater than expected", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 2 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(sliceFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("map", func() {
-			g.It("IsEqual(0,mapEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(mapEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,mapEmpty)", func() {
-				const expect = "must contain exactly 4 items"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(mapEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(0,mapFilled)", func() {
-				const expect = "must contain exactly 0 items"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(mapFilled)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,mapFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length matches a filled map", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(mapFilled)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length matches an empty map", func() {
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(mapEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is less than expected", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 4 items")
+			})
+
+			g.It("failure when the length is greater than expected", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 2 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(mapFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("string", func() {
-			g.It("IsEqual(0,strEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(strEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,strEmpty)", func() {
-				const expect = "must contain exactly 4 characters"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(strEmpty)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(0,strFilled)", func() {
-				const expect = "must contain exactly 0 characters"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(strFilled)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(4,strFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length matches a filled string", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strFilled)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length matches an empty string", func() {
+				proto := reflect.ValueOf(0)
+				value := reflect.ValueOf(strEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is less than expected", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(strEmpty)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 4 characters")
+			})
+
+			g.It("failure when the length is greater than expected", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(strFilled)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal("must contain exactly 2 characters")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(strFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("emptiness", func() {
-			g.It("IsEqual(nil,nil)", func() {
-				const expect = ""
-
+			g.It("failure when given empty args: (nil, nil)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 
-			g.It("IsEqual(1,nil)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(1)
-				value := reflect.ValueOf(nil)
-
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("IsEqual(nil,1)", func() {
-				const expect = ""
-
+			g.It("failure when given empty args: (nil, 1)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(1)
 
-				if res := validation.Compare("eq", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("eq", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 	})
 
-	g.Describe("max", func() {
+	g.Describe(`Rule "min"`, func() {
 		g.Describe("numeric", func() {
-			g.It("max(4,-4)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(-4)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,4)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(4)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,8)", func() {
-				const expect = "must be up to 4"
-
+			g.It("success when the value exceeds the min threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(8)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-		})
-
-		// ...
-
-		g.Describe("array", func() {
-			g.It("max(0,arrEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(arrEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("max(4,arrEmpty)", func() {
-				const expect = ""
-
+			g.It("success when the value reaches the min threshold", func() {
 				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(arrEmpty)
+				value := reflect.ValueOf(4)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("max(0,arrFilled)", func() {
-				const expect = "must contain up to 0 items"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(arrFilled)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,arrFilled)", func() {
-				const expect = ""
-
+			g.It("failure when the value is less than the min threshold", func() {
 				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(arrFilled)
+				value := reflect.ValueOf(-4)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-		})
-
-		// ...
-
-		g.Describe("slice", func() {
-			g.It("max(0,sliceEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(sliceEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("must be at least 4")
 			})
 
-			g.It("max(4,sliceEmpty)", func() {
-				const expect = ""
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(1)
+				value := reflect.ValueOf(nil)
 
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(sliceEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(0,sliceFilled)", func() {
-				const expect = "must contain up to 0 items"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(sliceFilled)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,sliceFilled)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(sliceFilled)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-		})
-
-		// ...
-
-		g.Describe("map", func() {
-			g.It("max(0,mapEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(mapEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,mapEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(mapEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(0,mapFilled)", func() {
-				const expect = "must contain up to 0 items"
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(mapFilled)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,mapFilled)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(mapFilled)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("string", func() {
-			g.It("max(0,strEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(strEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(4,strEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(strEmpty)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(0,strFilled)", func() {
-				const expect = "must contain up to 0 characters"
-
-				proto := reflect.ValueOf(0)
+			g.It("success when the length is greater than the min threshold", func() {
+				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(strFilled)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("max(4,strFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length reaches the min threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strFilled)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the value is less than the min threshold", func() {
+				proto := reflect.ValueOf(8)
+				value := reflect.ValueOf(strFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("must contain at least 8 characters")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(strFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
+			})
+		})
+
+		// ...
+
+		g.Describe("array", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length reaches the min threshold", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the value is less than the min threshold", func() {
+				proto := reflect.ValueOf(8)
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("must contain at least 8 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(arrFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
+			})
+		})
+
+		// ...
+
+		g.Describe("slice", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length reaches the min threshold", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the value is less than the min threshold", func() {
+				proto := reflect.ValueOf(8)
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("must contain at least 8 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(sliceFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
+			})
+		})
+
+		// ...
+
+		g.Describe("map", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("success when the length reaches the min threshold", func() {
+				proto := reflect.ValueOf(4)
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the value is less than the min threshold", func() {
+				proto := reflect.ValueOf(8)
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal("must contain at least 8 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(mapFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("emptiness", func() {
-			g.It("max(nil,nil)", func() {
-				const expect = ""
-
+			g.It("failure when given empty args: (nil, nil)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 
-			g.It("max(1,nil)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(1)
-				value := reflect.ValueOf(nil)
-
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("max(nil,1)", func() {
-				const expect = ""
-
+			g.It("failure when given empty args: (nil, 1)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(1)
 
-				if res := validation.Compare("max", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("min", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
-
 	})
 
-	g.Describe("min", func() {
+	g.Describe(`Rule "max"`, func() {
 		g.Describe("numeric", func() {
-			g.It("min(4,-4)", func() {
-				const expect = "must be at least 4"
-
+			g.It("success when the value is less than the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(-4)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("min(4,4)", func() {
-				const expect = ""
-
+			g.It("success when the value reaches the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(4)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("min(4,8)", func() {
-				const expect = ""
-
+			g.It("failure when the value exceeds the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(8)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("must be up to 4")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(1)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("array", func() {
-			g.It("min(0,arrEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(arrEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(4,arrEmpty)", func() {
-				const expect = "must contain at least 4 items"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(arrEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(0,arrFilled)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
+			g.It("success when the length is less than the max threshold", func() {
+				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(arrFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("min(4,arrFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length reaches the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(arrFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length exceeds the max threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("must contain up to 2 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(arrFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("slice", func() {
-			g.It("min(0,sliceEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(sliceEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(4,sliceEmpty)", func() {
-				const expect = "must contain at least 4 items"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(sliceEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(0,sliceFilled)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
+			g.It("success when the length is less than the max threshold", func() {
+				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(sliceFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("min(4,sliceFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length reaches the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(sliceFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length exceeds the max threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("must contain up to 2 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(sliceFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("map", func() {
-			g.It("min(0,mapEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(mapEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(4,mapEmpty)", func() {
-				const expect = "must contain at least 4 items"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(mapEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(0,mapFilled)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
+			g.It("success when the length is less than the max threshold", func() {
+				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(mapFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("min(4,mapFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length reaches the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(mapFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length exceeds the max threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("must contain up to 2 items")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(mapFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("string", func() {
-			g.It("min(0,strEmpty)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
-				value := reflect.ValueOf(strEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(4,strEmpty)", func() {
-				const expect = "must contain at least 4 characters"
-
-				proto := reflect.ValueOf(4)
-				value := reflect.ValueOf(strEmpty)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(0,strFilled)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(0)
+			g.It("success when the length is less than the max threshold", func() {
+				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(strFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
 			})
 
-			g.It("min(4,strFilled)", func() {
-				const expect = ""
-
+			g.It("success when the length reaches the max threshold", func() {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strFilled)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length exceeds the max threshold", func() {
+				proto := reflect.ValueOf(2)
+				value := reflect.ValueOf(strFilled)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal("must contain up to 2 characters")
+			})
+
+			g.It("failure when a nil value was passed", func() {
+				proto := reflect.ValueOf(strFilled)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 
 		// ...
 
 		g.Describe("emptiness", func() {
-			g.It("min(nil,nil)", func() {
-				const expect = ""
-
+			g.It("failure when given empty args: (nil, nil)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 
-			g.It("min(1,nil)", func() {
-				const expect = ""
-
-				proto := reflect.ValueOf(1)
-				value := reflect.ValueOf(nil)
-
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
-			})
-
-			g.It("min(nil,1)", func() {
-				const expect = ""
-
+			g.It("failure when given empty args: (nil, 1)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(1)
 
-				if res := validation.Compare("min", proto, value); res != expect {
-					g.Errorf("Expect( %v ) => Got( %v )", expect, res)
-				}
+				result := validation.Compare("max", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
 			})
 		})
 	})

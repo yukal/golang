@@ -8,6 +8,9 @@ import (
 	. "github.com/franela/goblin"
 )
 
+// go test ./test/unit/validation/...
+// go test -v -run TestIsValid ./test/unit/validation/...
+
 func TestIsValid(t *testing.T) {
 	type Article struct {
 		Id       uint64
@@ -25,12 +28,27 @@ func TestIsValid(t *testing.T) {
 		Phones []string
 
 		EmptyArr  [0]string
-		FilledArr [3]string
-
-		Map map[string]string
+		FilledArr [4]string
+		Options   map[string]string
 
 		Date time.Time
 	}
+
+	var (
+		strEmpty    = ""
+		strFilled   = "love"
+		arrEmpty    = [0]string{}
+		arrFilled   = [4]string{"c", "o", "d", "e"}
+		sliceEmpty  = []string{}
+		sliceFilled = []string{"t", "e", "s", "t"}
+		mapEmpty    = map[string]string{}
+		mapFilled   = map[string]string{
+			"i": "val1",
+			"t": "val2",
+			"e": "val3",
+			"m": "val4",
+		}
+	)
 
 	g := Goblin(t)
 
@@ -150,7 +168,7 @@ func TestIsValid(t *testing.T) {
 	})
 
 	g.Describe(`Rule "year"`, func() {
-		g.It("success when the value match", func() {
+		g.It("success when the value matches a specific year", func() {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
@@ -215,909 +233,870 @@ func TestIsValid(t *testing.T) {
 	// ...
 
 	g.Describe(`Rule "min"`, func() {
-		g.It("failure on min(1):0", func() {
-			filter := validation.Filter{
-				{
-					Field: "Id",
-					Check: validation.Rule{"min", 1},
-				},
-			}
+		g.Describe("numeric", func() {
+			g.It("success when the value exceeds the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"min", 18},
+					},
+				}
 
-			result := filter.IsValid(Article{Id: 0})
-			g.Assert(result).IsFalse()
-		})
+				result := filter.IsValid(Article{Age: 21})
+				g.Assert(result).IsTrue()
+			})
 
-		g.It("success on min(1):1", func() {
-			filter := validation.Filter{
-				{
-					Field: "Id",
-					Check: validation.Rule{"min", 1},
-				},
-			}
+			g.It("success when the value reaches the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"min", 18},
+					},
+				}
 
-			result := filter.IsValid(Article{Id: 1})
-			g.Assert(result).IsTrue()
-		})
+				result := filter.IsValid(Article{Age: 18})
+				g.Assert(result).IsTrue()
+			})
 
-		// ...
+			g.It("success when the value contains an initial zero as min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"min", 0},
+					},
+				}
 
-		g.It("min(0):string_empty", func() {
-			const expect = true
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Title: ""}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"min", 0},
-				},
-			}
+			g.It("failure when the value is less than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"min", 18},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{Age: 16})
+				g.Assert(result).IsFalse()
+			})
 
-		g.It("min(4):string_empty", func() {
-			const expect = false
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"min", 21},
+					},
+				}
 
-			article := &Article{Title: ""}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"min", 4},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("min(0):string_filled", func() {
-			const expect = true
-
-			article := &Article{Title: "text"}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"min", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("min(4):string_filled", func() {
-			const expect = true
-
-			article := &Article{Title: "text"}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"min", 4},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("min(0):array_empty", func() {
-			const expect = true
+		g.Describe("string", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"min", 2},
+					},
+				}
 
-			article := &Article{EmptyArr: [0]string{}}
-			filter := validation.Filter{
-				{
-					Field: "EmptyArr",
-					Check: validation.Rule{"min", 0},
-				},
-			}
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the length reaches the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"min", 4},
+					},
+				}
 
-		g.It("min(1):array_empty", func() {
-			const expect = false
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{EmptyArr: [0]string{}}
-			filter := validation.Filter{
-				{
-					Field: "EmptyArr",
-					Check: validation.Rule{"min", 1},
-				},
-			}
+			g.It("failure when the value is less than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"min", 8},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsFalse()
+			})
 
-		g.It("min(0):array_filled", func() {
-			const expect = true
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"min", 4},
+					},
+				}
 
-			article := &Article{FilledArr: [3]string{"380001234567"}}
-			filter := validation.Filter{
-				{
-					Field: "FilledArr",
-					Check: validation.Rule{"min", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("min(1):array_filled", func() {
-			const expect = true
-
-			article := &Article{FilledArr: [3]string{"380001234567"}}
-			filter := validation.Filter{
-				{
-					Field: "FilledArr",
-					Check: validation.Rule{"min", 1},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("min(0):slice_empty", func() {
-			const expect = true
+		g.Describe("array", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"min", 2},
+					},
+				}
 
-			article := &Article{Phones: []string{}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"min", 0},
-				},
-			}
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the length reaches the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"min", 4},
+					},
+				}
 
-		g.It("min(1):slice_empty", func() {
-			const expect = false
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Phones: []string{}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"min", 1},
-				},
-			}
+			g.It("failure when the value is less than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"min", 8},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsFalse()
+			})
 
-		g.It("min(0):slice_filled", func() {
-			const expect = true
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"min", 4},
+					},
+				}
 
-			article := &Article{Phones: []string{"380001234567"}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"min", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("min(1):slice_filled", func() {
-			const expect = true
-
-			article := &Article{Phones: []string{"380001234567"}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"min", 1},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("min(0):map_empty", func() {
-			const expect = true
+		g.Describe("slice", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"min", 2},
+					},
+				}
 
-			article := &Article{Map: map[string]string{}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"min", 0},
-				},
-			}
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			g.It("success when the length reaches the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"min", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("failure when the value is less than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"min", 8},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"min", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
-		g.It("min(1):map_empty", func() {
-			const expect = false
+		// ...
 
-			article := &Article{Map: map[string]string{}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"min", 1},
-				},
-			}
+		g.Describe("map", func() {
+			g.It("success when the length is greater than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"min", 2},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("success when the length reaches the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"min", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("failure when the value is less than the min threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"min", 8},
+					},
+				}
+
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"min", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
-
-		g.It("min(0):map_filled", func() {
-			const expect = true
-
-			article := &Article{Map: map[string]string{"key": "val"}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"min", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("min(1):map_filled", func() {
-			const expect = true
-
-			article := &Article{Map: map[string]string{"key": "val"}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"min", 1},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
 	})
 
 	// ...
 
 	g.Describe(`Rule "max"`, func() {
-		g.It("max(100):10", func() {
-			const expect = true
+		g.Describe("numeric", func() {
+			g.It("success when the value is less than the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Weight",
+						Check: validation.Rule{"max", 60},
+					},
+				}
 
-			article := &Article{Id: 10}
-			filter := validation.Filter{
-				{
-					Field: "Id",
-					Check: validation.Rule{"max", 100},
-				},
-			}
+				result := filter.IsValid(Article{Weight: 50})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the value reaches the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Weight",
+						Check: validation.Rule{"max", 60},
+					},
+				}
 
-		g.It("max(10):100", func() {
-			const expect = false
+				result := filter.IsValid(Article{Weight: 60})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Id: 100}
-			filter := validation.Filter{
-				{
-					Field: "Id",
-					Check: validation.Rule{"max", 10},
-				},
-			}
+			g.It("success when the value contains an initial zero as max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"max", 0},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-		// ...
+			g.It("success when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Weight",
+						Check: validation.Rule{"max", 60},
+					},
+				}
 
-		g.It("max(20):string_empty", func() {
-			const expect = true
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Title: ""}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"max", 20},
-				},
-			}
+			g.It("failure when the value exceeds the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Weight",
+						Check: validation.Rule{"max", 60},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("max(8):string_empty", func() {
-			const expect = true
-
-			article := &Article{Title: ""}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"max", 8},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("max(20):string_filled", func() {
-			const expect = true
-
-			article := &Article{Title: "Hello Test!"}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"max", 20},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("max(8):string_filled", func() {
-			const expect = false
-
-			article := &Article{Title: "Hello Test!"}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"max", 8},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{Weight: 65})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("max(3):array_empty", func() {
-			const expect = true
+		g.Describe("string", func() {
+			g.It("success when the length is less than the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			article := &Article{EmptyArr: [0]string{}}
-			filter := validation.Filter{
-				{
-					Field: "EmptyArr",
-					Check: validation.Rule{"max", 3},
-				},
-			}
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the length reaches the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"max", 4},
+					},
+				}
 
-		g.It("max(2):array_empty", func() {
-			const expect = true
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{EmptyArr: [0]string{}}
-			filter := validation.Filter{
-				{
-					Field: "EmptyArr",
-					Check: validation.Rule{"max", 2},
-				},
-			}
+			g.It("success when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-		g.It("max(3):array_filled", func() {
-			const expect = true
+			g.It("failure when the length exceeds the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"max", 2},
+					},
+				}
 
-			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "FilledArr",
-					Check: validation.Rule{"max", 3},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("max(2):array_filled", func() {
-			const expect = false
-
-			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "FilledArr",
-					Check: validation.Rule{"max", 2},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("max(3):slice_empty", func() {
-			const expect = true
+		g.Describe("array", func() {
+			g.It("success when the length is less than the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			article := &Article{Phones: []string{}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"max", 3},
-				},
-			}
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the length reaches the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"max", 4},
+					},
+				}
 
-		g.It("max(2):slice_empty", func() {
-			const expect = true
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Phones: []string{}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"max", 2},
-				},
-			}
+			g.It("success when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-		g.It("max(3):slice_filled", func() {
-			const expect = true
+			g.It("failure when the length exceeds the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"max", 2},
+					},
+				}
 
-			article := &Article{Phones: []string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"max", 3},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("max(2):slice_filled", func() {
-			const expect = false
-
-			article := &Article{Phones: []string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"max", 2},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("max(3):map_empty", func() {
-			const expect = true
+		g.Describe("slice", func() {
+			g.It("success when the length is less than the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			article := &Article{Map: map[string]string{}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"max", 3},
-				},
-			}
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			g.It("success when the length reaches the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"max", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("success when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"max", 8},
+					},
+				}
+
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("failure when the length exceeds the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"max", 2},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsFalse()
+			})
 		})
 
-		g.It("max(2):map_empty", func() {
-			const expect = true
+		// ...
 
-			article := &Article{Map: map[string]string{}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"max", 2},
-				},
-			}
+		g.Describe("map", func() {
+			g.It("success when the length is less than the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsTrue()
+			})
 
-		g.It("max(2):map_filled", func() {
-			const expect = true
+			g.It("success when the length reaches the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"max", 4},
+					},
+				}
 
-			article := &Article{Map: map[string]string{
-				"key1": "val1",
-				"key2": "val2",
-			}}
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"max", 2},
-				},
-			}
+			g.It("success when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"max", 8},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-		g.It("max(1):map_filled", func() {
-			const expect = false
+			g.It("failure when the length exceeds the max threshold", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"max", 2},
+					},
+				}
 
-			article := &Article{Map: map[string]string{
-				"key1": "val1",
-				"key2": "val2",
-			}}
-
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"max", 1},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsFalse()
+			})
 		})
 	})
 
 	// ...
 
 	g.Describe(`Rule "eq"`, func() {
-		g.It("eq(0):1", func() {
-			const expect = false
+		g.Describe("numeric", func() {
+			g.It("success when the value equals the expected number", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"eq", 21},
+					},
+				}
 
-			article := &Article{Id: 1}
-			filter := validation.Filter{
-				{
-					Field: "Id",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
+				result := filter.IsValid(Article{Age: 21})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the value equals the initial zero", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"eq", 0},
+					},
+				}
 
-		g.It("eq(1):1", func() {
-			const expect = true
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Id: 1}
-			filter := validation.Filter{
-				{
-					Field: "Id",
-					Check: validation.Rule{"eq", 1},
-				},
-			}
+			g.It("failure when the value is less than the expected number", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"eq", 21},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{Age: 18})
+				g.Assert(result).IsFalse()
+			})
 
-		// ...
+			g.It("failure when the value is greater than the expected number", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"eq", 21},
+					},
+				}
 
-		g.It("eq(0):string_empty", func() {
-			const expect = true
+				result := filter.IsValid(Article{Age: 28})
+				g.Assert(result).IsFalse()
+			})
 
-			article := &Article{Title: ""}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Age",
+						Check: validation.Rule{"eq", 21},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("eq(11):string_empty", func() {
-			const expect = false
-
-			article := &Article{Title: ""}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"eq", 11},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("eq(0):string_filled", func() {
-			const expect = false
-
-			article := &Article{Title: "Hello Test!"}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("eq(11):string_filled", func() {
-			const expect = true
-
-			article := &Article{Title: "Hello Test!"}
-			filter := validation.Filter{
-				{
-					Field: "Title",
-					Check: validation.Rule{"eq", 11},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("eq(0):array_empty", func() {
-			const expect = true
+		g.Describe("string", func() {
+			g.It("success when the length matches a filled string", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-			article := &Article{EmptyArr: [0]string{}}
-			filter := validation.Filter{
-				{
-					Field: "EmptyArr",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the length matches an empty string", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"eq", 0},
+					},
+				}
 
-		g.It("eq(3):array_empty", func() {
-			const expect = false
+				result := filter.IsValid(Article{Title: strEmpty})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{EmptyArr: [0]string{}}
-			filter := validation.Filter{
-				{
-					Field: "EmptyArr",
-					Check: validation.Rule{"eq", 3},
-				},
-			}
+			g.It("failure when the length is less than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+				result := filter.IsValid(Article{Title: strEmpty})
+				g.Assert(result).IsFalse()
+			})
 
-		g.It("eq(0):array_filled", func() {
-			const expect = false
+			g.It("failure when the length is greater than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"eq", 2},
+					},
+				}
 
-			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "FilledArr",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
+				result := filter.IsValid(Article{Title: strFilled})
+				g.Assert(result).IsFalse()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Title",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-		g.It("eq(3):array_filled", func() {
-			const expect = true
-
-			article := &Article{FilledArr: [3]string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "FilledArr",
-					Check: validation.Rule{"eq", 3},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		// ...
-
-		g.It("eq(0):slice_empty", func() {
-			const expect = true
-
-			article := &Article{Phones: []string{}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("eq(3):slice_empty", func() {
-			const expect = false
-
-			article := &Article{Phones: []string{}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"eq", 3},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("eq(0):slice_filled", func() {
-			const expect = false
-
-			article := &Article{Phones: []string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
-
-		g.It("eq(3):slice_filled", func() {
-			const expect = true
-
-			article := &Article{Phones: []string{"A", "B", "C"}}
-			filter := validation.Filter{
-				{
-					Field: "Phones",
-					Check: validation.Rule{"eq", 3},
-				},
-			}
-
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
 		// ...
 
-		g.It("eq(0):map_empty", func() {
-			const expect = true
+		g.Describe("array", func() {
+			g.It("success when the length matches a filled array", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-			article := &Article{Map: map[string]string{}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			g.It("success when the length matches an empty array", func() {
+				filter := validation.Filter{
+					{
+						Field: "EmptyArr",
+						Check: validation.Rule{"eq", 0},
+					},
+				}
+
+				result := filter.IsValid(Article{EmptyArr: arrEmpty})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("failure when the length is less than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "EmptyArr",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{EmptyArr: arrEmpty})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when the length is greater than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"eq", 2},
+					},
+				}
+
+				result := filter.IsValid(Article{FilledArr: arrFilled})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "FilledArr",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
-		g.It("eq(3):map_empty", func() {
-			const expect = false
+		// ...
 
-			article := &Article{Map: map[string]string{}}
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"eq", 3},
-				},
-			}
+		g.Describe("slice", func() {
+			g.It("success when the length matches a filled slice", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("success when the length matches an empty slice", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"eq", 0},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceEmpty})
+				g.Assert(result).IsTrue()
+			})
+
+			g.It("failure when the length is less than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceEmpty})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when the length is greater than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"eq", 2},
+					},
+				}
+
+				result := filter.IsValid(Article{Images: sliceFilled})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Images",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 
-		g.It("eq(0):map_filled", func() {
-			const expect = false
+		// ...
 
-			article := &Article{Map: map[string]string{
-				"key1": "val1",
-				"key2": "val2",
-			}}
+		g.Describe("map", func() {
+			g.It("success when the length matches a filled map", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"eq", 0},
-				},
-			}
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsTrue()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
-		})
+			g.It("success when the length matches an empty map", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"eq", 0},
+					},
+				}
 
-		g.It("eq(2):map_filled", func() {
-			const expect = true
+				result := filter.IsValid(Article{Options: mapEmpty})
+				g.Assert(result).IsTrue()
+			})
 
-			article := &Article{Map: map[string]string{
-				"key1": "val1",
-				"key2": "val2",
-			}}
+			g.It("failure when the length is less than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
 
-			filter := validation.Filter{
-				{
-					Field: "Map",
-					Check: validation.Rule{"eq", 2},
-				},
-			}
+				result := filter.IsValid(Article{Options: mapEmpty})
+				g.Assert(result).IsFalse()
+			})
 
-			if res := filter.IsValid(article); res != expect {
-				t.Errorf("Expect( %T(%[1]v) ) => Got( %T(%[2]v) )", expect, res)
-			}
+			g.It("failure when the length is greater than expected", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"eq", 2},
+					},
+				}
+
+				result := filter.IsValid(Article{Options: mapFilled})
+				g.Assert(result).IsFalse()
+			})
+
+			g.It("failure when an empty value was passed", func() {
+				filter := validation.Filter{
+					{
+						Field: "Options",
+						Check: validation.Rule{"eq", 4},
+					},
+				}
+
+				result := filter.IsValid(Article{})
+				g.Assert(result).IsFalse()
+			})
 		})
 	})
 

@@ -9,6 +9,9 @@ import (
 	. "github.com/franela/goblin"
 )
 
+// go test ./test/unit/validation/...
+// go test -v -run TestValidate ./test/unit/validation/...
+
 func TestValidate(t *testing.T) {
 	type Article struct {
 		Id       uint64 `json:"id"`
@@ -35,7 +38,7 @@ func TestValidate(t *testing.T) {
 
 	g := Goblin(t)
 
-	g.Describe("Range (string)", func() {
+	g.Describe(`Rule "range" (text)`, func() {
 		g.It("success when given value within the range", func() {
 			filter := validation.Filter{
 				{
@@ -88,7 +91,7 @@ func TestValidate(t *testing.T) {
 		})
 	})
 
-	g.Describe("Range (integer)", func() {
+	g.Describe(`Rule "range" (numeric)`, func() {
 		g.It("success when given value within the range", func() {
 			filter := validation.Filter{
 				{
@@ -166,7 +169,7 @@ func TestValidate(t *testing.T) {
 		})
 	})
 
-	g.Describe("Rule (year)", func() {
+	g.Describe(`Rule "year"`, func() {
 		g.It("success when the value match", func() {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
