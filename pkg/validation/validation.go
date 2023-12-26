@@ -183,6 +183,7 @@ func Compare(action string, proto, value reflect.Value) string {
 		if value.IsZero() {
 			return MsgEmpty
 		}
+		return ""
 	}
 
 	if !proto.IsValid() {
