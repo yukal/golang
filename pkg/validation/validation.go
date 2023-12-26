@@ -30,6 +30,7 @@ const (
 	MsgNotValid    = "is not valid"
 	MsgEmpty       = "is empty"
 	// MsgNotMatch  = "is not match"
+	MsgInvalidValue = "invalid value"
 )
 
 type Group []any
@@ -174,7 +175,7 @@ func checkField(rules, value reflect.Value) string {
 
 func Compare(action string, proto, value reflect.Value) string {
 	if !value.IsValid() {
-		return ""
+		return MsgInvalidValue
 	}
 
 	switch action {
@@ -185,7 +186,7 @@ func Compare(action string, proto, value reflect.Value) string {
 	}
 
 	if !proto.IsValid() {
-		return ""
+		return MsgInvalidValue
 	}
 
 	switch action {
