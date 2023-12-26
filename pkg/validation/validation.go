@@ -232,7 +232,12 @@ func Compare(action string, proto, value reflect.Value) string {
 			hint = fmt.Sprintf(MsgMinStrLen, proto.Interface())
 
 		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			value = reflect.ValueOf(value.Len())
+			if value.IsZero() {
+				value = reflect.ValueOf(0)
+			} else {
+				value = reflect.ValueOf(value.Len())
+			}
+
 			hint = fmt.Sprintf(MsgMinSetLen, proto.Interface())
 
 		default:
@@ -251,7 +256,12 @@ func Compare(action string, proto, value reflect.Value) string {
 			hint = fmt.Sprintf(MsgMaxStrLen, proto.Interface())
 
 		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			value = reflect.ValueOf(value.Len())
+			if value.IsZero() {
+				value = reflect.ValueOf(0)
+			} else {
+				value = reflect.ValueOf(value.Len())
+			}
+
 			hint = fmt.Sprintf(MsgMaxSetLen, proto.Interface())
 
 		default:
@@ -270,7 +280,12 @@ func Compare(action string, proto, value reflect.Value) string {
 			hint = fmt.Sprintf(MsgEqStrLen, proto.Interface())
 
 		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			value = reflect.ValueOf(value.Len())
+			if value.IsZero() {
+				value = reflect.ValueOf(0)
+			} else {
+				value = reflect.ValueOf(value.Len())
+			}
+
 			hint = fmt.Sprintf(MsgEqSetLen, proto.Interface())
 
 		default:
