@@ -1,8 +1,10 @@
 package test
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
+	"time"
 	"yu/golang/pkg/validation"
 
 	. "github.com/franela/goblin"
@@ -29,6 +31,129 @@ func TestCompare(t *testing.T) {
 	)
 
 	g := Goblin(t)
+
+	g.Describe(`Rule NON_ZERO`, func() {
+		nonEmptyValues := []any{
+			int8(-1),
+			int16(-1),
+			int32(-1),
+			int64(-1),
+			int(-1),
+			uint8(1),
+			uint16(1),
+			uint32(1),
+			uint64(1),
+			uint(1),
+			float32(1),
+			float64(-1),
+			complex64(1),
+			complex128(-1),
+			true,
+			"ok",
+			time.Now(),
+		}
+
+		for _, val := range nonEmptyValues {
+			val := val
+			title := fmt.Sprintf("success if given a non-empty %T", val)
+
+			g.It(title, func() {
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(val)
+
+				result := validation.Compare(validation.NON_ZERO, proto, value)
+				g.Assert(result).Equal("")
+			})
+		}
+
+		emptyValues := []any{
+			*new(int8),       // 0
+			*new(int16),      // 0
+			*new(int32),      // 0
+			*new(int64),      // 0
+			*new(int),        // 0
+			*new(uint8),      // 0
+			*new(uint16),     // 0
+			*new(uint32),     // 0
+			*new(uint64),     // 0
+			*new(uint),       // 0
+			*new(float32),    // 0
+			*new(float64),    // 0
+			*new(complex64),  // 0
+			*new(complex128), // 0
+			*new(bool),       // false
+			*new(string),     // ""
+		}
+
+		for _, val := range emptyValues {
+			val := val
+			title := fmt.Sprintf("failure if given an empty %T", val)
+
+			g.It(title, func() {
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(val)
+
+				result := validation.Compare(validation.NON_ZERO, proto, value)
+				g.Assert(result).Equal(validation.MsgEmpty)
+			})
+		}
+
+		g.It("failure if given an empty array", func() {
+			proto := reflect.ValueOf(nil)
+			value := reflect.ValueOf(*new([0]string))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgEmpty)
+		})
+
+		g.It("failure if given an empty slice", func() {
+			proto := reflect.ValueOf(nil)
+			value := reflect.ValueOf(*new([]string))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgEmpty)
+		})
+
+		g.It("failure if given an empty map", func() {
+			proto := reflect.ValueOf(nil)
+			value := reflect.ValueOf(*new(map[string]string))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgEmpty)
+		})
+
+		g.It("failure if given an empty chan", func() {
+			proto := reflect.ValueOf(nil)
+			value := reflect.ValueOf(*new(chan string))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgEmpty)
+		})
+
+		g.It("failure if given an empty struct", func() {
+			proto := reflect.ValueOf(nil)
+			value := reflect.ValueOf(*new(struct{}))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgEmpty)
+		})
+
+		g.It("failure if given an empty func", func() {
+			proto := reflect.ValueOf(nil)
+			value := reflect.ValueOf(*new(func()))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgEmpty)
+		})
+
+		g.It("failure if given a nil value", func() {
+			proto := reflect.ValueOf(*new(interface{}))
+			value := reflect.ValueOf(*new(interface{}))
+
+			result := validation.Compare(validation.NON_ZERO, proto, value)
+			g.Assert(result).Equal(validation.MsgInvalidValue)
+		})
+	})
 
 	g.Describe(`Rule "eq" (equal)`, func() {
 		g.Describe("numeric", func() {
