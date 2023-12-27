@@ -30,7 +30,8 @@ const (
 	MsgNotValid    = "is not valid"
 	MsgEmpty       = "is empty"
 	// MsgNotMatch  = "is not match"
-	MsgInvalidValue = "invalid value"
+	MsgInvalidValue    = "invalid value"
+	MsgInvalidRangeVal = "invalid range value"
 )
 
 type Group []any
@@ -293,6 +294,10 @@ func filterRange(proto, value reflect.Value) string {
 	valMin := proto.Index(0)
 	valMax := proto.Index(1)
 
+	if valMin.IsZero() || valMax.IsZero() {
+		return MsgInvalidRangeVal
+	}
+
 	switch value.Kind() {
 	case reflect.String:
 		value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
@@ -309,7 +314,6 @@ func filterRange(proto, value reflect.Value) string {
 	if !IsMin(valMin.Interface(), value.Interface()) {
 		return hint
 	}
-
 	if !IsMax(valMax.Interface(), value.Interface()) {
 		return hint
 	}
