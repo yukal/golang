@@ -787,4 +787,265 @@ func TestCompare(t *testing.T) {
 		})
 	})
 
+	g.Describe(`Rule "range"`, func() {
+		g.Describe(`numeric`, func() {
+			g.It("success when the value matches the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 25})
+				value := reflect.ValueOf(15)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when given below-range value", func() {
+				proto := reflect.ValueOf(validation.Range{15, 25})
+				value := reflect.ValueOf(5)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must be in the range 15..25")
+			})
+
+			g.It("failure when given above-range value", func() {
+				proto := reflect.ValueOf(validation.Range{15, 25})
+				value := reflect.ValueOf(55)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must be in the range 15..25")
+			})
+
+			g.It("failure if at least 1 element of the range is empty", func() {
+				value := reflect.ValueOf(5)
+				protos := []validation.Range{
+					{},
+					{nil, 15},
+					{15, nil},
+				}
+
+				for _, item := range protos {
+					proto := reflect.ValueOf(item)
+					result := validation.Compare("range", proto, value)
+
+					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+				}
+			})
+
+			g.It("failure when given a nil value", func() {
+				proto := reflect.ValueOf(validation.Range{1, 25})
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("invalid value")
+			})
+		})
+
+		// ...
+
+		g.Describe(`array`, func() {
+			g.It("success when the length matches the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 4})
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is below the range", func() {
+				proto := reflect.ValueOf(validation.Range{10, 80})
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 10..80 items")
+			})
+
+			g.It("failure when the length is above the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 3})
+				value := reflect.ValueOf(arrFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 1..3 items")
+			})
+
+			g.It("failure if at least 1 element of the range is empty", func() {
+				value := reflect.ValueOf(arrFilled)
+				protos := []validation.Range{
+					{},
+					{nil, 4},
+					{4, nil},
+				}
+
+				for _, item := range protos {
+					proto := reflect.ValueOf(item)
+					result := validation.Compare("range", proto, value)
+
+					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+				}
+			})
+		})
+
+		// ...
+
+		g.Describe(`slice`, func() {
+			g.It("success when the length matches the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 4})
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is below the range", func() {
+				proto := reflect.ValueOf(validation.Range{10, 80})
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 10..80 items")
+			})
+
+			g.It("failure when the length is above the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 3})
+				value := reflect.ValueOf(sliceFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 1..3 items")
+			})
+
+			g.It("failure if at least 1 element of the range is empty", func() {
+				value := reflect.ValueOf(sliceFilled)
+				protos := []validation.Range{
+					{},
+					{nil, 4},
+					{4, nil},
+				}
+
+				for _, item := range protos {
+					proto := reflect.ValueOf(item)
+					result := validation.Compare("range", proto, value)
+
+					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+				}
+			})
+		})
+
+		// ...
+
+		g.Describe(`map`, func() {
+			g.It("success when the length matches the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 4})
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is below the range", func() {
+				proto := reflect.ValueOf(validation.Range{10, 80})
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 10..80 items")
+			})
+
+			g.It("failure when the length is above the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 3})
+				value := reflect.ValueOf(mapFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 1..3 items")
+			})
+
+			g.It("failure if at least 1 element of the range is empty", func() {
+				value := reflect.ValueOf(mapFilled)
+				protos := []validation.Range{
+					{},
+					{nil, 4},
+					{4, nil},
+				}
+
+				for _, item := range protos {
+					proto := reflect.ValueOf(item)
+					result := validation.Compare("range", proto, value)
+
+					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+				}
+			})
+		})
+
+		// ...
+
+		g.Describe(`string`, func() {
+			g.It("success when the length matches the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 4})
+				value := reflect.ValueOf(strFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("")
+			})
+
+			g.It("failure when the length is below the range", func() {
+				proto := reflect.ValueOf(validation.Range{10, 80})
+				value := reflect.ValueOf(strFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 10..80 characters")
+			})
+
+			g.It("failure when the length is above the range", func() {
+				proto := reflect.ValueOf(validation.Range{1, 3})
+				value := reflect.ValueOf(strFilled)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal("must contain 1..3 characters")
+			})
+
+			g.It("failure if at least 1 element of the range is empty", func() {
+				value := reflect.ValueOf(strFilled)
+				protos := []validation.Range{
+					{},
+					{nil, 4},
+					{4, nil},
+				}
+
+				for _, item := range protos {
+					proto := reflect.ValueOf(item)
+					result := validation.Compare("range", proto, value)
+
+					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+				}
+			})
+		})
+
+		// ...
+
+		g.Describe("emptiness", func() {
+			g.It("failure when given empty args: (nil, nil)", func() {
+				proto := reflect.ValueOf(nil)
+				value := reflect.ValueOf(nil)
+
+				result := validation.Compare("range", proto, value)
+				g.Assert(result).Equal(validation.MsgInvalidValue)
+			})
+		})
+	})
+
+	g.Describe(`Rule "year"`, func() {
+		g.It("success when the value matches a specific year", func() {
+			tm, err := time.Parse(time.RFC3339, "2023-12-25T16:04:05Z")
+			g.Assert(err).IsNil(err)
+
+			proto := reflect.ValueOf(2023)
+			value := reflect.ValueOf(tm)
+
+			result := validation.Compare("year", proto, value)
+			g.Assert(result).Equal("")
+		})
+
+		g.It("failure when the value is not match", func() {
+			proto := reflect.ValueOf(2024)
+			value := reflect.ValueOf(*new(time.Time))
+
+			result := validation.Compare("year", proto, value)
+			g.Assert(result).Equal("must be exactly 2024")
+		})
+	})
+
 }
