@@ -197,110 +197,23 @@ func Compare(action string, proto, value reflect.Value) string {
 		}
 
 	case "range":
-		hint := ""
-
-		valMin := proto.Index(0)
-		valMax := proto.Index(1)
-
-		switch value.Kind() {
-		case reflect.String:
-			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
-			hint = fmt.Sprintf(MsgRangeStrLen, valMin.Interface(), valMax.Interface())
-
-		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			value = reflect.ValueOf(value.Len())
-			hint = fmt.Sprintf(MsgRangeSetLen, valMin.Interface(), valMax.Interface())
-
-		default:
-			hint = fmt.Sprintf(MsgRange, valMin.Interface(), valMax.Interface())
-		}
-
-		if !IsMin(valMin.Interface(), value.Interface()) {
-			return hint
-		}
-
-		if !IsMax(valMax.Interface(), value.Interface()) {
-			return hint
-		}
+		return filterRange(proto, value)
 
 	case "min":
-		hint := ""
+		return filterMin(proto, value)
 
-		switch value.Kind() {
-		case reflect.String:
-			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
-			hint = fmt.Sprintf(MsgMinStrLen, proto.Interface())
-
-		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			if value.IsZero() {
-				value = reflect.ValueOf(0)
-			} else {
-				value = reflect.ValueOf(value.Len())
-			}
-
-			hint = fmt.Sprintf(MsgMinSetLen, proto.Interface())
-
-		default:
-			hint = fmt.Sprintf(MsgMin, proto.Interface())
-		}
-
-		if !IsMin(proto.Interface(), value.Interface()) {
-			return hint
-		}
 	case "max":
-		hint := ""
+		return filterMax(proto, value)
 
-		switch value.Kind() {
-		case reflect.String:
-			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
-			hint = fmt.Sprintf(MsgMaxStrLen, proto.Interface())
-
-		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			if value.IsZero() {
-				value = reflect.ValueOf(0)
-			} else {
-				value = reflect.ValueOf(value.Len())
-			}
-
-			hint = fmt.Sprintf(MsgMaxSetLen, proto.Interface())
-
-		default:
-			hint = fmt.Sprintf(MsgMax, proto.Interface())
-		}
-
-		if !IsMax(proto.Interface(), value.Interface()) {
-			return hint
-		}
 	case "eq":
-		hint := ""
-
-		switch value.Kind() {
-		case reflect.String:
-			value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
-			hint = fmt.Sprintf(MsgEqStrLen, proto.Interface())
-
-		case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-			if value.IsZero() {
-				value = reflect.ValueOf(0)
-			} else {
-				value = reflect.ValueOf(value.Len())
-			}
-
-			hint = fmt.Sprintf(MsgEqSetLen, proto.Interface())
-
-		default:
-			hint = fmt.Sprintf(MsgEq, proto.Interface())
-		}
-		if !IsEqual(proto.Interface(), value.Interface()) {
-			return hint
-		}
+		return filterEq(proto, value)
 
 	case "match":
 		if !IsMatch(proto.Interface(), value.Interface()) {
 			return MsgNotValid
 		}
 
-	case "matchEach":
+	case "eachMatch":
 		if !IsEachMatches(proto.Interface(), value.Interface()) {
 			return MsgNotValid
 		}
@@ -369,6 +282,120 @@ func Compare(action string, proto, value reflect.Value) string {
 		if !IsYearEqual(proto.Interface(), value.Interface()) {
 			return fmt.Sprintf(MsgEq, proto.Interface())
 		}
+	}
+
+	return ""
+}
+
+func filterRange(proto, value reflect.Value) string {
+	hint := ""
+
+	valMin := proto.Index(0)
+	valMax := proto.Index(1)
+
+	switch value.Kind() {
+	case reflect.String:
+		value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+		hint = fmt.Sprintf(MsgRangeStrLen, valMin.Interface(), valMax.Interface())
+
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+		value = reflect.ValueOf(value.Len())
+		hint = fmt.Sprintf(MsgRangeSetLen, valMin.Interface(), valMax.Interface())
+
+	default:
+		hint = fmt.Sprintf(MsgRange, valMin.Interface(), valMax.Interface())
+	}
+
+	if !IsMin(valMin.Interface(), value.Interface()) {
+		return hint
+	}
+
+	if !IsMax(valMax.Interface(), value.Interface()) {
+		return hint
+	}
+
+	return ""
+}
+
+func filterMin(proto, value reflect.Value) string {
+	hint := ""
+
+	switch value.Kind() {
+	case reflect.String:
+		value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+		hint = fmt.Sprintf(MsgMinStrLen, proto.Interface())
+
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+		if value.IsZero() {
+			value = reflect.ValueOf(0)
+		} else {
+			value = reflect.ValueOf(value.Len())
+		}
+
+		hint = fmt.Sprintf(MsgMinSetLen, proto.Interface())
+
+	default:
+		hint = fmt.Sprintf(MsgMin, proto.Interface())
+	}
+
+	if !IsMin(proto.Interface(), value.Interface()) {
+		return hint
+	}
+
+	return ""
+}
+
+func filterMax(proto, value reflect.Value) string {
+	hint := ""
+
+	switch value.Kind() {
+	case reflect.String:
+		value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+		hint = fmt.Sprintf(MsgMaxStrLen, proto.Interface())
+
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+		if value.IsZero() {
+			value = reflect.ValueOf(0)
+		} else {
+			value = reflect.ValueOf(value.Len())
+		}
+
+		hint = fmt.Sprintf(MsgMaxSetLen, proto.Interface())
+
+	default:
+		hint = fmt.Sprintf(MsgMax, proto.Interface())
+	}
+
+	if !IsMax(proto.Interface(), value.Interface()) {
+		return hint
+	}
+
+	return ""
+}
+
+func filterEq(proto, value reflect.Value) string {
+	hint := ""
+
+	switch value.Kind() {
+	case reflect.String:
+		value = reflect.ValueOf(utf8.RuneCountInString(value.String()))
+		hint = fmt.Sprintf(MsgEqStrLen, proto.Interface())
+
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
+		if value.IsZero() {
+			value = reflect.ValueOf(0)
+		} else {
+			value = reflect.ValueOf(value.Len())
+		}
+
+		hint = fmt.Sprintf(MsgEqSetLen, proto.Interface())
+
+	default:
+		hint = fmt.Sprintf(MsgEq, proto.Interface())
+	}
+
+	if !IsEqual(proto.Interface(), value.Interface()) {
+		return hint
 	}
 
 	return ""
