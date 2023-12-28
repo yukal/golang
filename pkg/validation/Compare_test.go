@@ -1,17 +1,16 @@
-package test
+package validation
 
 import (
 	"fmt"
 	"reflect"
 	"testing"
 	"time"
-	"yu/golang/pkg/validation"
 
 	. "github.com/franela/goblin"
 )
 
-// go test ./test/unit/validation/...
-// go test -v -run TestCompare ./test/unit/validation/...
+// go test ./pkg/validation/...
+// go test -v -run TestCompare ./pkg/validation/...
 
 func TestCompare(t *testing.T) {
 	var (
@@ -61,7 +60,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(val)
 
-				result := validation.Compare(validation.NON_ZERO, proto, value)
+				result := Compare(NON_ZERO, proto, value)
 				g.Assert(result).Equal("")
 			})
 		}
@@ -93,8 +92,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(val)
 
-				result := validation.Compare(validation.NON_ZERO, proto, value)
-				g.Assert(result).Equal(validation.MsgEmpty)
+				result := Compare(NON_ZERO, proto, value)
+				g.Assert(result).Equal(MsgEmpty)
 			})
 		}
 
@@ -102,56 +101,56 @@ func TestCompare(t *testing.T) {
 			proto := reflect.ValueOf(nil)
 			value := reflect.ValueOf(*new([0]string))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgEmpty)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgEmpty)
 		})
 
 		g.It("failure if given an empty slice", func() {
 			proto := reflect.ValueOf(nil)
 			value := reflect.ValueOf(*new([]string))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgEmpty)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgEmpty)
 		})
 
 		g.It("failure if given an empty map", func() {
 			proto := reflect.ValueOf(nil)
 			value := reflect.ValueOf(*new(map[string]string))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgEmpty)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgEmpty)
 		})
 
 		g.It("failure if given an empty chan", func() {
 			proto := reflect.ValueOf(nil)
 			value := reflect.ValueOf(*new(chan string))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgEmpty)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgEmpty)
 		})
 
 		g.It("failure if given an empty struct", func() {
 			proto := reflect.ValueOf(nil)
 			value := reflect.ValueOf(*new(struct{}))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgEmpty)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgEmpty)
 		})
 
 		g.It("failure if given an empty func", func() {
 			proto := reflect.ValueOf(nil)
 			value := reflect.ValueOf(*new(func()))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgEmpty)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgEmpty)
 		})
 
 		g.It("failure if given a nil value", func() {
 			proto := reflect.ValueOf(*new(interface{}))
 			value := reflect.ValueOf(*new(interface{}))
 
-			result := validation.Compare(validation.NON_ZERO, proto, value)
-			g.Assert(result).Equal(validation.MsgInvalidValue)
+			result := Compare(NON_ZERO, proto, value)
+			g.Assert(result).Equal(MsgInvalidValue)
 		})
 	})
 
@@ -161,7 +160,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(4)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -169,7 +168,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(-4)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must be exactly 4")
 			})
 
@@ -177,7 +176,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(8)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must be exactly 4")
 			})
 
@@ -185,8 +184,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(1)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -197,7 +196,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -205,7 +204,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(0)
 				value := reflect.ValueOf(arrEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -213,7 +212,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(arrEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 4 items")
 			})
 
@@ -221,7 +220,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 2 items")
 			})
 
@@ -229,8 +228,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(arrFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -241,7 +240,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -249,7 +248,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(0)
 				value := reflect.ValueOf(sliceEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -257,7 +256,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(sliceEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 4 items")
 			})
 
@@ -265,7 +264,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 2 items")
 			})
 
@@ -273,8 +272,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(sliceFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -285,7 +284,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -293,7 +292,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(0)
 				value := reflect.ValueOf(mapEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -301,7 +300,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(mapEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 4 items")
 			})
 
@@ -309,7 +308,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 2 items")
 			})
 
@@ -317,8 +316,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(mapFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -329,7 +328,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -337,7 +336,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(0)
 				value := reflect.ValueOf(strEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -345,7 +344,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strEmpty)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 4 characters")
 			})
 
@@ -353,7 +352,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("eq", proto, value)
+				result := Compare("eq", proto, value)
 				g.Assert(result).Equal("must contain exactly 2 characters")
 			})
 
@@ -361,8 +360,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(strFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -373,16 +372,16 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 
 			g.It("failure when given empty args: (nil, 1)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(1)
 
-				result := validation.Compare("eq", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("eq", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 	})
@@ -393,7 +392,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(8)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -401,7 +400,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(4)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -409,7 +408,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(-4)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("must be at least 4")
 			})
 
@@ -417,8 +416,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(1)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -429,7 +428,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -437,7 +436,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -445,7 +444,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("must contain at least 8 characters")
 			})
 
@@ -453,8 +452,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(strFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -465,7 +464,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -473,7 +472,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -481,7 +480,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("must contain at least 8 items")
 			})
 
@@ -489,8 +488,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(arrFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -501,7 +500,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -509,7 +508,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -517,7 +516,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("must contain at least 8 items")
 			})
 
@@ -525,8 +524,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(sliceFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -537,7 +536,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -545,7 +544,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -553,7 +552,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("min", proto, value)
+				result := Compare("min", proto, value)
 				g.Assert(result).Equal("must contain at least 8 items")
 			})
 
@@ -561,8 +560,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(mapFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -573,16 +572,16 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 
 			g.It("failure when given empty args: (nil, 1)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(1)
 
-				result := validation.Compare("min", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("min", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 	})
@@ -593,7 +592,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(-4)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -601,7 +600,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(4)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -609,7 +608,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(8)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("must be up to 4")
 			})
 
@@ -617,8 +616,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(1)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -629,7 +628,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -637,7 +636,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -645,7 +644,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("must contain up to 2 items")
 			})
 
@@ -653,8 +652,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(arrFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -665,7 +664,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -673,7 +672,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -681,7 +680,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("must contain up to 2 items")
 			})
 
@@ -689,8 +688,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(sliceFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -701,7 +700,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -709,7 +708,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -717,7 +716,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("must contain up to 2 items")
 			})
 
@@ -725,8 +724,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(mapFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -737,7 +736,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(8)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -745,7 +744,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(4)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("")
 			})
 
@@ -753,7 +752,7 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(2)
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("max", proto, value)
+				result := Compare("max", proto, value)
 				g.Assert(result).Equal("must contain up to 2 characters")
 			})
 
@@ -761,8 +760,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(strFilled)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 
@@ -773,16 +772,16 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 
 			g.It("failure when given empty args: (nil, 1)", func() {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(1)
 
-				result := validation.Compare("max", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("max", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 	})
@@ -790,32 +789,32 @@ func TestCompare(t *testing.T) {
 	g.Describe(`Rule "range"`, func() {
 		g.Describe(`numeric`, func() {
 			g.It("success when the value matches the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 25})
+				proto := reflect.ValueOf(Range{1, 25})
 				value := reflect.ValueOf(15)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("")
 			})
 
 			g.It("failure when given below-range value", func() {
-				proto := reflect.ValueOf(validation.Range{15, 25})
+				proto := reflect.ValueOf(Range{15, 25})
 				value := reflect.ValueOf(5)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must be in the range 15..25")
 			})
 
 			g.It("failure when given above-range value", func() {
-				proto := reflect.ValueOf(validation.Range{15, 25})
+				proto := reflect.ValueOf(Range{15, 25})
 				value := reflect.ValueOf(55)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must be in the range 15..25")
 			})
 
 			g.It("failure if at least 1 element of the range is empty", func() {
 				value := reflect.ValueOf(5)
-				protos := []validation.Range{
+				protos := []Range{
 					{},
 					{nil, 15},
 					{15, nil},
@@ -823,17 +822,17 @@ func TestCompare(t *testing.T) {
 
 				for _, item := range protos {
 					proto := reflect.ValueOf(item)
-					result := validation.Compare("range", proto, value)
+					result := Compare("range", proto, value)
 
-					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+					g.Assert(result).Equal(MsgInvalidRangeVal)
 				}
 			})
 
 			g.It("failure when given a nil value", func() {
-				proto := reflect.ValueOf(validation.Range{1, 25})
+				proto := reflect.ValueOf(Range{1, 25})
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("invalid value")
 			})
 		})
@@ -842,32 +841,32 @@ func TestCompare(t *testing.T) {
 
 		g.Describe(`array`, func() {
 			g.It("success when the length matches the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 4})
+				proto := reflect.ValueOf(Range{1, 4})
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("")
 			})
 
 			g.It("failure when the length is below the range", func() {
-				proto := reflect.ValueOf(validation.Range{10, 80})
+				proto := reflect.ValueOf(Range{10, 80})
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 10..80 items")
 			})
 
 			g.It("failure when the length is above the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 3})
+				proto := reflect.ValueOf(Range{1, 3})
 				value := reflect.ValueOf(arrFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 1..3 items")
 			})
 
 			g.It("failure if at least 1 element of the range is empty", func() {
 				value := reflect.ValueOf(arrFilled)
-				protos := []validation.Range{
+				protos := []Range{
 					{},
 					{nil, 4},
 					{4, nil},
@@ -875,9 +874,9 @@ func TestCompare(t *testing.T) {
 
 				for _, item := range protos {
 					proto := reflect.ValueOf(item)
-					result := validation.Compare("range", proto, value)
+					result := Compare("range", proto, value)
 
-					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+					g.Assert(result).Equal(MsgInvalidRangeVal)
 				}
 			})
 		})
@@ -886,32 +885,32 @@ func TestCompare(t *testing.T) {
 
 		g.Describe(`slice`, func() {
 			g.It("success when the length matches the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 4})
+				proto := reflect.ValueOf(Range{1, 4})
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("")
 			})
 
 			g.It("failure when the length is below the range", func() {
-				proto := reflect.ValueOf(validation.Range{10, 80})
+				proto := reflect.ValueOf(Range{10, 80})
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 10..80 items")
 			})
 
 			g.It("failure when the length is above the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 3})
+				proto := reflect.ValueOf(Range{1, 3})
 				value := reflect.ValueOf(sliceFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 1..3 items")
 			})
 
 			g.It("failure if at least 1 element of the range is empty", func() {
 				value := reflect.ValueOf(sliceFilled)
-				protos := []validation.Range{
+				protos := []Range{
 					{},
 					{nil, 4},
 					{4, nil},
@@ -919,9 +918,9 @@ func TestCompare(t *testing.T) {
 
 				for _, item := range protos {
 					proto := reflect.ValueOf(item)
-					result := validation.Compare("range", proto, value)
+					result := Compare("range", proto, value)
 
-					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+					g.Assert(result).Equal(MsgInvalidRangeVal)
 				}
 			})
 		})
@@ -930,32 +929,32 @@ func TestCompare(t *testing.T) {
 
 		g.Describe(`map`, func() {
 			g.It("success when the length matches the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 4})
+				proto := reflect.ValueOf(Range{1, 4})
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("")
 			})
 
 			g.It("failure when the length is below the range", func() {
-				proto := reflect.ValueOf(validation.Range{10, 80})
+				proto := reflect.ValueOf(Range{10, 80})
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 10..80 items")
 			})
 
 			g.It("failure when the length is above the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 3})
+				proto := reflect.ValueOf(Range{1, 3})
 				value := reflect.ValueOf(mapFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 1..3 items")
 			})
 
 			g.It("failure if at least 1 element of the range is empty", func() {
 				value := reflect.ValueOf(mapFilled)
-				protos := []validation.Range{
+				protos := []Range{
 					{},
 					{nil, 4},
 					{4, nil},
@@ -963,9 +962,9 @@ func TestCompare(t *testing.T) {
 
 				for _, item := range protos {
 					proto := reflect.ValueOf(item)
-					result := validation.Compare("range", proto, value)
+					result := Compare("range", proto, value)
 
-					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+					g.Assert(result).Equal(MsgInvalidRangeVal)
 				}
 			})
 		})
@@ -974,32 +973,32 @@ func TestCompare(t *testing.T) {
 
 		g.Describe(`string`, func() {
 			g.It("success when the length matches the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 4})
+				proto := reflect.ValueOf(Range{1, 4})
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("")
 			})
 
 			g.It("failure when the length is below the range", func() {
-				proto := reflect.ValueOf(validation.Range{10, 80})
+				proto := reflect.ValueOf(Range{10, 80})
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 10..80 characters")
 			})
 
 			g.It("failure when the length is above the range", func() {
-				proto := reflect.ValueOf(validation.Range{1, 3})
+				proto := reflect.ValueOf(Range{1, 3})
 				value := reflect.ValueOf(strFilled)
 
-				result := validation.Compare("range", proto, value)
+				result := Compare("range", proto, value)
 				g.Assert(result).Equal("must contain 1..3 characters")
 			})
 
 			g.It("failure if at least 1 element of the range is empty", func() {
 				value := reflect.ValueOf(strFilled)
-				protos := []validation.Range{
+				protos := []Range{
 					{},
 					{nil, 4},
 					{4, nil},
@@ -1007,9 +1006,9 @@ func TestCompare(t *testing.T) {
 
 				for _, item := range protos {
 					proto := reflect.ValueOf(item)
-					result := validation.Compare("range", proto, value)
+					result := Compare("range", proto, value)
 
-					g.Assert(result).Equal(validation.MsgInvalidRangeVal)
+					g.Assert(result).Equal(MsgInvalidRangeVal)
 				}
 			})
 		})
@@ -1021,8 +1020,8 @@ func TestCompare(t *testing.T) {
 				proto := reflect.ValueOf(nil)
 				value := reflect.ValueOf(nil)
 
-				result := validation.Compare("range", proto, value)
-				g.Assert(result).Equal(validation.MsgInvalidValue)
+				result := Compare("range", proto, value)
+				g.Assert(result).Equal(MsgInvalidValue)
 			})
 		})
 	})
@@ -1035,7 +1034,7 @@ func TestCompare(t *testing.T) {
 			proto := reflect.ValueOf(2023)
 			value := reflect.ValueOf(tm)
 
-			result := validation.Compare("year", proto, value)
+			result := Compare("year", proto, value)
 			g.Assert(result).Equal("")
 		})
 
@@ -1043,7 +1042,7 @@ func TestCompare(t *testing.T) {
 			proto := reflect.ValueOf(2024)
 			value := reflect.ValueOf(*new(time.Time))
 
-			result := validation.Compare("year", proto, value)
+			result := Compare("year", proto, value)
 			g.Assert(result).Equal("must be exactly 2024")
 		})
 	})

@@ -1,15 +1,14 @@
-package test
+package validation
 
 import (
 	"testing"
 	"time"
-	"yu/golang/pkg/validation"
 
 	. "github.com/franela/goblin"
 )
 
-// go test ./test/unit/validation/...
-// go test -v -run TestIsValid ./test/unit/validation/...
+// go test ./pkg/validation/...
+// go test -v -run TestIsValid ./pkg/validation/...
 
 func TestIsValid(t *testing.T) {
 	type Article struct {
@@ -54,10 +53,10 @@ func TestIsValid(t *testing.T) {
 
 	g.Describe(`Rule "range" (text)`, func() {
 		g.It("success when given value within the range", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Title",
-					Check: validation.Range{10, 20},
+					Check: Range{10, 20},
 				},
 			}
 
@@ -69,10 +68,10 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("failure when given too-short text", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Title",
-					Check: validation.Range{8, 16},
+					Check: Range{8, 16},
 				},
 			}
 
@@ -84,10 +83,10 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("failure when given too-long text", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Title",
-					Check: validation.Range{5, 15},
+					Check: Range{5, 15},
 				},
 			}
 
@@ -101,10 +100,10 @@ func TestIsValid(t *testing.T) {
 
 	g.Describe(`Rule "range" (numeric)`, func() {
 		g.It("success when given value within the range", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -116,7 +115,7 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("success when given an empty filter", func() {
-			filter := validation.Filter{}
+			filter := Filter{}
 			result := filter.IsValid(Article{
 				RegionId: 15,
 			})
@@ -125,10 +124,10 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("failure when given an empty data", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -137,10 +136,10 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("failure when given below-range value", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -152,10 +151,10 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("failure when given above-range value", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -172,10 +171,10 @@ func TestIsValid(t *testing.T) {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Date",
-					Check: validation.Rule{"year", 2006},
+					Check: Rule{"year", 2006},
 				},
 			}
 
@@ -190,7 +189,7 @@ func TestIsValid(t *testing.T) {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
-			filter := validation.Filter{}
+			filter := Filter{}
 			result := filter.IsValid(Article{
 				Date: tm,
 			})
@@ -199,10 +198,10 @@ func TestIsValid(t *testing.T) {
 		})
 
 		g.It("failure when given an empty data", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Date",
-					Check: validation.Rule{"year", 2024},
+					Check: Rule{"year", 2024},
 				},
 			}
 
@@ -215,10 +214,10 @@ func TestIsValid(t *testing.T) {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Date",
-					Check: validation.Rule{"year", 2024},
+					Check: Rule{"year", 2024},
 				},
 			}
 
@@ -235,10 +234,10 @@ func TestIsValid(t *testing.T) {
 	g.Describe(`Rule "min"`, func() {
 		g.Describe("numeric", func() {
 			g.It("success when the value exceeds the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"min", 18},
+						Check: Rule{"min", 18},
 					},
 				}
 
@@ -247,10 +246,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the value reaches the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"min", 18},
+						Check: Rule{"min", 18},
 					},
 				}
 
@@ -259,10 +258,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the value contains an initial zero as min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"min", 0},
+						Check: Rule{"min", 0},
 					},
 				}
 
@@ -271,10 +270,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is less than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"min", 18},
+						Check: Rule{"min", 18},
 					},
 				}
 
@@ -283,10 +282,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"min", 21},
+						Check: Rule{"min", 21},
 					},
 				}
 
@@ -299,10 +298,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("string", func() {
 			g.It("success when the length is greater than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"min", 2},
+						Check: Rule{"min", 2},
 					},
 				}
 
@@ -311,10 +310,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -323,10 +322,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is less than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"min", 8},
+						Check: Rule{"min", 8},
 					},
 				}
 
@@ -335,10 +334,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -351,10 +350,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("array", func() {
 			g.It("success when the length is greater than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"min", 2},
+						Check: Rule{"min", 2},
 					},
 				}
 
@@ -363,10 +362,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -375,10 +374,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is less than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"min", 8},
+						Check: Rule{"min", 8},
 					},
 				}
 
@@ -387,10 +386,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -403,10 +402,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("slice", func() {
 			g.It("success when the length is greater than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"min", 2},
+						Check: Rule{"min", 2},
 					},
 				}
 
@@ -415,10 +414,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -427,10 +426,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is less than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"min", 8},
+						Check: Rule{"min", 8},
 					},
 				}
 
@@ -439,10 +438,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -455,10 +454,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("map", func() {
 			g.It("success when the length is greater than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"min", 2},
+						Check: Rule{"min", 2},
 					},
 				}
 
@@ -467,10 +466,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -479,10 +478,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is less than the min threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"min", 8},
+						Check: Rule{"min", 8},
 					},
 				}
 
@@ -491,10 +490,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"min", 4},
+						Check: Rule{"min", 4},
 					},
 				}
 
@@ -509,10 +508,10 @@ func TestIsValid(t *testing.T) {
 	g.Describe(`Rule "max"`, func() {
 		g.Describe("numeric", func() {
 			g.It("success when the value is less than the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Weight",
-						Check: validation.Rule{"max", 60},
+						Check: Rule{"max", 60},
 					},
 				}
 
@@ -521,10 +520,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the value reaches the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Weight",
-						Check: validation.Rule{"max", 60},
+						Check: Rule{"max", 60},
 					},
 				}
 
@@ -533,10 +532,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the value contains an initial zero as max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"max", 0},
+						Check: Rule{"max", 0},
 					},
 				}
 
@@ -545,10 +544,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Weight",
-						Check: validation.Rule{"max", 60},
+						Check: Rule{"max", 60},
 					},
 				}
 
@@ -557,10 +556,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value exceeds the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Weight",
-						Check: validation.Rule{"max", 60},
+						Check: Rule{"max", 60},
 					},
 				}
 
@@ -573,10 +572,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("string", func() {
 			g.It("success when the length is less than the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -585,10 +584,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"max", 4},
+						Check: Rule{"max", 4},
 					},
 				}
 
@@ -597,10 +596,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -609,10 +608,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length exceeds the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"max", 2},
+						Check: Rule{"max", 2},
 					},
 				}
 
@@ -625,10 +624,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("array", func() {
 			g.It("success when the length is less than the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -637,10 +636,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"max", 4},
+						Check: Rule{"max", 4},
 					},
 				}
 
@@ -649,10 +648,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -661,10 +660,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length exceeds the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"max", 2},
+						Check: Rule{"max", 2},
 					},
 				}
 
@@ -677,10 +676,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("slice", func() {
 			g.It("success when the length is less than the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -689,10 +688,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"max", 4},
+						Check: Rule{"max", 4},
 					},
 				}
 
@@ -701,10 +700,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -713,10 +712,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length exceeds the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"max", 2},
+						Check: Rule{"max", 2},
 					},
 				}
 
@@ -729,10 +728,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("map", func() {
 			g.It("success when the length is less than the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -741,10 +740,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length reaches the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"max", 4},
+						Check: Rule{"max", 4},
 					},
 				}
 
@@ -753,10 +752,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"max", 8},
+						Check: Rule{"max", 8},
 					},
 				}
 
@@ -765,10 +764,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length exceeds the max threshold", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"max", 2},
+						Check: Rule{"max", 2},
 					},
 				}
 
@@ -783,10 +782,10 @@ func TestIsValid(t *testing.T) {
 	g.Describe(`Rule "eq"`, func() {
 		g.Describe("numeric", func() {
 			g.It("success when the value equals the expected number", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"eq", 21},
+						Check: Rule{"eq", 21},
 					},
 				}
 
@@ -795,10 +794,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the value equals the initial zero", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"eq", 0},
+						Check: Rule{"eq", 0},
 					},
 				}
 
@@ -807,10 +806,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is less than the expected number", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"eq", 21},
+						Check: Rule{"eq", 21},
 					},
 				}
 
@@ -819,10 +818,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the value is greater than the expected number", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"eq", 21},
+						Check: Rule{"eq", 21},
 					},
 				}
 
@@ -831,10 +830,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Age",
-						Check: validation.Rule{"eq", 21},
+						Check: Rule{"eq", 21},
 					},
 				}
 
@@ -847,10 +846,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("string", func() {
 			g.It("success when the length matches a filled string", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -859,10 +858,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length matches an empty string", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"eq", 0},
+						Check: Rule{"eq", 0},
 					},
 				}
 
@@ -871,10 +870,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is less than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -883,10 +882,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is greater than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"eq", 2},
+						Check: Rule{"eq", 2},
 					},
 				}
 
@@ -895,10 +894,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Title",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -911,10 +910,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("array", func() {
 			g.It("success when the length matches a filled array", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -923,10 +922,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length matches an empty array", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "EmptyArr",
-						Check: validation.Rule{"eq", 0},
+						Check: Rule{"eq", 0},
 					},
 				}
 
@@ -935,10 +934,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is less than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "EmptyArr",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -947,10 +946,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is greater than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"eq", 2},
+						Check: Rule{"eq", 2},
 					},
 				}
 
@@ -959,10 +958,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "FilledArr",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -975,10 +974,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("slice", func() {
 			g.It("success when the length matches a filled slice", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -987,10 +986,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length matches an empty slice", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"eq", 0},
+						Check: Rule{"eq", 0},
 					},
 				}
 
@@ -999,10 +998,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is less than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -1011,10 +1010,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is greater than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"eq", 2},
+						Check: Rule{"eq", 2},
 					},
 				}
 
@@ -1023,10 +1022,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Images",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -1039,10 +1038,10 @@ func TestIsValid(t *testing.T) {
 
 		g.Describe("map", func() {
 			g.It("success when the length matches a filled map", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -1051,10 +1050,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("success when the length matches an empty map", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"eq", 0},
+						Check: Rule{"eq", 0},
 					},
 				}
 
@@ -1063,10 +1062,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is less than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 
@@ -1075,10 +1074,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when the length is greater than expected", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"eq", 2},
+						Check: Rule{"eq", 2},
 					},
 				}
 
@@ -1087,10 +1086,10 @@ func TestIsValid(t *testing.T) {
 			})
 
 			g.It("failure when an empty value was passed", func() {
-				filter := validation.Filter{
+				filter := Filter{
 					{
 						Field: "Options",
-						Check: validation.Rule{"eq", 4},
+						Check: Rule{"eq", 4},
 					},
 				}
 

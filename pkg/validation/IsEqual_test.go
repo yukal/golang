@@ -1,16 +1,15 @@
-package test
+package validation
 
 import (
 	"fmt"
 	"testing"
 	"yu/golang/internal/app"
-	"yu/golang/pkg/validation"
 
 	. "github.com/franela/goblin"
 )
 
-// go test ./test/unit/validation/...
-// go test -v -run TestIsEqual ./test/unit/validation/...
+// go test ./pkg/validation/...
+// go test -v -run TestIsEqual ./pkg/validation/...
 
 func TestIsEqual(t *testing.T) {
 	g := Goblin(t)
@@ -59,7 +58,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -101,7 +100,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -143,7 +142,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -185,7 +184,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -227,7 +226,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -279,7 +278,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -321,7 +320,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -363,7 +362,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -405,7 +404,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -447,7 +446,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -499,7 +498,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -541,7 +540,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -583,7 +582,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -625,7 +624,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -667,7 +666,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -715,7 +714,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -757,7 +756,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -799,7 +798,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -841,7 +840,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -883,7 +882,7 @@ func TestIsEqual(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsEqual(item[1], item[2])
+					result := IsEqual(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}

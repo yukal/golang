@@ -1,16 +1,15 @@
-package test
+package validation
 
 import (
 	"fmt"
 	"testing"
 	"yu/golang/internal/app"
-	"yu/golang/pkg/validation"
 
 	. "github.com/franela/goblin"
 )
 
-// go test ./test/unit/validation/...
-// go test -v -run TestIsMin ./test/unit/validation/...
+// go test ./pkg/validation/...
+// go test -v -run TestIsMin ./pkg/validation/...
 
 func TestIsMin(t *testing.T) {
 	g := Goblin(t)
@@ -59,7 +58,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -101,7 +100,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -143,7 +142,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -185,7 +184,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -227,7 +226,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -283,7 +282,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -325,7 +324,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -367,7 +366,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -409,7 +408,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -451,7 +450,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -503,7 +502,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -545,7 +544,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -587,7 +586,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -629,7 +628,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -671,7 +670,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -719,7 +718,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -761,7 +760,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -803,7 +802,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -845,7 +844,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}
@@ -887,7 +886,7 @@ func TestIsMin(t *testing.T) {
 				}
 
 				g.It(fmt.Sprintf(title, item[1], item[2], item[3]), func() {
-					result := validation.IsMin(item[1], item[2])
+					result := IsMin(item[1], item[2])
 					g.Assert(result).Equal(item[3], fmt.Sprintf("Expect(%#v) Got(%#v)", item[3], result))
 				})
 			}

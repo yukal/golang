@@ -1,14 +1,13 @@
-package test
+package validation
 
 import (
 	"testing"
-	"yu/golang/pkg/validation"
 
 	. "github.com/franela/goblin"
 )
 
-// go test ./test/unit/validation/...
-// go test -v -run TestFilter ./test/unit/validation/...
+// go test ./pkg/validation/...
+// go test -v -run TestFilter ./pkg/validation/...
 
 func TestFilter(t *testing.T) {
 	type Person struct {
@@ -26,14 +25,14 @@ func TestFilter(t *testing.T) {
 
 	g.Describe(`Rule "min-fields"`, func() {
 		g.It("success", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Id",
-					Check: validation.NON_ZERO,
+					Check: NON_ZERO,
 				},
 				{
 					Field: "Status",
-					Check: validation.Range{1, 2},
+					Check: Range{1, 2},
 				},
 			}
 
@@ -46,18 +45,18 @@ func TestFilter(t *testing.T) {
 		})
 
 		g.It("failure", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Id",
-					Check: validation.NON_ZERO,
+					Check: NON_ZERO,
 				},
 				{
 					Field:    "Status",
-					Check:    validation.Range{1, 2},
+					Check:    Range{1, 2},
 					Optional: true,
 				},
 				{
-					Check: validation.Rule{"min-fields", 2},
+					Check: Rule{"min-fields", 2},
 				},
 			}
 
@@ -68,10 +67,10 @@ func TestFilter(t *testing.T) {
 
 	g.Describe("non-zero", func() {
 		g.It("success", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Id",
-					Check: validation.NON_ZERO,
+					Check: NON_ZERO,
 				},
 			}
 
@@ -80,10 +79,10 @@ func TestFilter(t *testing.T) {
 		})
 
 		g.It("failure", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Id",
-					Check: validation.NON_ZERO,
+					Check: NON_ZERO,
 				},
 			}
 
@@ -94,51 +93,51 @@ func TestFilter(t *testing.T) {
 
 	g.Describe("optional", func() {
 		g.It("failure", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Id",
-					Check: validation.NON_ZERO,
+					Check: NON_ZERO,
 				},
 				{
 					Field:    "Status",
-					Check:    validation.Range{1, 2},
+					Check:    Range{1, 2},
 					Optional: true,
 				},
 				{
 					Field:    "Role",
-					Check:    validation.Range{1, 3},
+					Check:    Range{1, 3},
 					Optional: true,
 				},
 				{
 					Field:    "LastName",
-					Check:    validation.Range{3, 20},
+					Check:    Range{3, 20},
 					Optional: true,
 				},
 				{
 					Field:    "FirstName",
-					Check:    validation.Range{3, 20},
+					Check:    Range{3, 20},
 					Optional: true,
 				},
 				{
 					Field:    "Patronymic",
-					Check:    validation.Range{3, 20},
+					Check:    Range{3, 20},
 					Optional: true,
 				},
 				{
 					Field:    "Phone",
-					Check:    validation.Rule{"match", `^\d{10}$`},
+					Check:    Rule{"match", `^\d{10}$`},
 					Optional: true,
 				},
 				{
 					Field: "Email",
-					Check: validation.Group{
-						validation.Rule{"max", 40},
-						validation.Rule{"match", `(?i)^[\w.+-]+@[\w-]+\.[\w-.]+$`},
+					Check: Group{
+						Rule{"max", 40},
+						Rule{"match", `(?i)^[\w.+-]+@[\w-]+\.[\w-.]+$`},
 					},
 					Optional: true,
 				},
 				{
-					Check: validation.Rule{"min-fields", 2},
+					Check: Rule{"min-fields", 2},
 				},
 			}
 

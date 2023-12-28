@@ -1,16 +1,15 @@
-package test
+package validation
 
 import (
 	"testing"
 	"time"
-	"yu/golang/pkg/validation"
 	"yu/golang/test"
 
 	. "github.com/franela/goblin"
 )
 
-// go test ./test/unit/validation/...
-// go test -v -run TestValidate ./test/unit/validation/...
+// go test ./pkg/validation/...
+// go test -v -run TestValidate ./pkg/validation/...
 
 func TestValidate(t *testing.T) {
 	type Article struct {
@@ -40,10 +39,10 @@ func TestValidate(t *testing.T) {
 
 	g.Describe(`Rule "range" (text)`, func() {
 		g.It("success when given value within the range", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Title",
-					Check: validation.Range{10, 20},
+					Check: Range{10, 20},
 				},
 			}
 
@@ -57,10 +56,10 @@ func TestValidate(t *testing.T) {
 		g.It("failure when given too-short text", func() {
 			const expect = "title must contain 8..16 characters"
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Title",
-					Check: validation.Range{8, 16},
+					Check: Range{8, 16},
 				},
 			}
 
@@ -75,10 +74,10 @@ func TestValidate(t *testing.T) {
 		g.It("failure when given too-long text", func() {
 			const expect = "title must contain 5..15 characters"
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Title",
-					Check: validation.Range{5, 15},
+					Check: Range{5, 15},
 				},
 			}
 
@@ -93,10 +92,10 @@ func TestValidate(t *testing.T) {
 
 	g.Describe(`Rule "range" (numeric)`, func() {
 		g.It("success when given value within the range", func() {
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -108,7 +107,7 @@ func TestValidate(t *testing.T) {
 		})
 
 		g.It("success when given an empty filter", func() {
-			filter := validation.Filter{}
+			filter := Filter{}
 			hints := filter.Validate(Article{
 				RegionId: 15,
 			})
@@ -119,10 +118,10 @@ func TestValidate(t *testing.T) {
 		g.It("failure when given an empty data", func() {
 			const expect = "regionId must be in the range 1..25"
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -135,10 +134,10 @@ func TestValidate(t *testing.T) {
 		g.It("failure when given below-range value", func() {
 			const expect = "regionId must be in the range 1..25"
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -153,10 +152,10 @@ func TestValidate(t *testing.T) {
 		g.It("failure when given above-range value", func() {
 			const expect = "regionId must be in the range 1..25"
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "RegionId",
-					Check: validation.Range{1, 25},
+					Check: Range{1, 25},
 				},
 			}
 
@@ -174,10 +173,10 @@ func TestValidate(t *testing.T) {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Date",
-					Check: validation.Rule{"year", 2006},
+					Check: Rule{"year", 2006},
 				},
 			}
 
@@ -192,7 +191,7 @@ func TestValidate(t *testing.T) {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
-			filter := validation.Filter{}
+			filter := Filter{}
 			hints := filter.Validate(Article{
 				Date: tm,
 			})
@@ -203,10 +202,10 @@ func TestValidate(t *testing.T) {
 		g.It("failure when given an empty data", func() {
 			const expect = "date must be exactly 2024"
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Date",
-					Check: validation.Rule{"year", 2024},
+					Check: Rule{"year", 2024},
 				},
 			}
 
@@ -222,10 +221,10 @@ func TestValidate(t *testing.T) {
 			tm, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
 			g.Assert(err).IsNil(err)
 
-			filter := validation.Filter{
+			filter := Filter{
 				{
 					Field: "Date",
-					Check: validation.Rule{"year", 2024},
+					Check: Rule{"year", 2024},
 				},
 			}
 
