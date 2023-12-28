@@ -209,7 +209,7 @@ func compare(action string, proto, value reflect.Value) string {
 		}
 
 	case "eachMatch":
-		if !IsEachMatches(proto.Interface(), value.Interface()) {
+		if !IsEachMatch(proto.Interface(), value.Interface()) {
 			return MsgNotValid
 		}
 

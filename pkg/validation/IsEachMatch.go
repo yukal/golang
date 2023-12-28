@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func IsEachMatches(reg, value any) bool {
+func IsEachMatch(reg, value any) bool {
 	refReg := reflect.ValueOf(reg)
 	refVal := reflect.ValueOf(value)
 

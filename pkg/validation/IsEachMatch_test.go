@@ -6,7 +6,7 @@ import (
 	. "github.com/franela/goblin"
 )
 
-func TestIsEachMatches(t *testing.T) {
+func TestIsEachMatch(t *testing.T) {
 	g := Goblin(t)
 
 	// TODO: check channels
@@ -15,7 +15,7 @@ func TestIsEachMatches(t *testing.T) {
 		reg := `(?i)^[0-9a-f]{32}$`
 
 		g.It("success when values match the mask", func() {
-			result := IsEachMatches(reg, []string{
+			result := IsEachMatch(reg, []string{
 				"b0fb0c19711bcf3b73f41c909f66bded",
 				"f41c909f66bdedb0fb0c19711bcf3b73",
 			})
@@ -23,24 +23,24 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		g.It("success when given an empty slice", func() {
-			result := IsEachMatches(reg, []string{
+			result := IsEachMatch(reg, []string{
 				// empty
 			})
 			g.Assert(result).IsTrue()
 		})
 
 		g.It(`success when given an empty mask`, func() {
-			result := IsEachMatches(``, []string{"str"})
+			result := IsEachMatch(``, []string{"str"})
 			g.Assert(result).IsTrue()
 		})
 
 		g.It("failure when given nil instead of mask", func() {
-			result := IsEachMatches(nil, []string{})
+			result := IsEachMatch(nil, []string{})
 			g.Assert(result).IsFalse()
 		})
 
 		g.It("failure when at least 1 value does not match", func() {
-			result := IsEachMatches(reg, []string{
+			result := IsEachMatch(reg, []string{
 				"b0fb0c19711bcf3b73f41c909f66bded",
 				"zzz",
 			})
@@ -53,7 +53,7 @@ func TestIsEachMatches(t *testing.T) {
 		reg := `^38[0-9]{10}$`
 
 		g.It("success when values match the mask", func() {
-			result := IsEachMatches(reg, [2]string{
+			result := IsEachMatch(reg, [2]string{
 				"380001234567",
 				"380007654321",
 			})
@@ -62,24 +62,24 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		g.It("success when given an empty array", func() {
-			result := IsEachMatches(reg, [0]string{
+			result := IsEachMatch(reg, [0]string{
 				// empty
 			})
 			g.Assert(result).IsTrue()
 		})
 
 		g.It(`success when given an empty mask`, func() {
-			result := IsEachMatches(``, [1]string{"str"})
+			result := IsEachMatch(``, [1]string{"str"})
 			g.Assert(result).IsTrue()
 		})
 
 		g.It("failure when given nil instead of mask", func() {
-			result := IsEachMatches(nil, [0]string{})
+			result := IsEachMatch(nil, [0]string{})
 			g.Assert(result).IsFalse()
 		})
 
 		g.It("failure when at least 1 value does not match", func() {
-			result := IsEachMatches(reg, []string{
+			result := IsEachMatch(reg, []string{
 				"380001234567",
 				"0001234567",
 			})
@@ -92,7 +92,7 @@ func TestIsEachMatches(t *testing.T) {
 		reg := `^https\://img\.domain\.com/[0-9A-Fa-f]{32}\.(?:pn|jpe?)g$`
 
 		g.It("success when values match the mask", func() {
-			result := IsEachMatches(reg, map[string]string{
+			result := IsEachMatch(reg, map[string]string{
 				"img1": "https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
 				"img2": "https://img.domain.com/4792592a98f8b9143de71d1db403d163.jpg",
 				"img3": "https://img.domain.com/92f2b876b8ea94f711d2173539e73802.png",
@@ -102,24 +102,24 @@ func TestIsEachMatches(t *testing.T) {
 		})
 
 		g.It("success when given an empty map", func() {
-			result := IsEachMatches(reg, map[string]string{
+			result := IsEachMatch(reg, map[string]string{
 				// empty
 			})
 			g.Assert(result).IsTrue()
 		})
 
 		g.It(`success when given an empty mask`, func() {
-			result := IsEachMatches(``, map[string]string{"k": "v"})
+			result := IsEachMatch(``, map[string]string{"k": "v"})
 			g.Assert(result).IsTrue()
 		})
 
 		g.It("failure when given nil instead of mask", func() {
-			result := IsEachMatches(nil, map[string]string{})
+			result := IsEachMatch(nil, map[string]string{})
 			g.Assert(result).IsFalse()
 		})
 
 		g.It("failure when at least 1 value does not match", func() {
-			result := IsEachMatches(reg, map[string]string{
+			result := IsEachMatch(reg, map[string]string{
 				"img1": "https://img.domain.com/5e8aa4647a6fd1545346e4375fedf14b.jpeg",
 				"img2": "https://hack.it/animation.gif",
 			})
@@ -130,12 +130,12 @@ func TestIsEachMatches(t *testing.T) {
 
 	g.Describe("emptiness", func() {
 		g.It(`failure when given args: ("", nil)`, func() {
-			result := IsEachMatches(``, nil)
+			result := IsEachMatch(``, nil)
 			g.Assert(result).IsFalse()
 		})
 
 		g.It("failure when given args: (nil, nil)", func() {
-			result := IsEachMatches(nil, nil)
+			result := IsEachMatch(nil, nil)
 			g.Assert(result).IsFalse()
 		})
 	})

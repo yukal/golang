@@ -32,7 +32,7 @@ func TestIsMatch(t *testing.T) {
 		})
 
 		g.It("failure when given nil instead of mask", func() {
-			result := IsEachMatches(nil, "cadabra")
+			result := IsMatch(nil, "cadabra")
 			g.Assert(result).IsFalse()
 		})
 
