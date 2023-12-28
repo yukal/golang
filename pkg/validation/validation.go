@@ -103,7 +103,7 @@ func (filter Filter) Validate(data any) []string {
 				value = reflect.ValueOf(successFields)
 			}
 
-			if hint := Compare(action, proto, value); hint != "" {
+			if hint := compare(action, proto, value); hint != "" {
 				hints = append(hints, "body "+hint)
 			}
 		}
@@ -127,7 +127,7 @@ func checkField(rules, value reflect.Value) string {
 
 			switch item.Type().String() {
 			case "validation.Range":
-				if hint := Compare("range", rules, value); hint != "" {
+				if hint := compare("range", rules, value); hint != "" {
 					return hint
 				}
 
@@ -135,7 +135,7 @@ func checkField(rules, value reflect.Value) string {
 				action := item.Index(0).Elem().String()
 				proto := item.Index(1).Elem()
 
-				if hint := Compare(action, proto, value); hint != "" {
+				if hint := compare(action, proto, value); hint != "" {
 					return hint
 				}
 
@@ -143,32 +143,32 @@ func checkField(rules, value reflect.Value) string {
 				action := item.Elem().String()
 				proto := reflect.ValueOf(nil)
 
-				if hint := Compare(action, proto, value); hint != "" {
+				if hint := compare(action, proto, value); hint != "" {
 					return hint
 				}
 			}
 		}
 
 	case "validation.Range":
-		return Compare("range", rules, value)
+		return compare("range", rules, value)
 
 	case "validation.Rule":
 		action := rules.Index(0).Elem().String()
 		proto := rules.Index(1).Elem()
 
-		return Compare(action, proto, value)
+		return compare(action, proto, value)
 
 	case "string":
 		action := rules.String()
 		proto := reflect.ValueOf(nil)
 
-		return Compare(action, proto, value)
+		return compare(action, proto, value)
 	}
 
 	return ""
 }
 
-func Compare(action string, proto, value reflect.Value) string {
+func compare(action string, proto, value reflect.Value) string {
 	if !value.IsValid() {
 		return MsgInvalidValue
 	}
