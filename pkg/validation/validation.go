@@ -3,7 +3,7 @@ package validation
 import (
 	"fmt"
 	"reflect"
-	"strings"
+	"regexp"
 	"unicode/utf8"
 )
 
@@ -11,25 +11,25 @@ const (
 	NON_ZERO  = "NonZero"
 	NON_EMPTY = "NonEmpty"
 
-	MsgMinFields   = "must contain at least %d valid fields"
-	MsgMaxFields   = "must contain up to %d valid fields"
-	MsgMinStrLen   = "must contain at least %d characters"
-	MsgMaxStrLen   = "must contain up to %d characters"
-	MsgEqStrLen    = "must contain exactly %d characters"
-	MsgRangeStrLen = "must contain %d..%d characters"
-	MsgMinSetLen   = "must contain at least %d items"
-	MsgMaxSetLen   = "must contain up to %d items"
-	MsgEqSetLen    = "must contain exactly %d items"
-	MsgRangeSetLen = "must contain %d..%d items"
-	MsgMin         = "must be at least %d"
-	MsgMax         = "must be up to %d"
-	MsgEq          = "must be exactly %d"
-	MsgRange       = "must be in the range %d..%d"
-	MsgNotValid    = "is not valid"
-	MsgEmpty       = "is empty"
-	// MsgNotMatch  = "is not match"
-	MsgInvalidValue    = "invalid value"
-	MsgInvalidRangeVal = "invalid range value"
+	MsgMinFields      = "must contain at least %d valid fields"
+	MsgMaxFields      = "must contain up to %d valid fields"
+	MsgMinStrLen      = "must contain at least %d characters"
+	MsgMaxStrLen      = "must contain up to %d characters"
+	MsgEqStrLen       = "must contain exactly %d characters"
+	MsgRangeStrLen    = "must contain %d..%d characters"
+	MsgMinSetLen      = "must contain at least %d items"
+	MsgMaxSetLen      = "must contain up to %d items"
+	MsgEqSetLen       = "must contain exactly %d items"
+	MsgRangeSetLen    = "must contain %d..%d items"
+	MsgMin            = "must be at least %d"
+	MsgMax            = "must be up to %d"
+	MsgEq             = "must be exactly %d"
+	MsgRange          = "must be in the range %d..%d"
+	MsgNotValid       = "is not valid"
+	MsgEmpty          = "is empty"
+	MsgInvalidValue   = "has invalid value"
+	MsgInvalidRule    = "has invalid rule"
+	MsgInvalidBodyVal = "invalid body value"
 )
 
 type Group []any
@@ -99,12 +99,12 @@ func (filter Filter) Validate(data any) []string {
 			action = rules.Index(0).Elem().String()
 			proto = rules.Index(1).Elem()
 
-			if strings.Contains(action, "-fields") {
+			if action == "minFields" {
 				value = reflect.ValueOf(successFields)
 			}
 
 			if hint := compare(action, proto, value); hint != "" {
-				hints = append(hints, "body "+hint)
+				hints = append(hints, MsgInvalidBodyVal)
 			}
 		}
 	}
@@ -119,33 +119,8 @@ func checkField(rules, value reflect.Value) string {
 		for n := 0; n < rules.Len(); n++ {
 			item := rules.Index(n)
 
-			if item.Kind() == reflect.Interface {
-				item = reflect.Indirect(reflect.ValueOf(
-					item.Interface(),
-				))
-			}
-
-			switch item.Type().String() {
-			case "validation.Range":
-				if hint := compare("range", rules, value); hint != "" {
-					return hint
-				}
-
-			case "validation.Rule":
-				action := item.Index(0).Elem().String()
-				proto := item.Index(1).Elem()
-
-				if hint := compare(action, proto, value); hint != "" {
-					return hint
-				}
-
-			case "string":
-				action := item.Elem().String()
-				proto := reflect.ValueOf(nil)
-
-				if hint := compare(action, proto, value); hint != "" {
-					return hint
-				}
+			if hint := checkField(item, value); hint != "" {
+				return hint
 			}
 		}
 
@@ -182,11 +157,11 @@ func compare(action string, proto, value reflect.Value) string {
 	}
 
 	if !proto.IsValid() {
-		return MsgInvalidValue
+		return MsgInvalidRule
 	}
 
 	switch action {
-	case "min-fields":
+	case "minFields":
 		if !IsMin(proto.Interface(), value.Interface()) {
 			return fmt.Sprintf(MsgMinFields, proto.Interface())
 		}
@@ -204,74 +179,27 @@ func compare(action string, proto, value reflect.Value) string {
 		return filterEq(proto, value)
 
 	case "match":
-		if !IsMatch(proto.Interface(), value.Interface()) {
+		if !IsMatch(proto, value) {
 			return MsgNotValid
 		}
 
 	case "eachMatch":
-		if !IsEachMatch(proto.Interface(), value.Interface()) {
+		if (proto.Kind() != reflect.String) || (proto.Len() == 0) {
+			return MsgInvalidRule
+		}
+
+		if !IsEachMatch(proto.String(), value) {
 			return MsgNotValid
 		}
 
 	case "eachMin":
-		success := true
-		for n := 0; n < value.Len(); n++ {
-			success = success && IsMin(proto.Interface(), value.Index(n).Interface())
-		}
-
-		if !success {
-			return fmt.Sprintf(MsgMin, proto.Interface())
-		}
+		return IsEachMin(proto, value)
 
 	case "eachMax":
-		success := true
-		for n := 0; n < value.Len(); n++ {
-			success = success && IsMax(proto.Interface(), value.Index(n).Interface())
-		}
-
-		if !success {
-			return fmt.Sprintf(MsgMax, proto.Interface())
-		}
+		return IsEachMax(proto, value)
 
 	case "eachEq":
-		success := true
-		for n := 0; n < value.Len(); n++ {
-			success = success && IsEqual(proto.Interface(), value.Index(n).Interface())
-		}
-
-		if !success {
-			return fmt.Sprintf(MsgEq, proto.Interface())
-		}
-
-	case "eachMinLen":
-		success := true
-		for n := 0; n < value.Len(); n++ {
-			success = success && IsMin(proto.Interface(), value.Index(n).Interface())
-		}
-
-		if !success {
-			return fmt.Sprintf(MsgMinStrLen, proto.Interface())
-		}
-
-	case "eachMaxLen":
-		success := true
-		for n := 0; n < value.Len(); n++ {
-			success = success && IsMax(proto.Interface(), value.Index(n).Interface())
-		}
-
-		if !success {
-			return fmt.Sprintf(MsgMaxStrLen, proto.Interface())
-		}
-
-	case "eachLen":
-		success := true
-		for n := 0; n < value.Len(); n++ {
-			success = success && IsEqual(proto.Interface(), value.Index(n).Interface())
-		}
-
-		if !success {
-			return fmt.Sprintf(MsgEqStrLen, proto.Interface())
-		}
+		return IsEachEq(proto, value)
 
 	case "year":
 		if !IsYearEqual(proto.Interface(), value.Interface()) {
@@ -288,8 +216,8 @@ func filterRange(proto, value reflect.Value) string {
 	valMin := proto.Index(0)
 	valMax := proto.Index(1)
 
-	if valMin.IsZero() || valMax.IsZero() {
-		return MsgInvalidRangeVal
+	if valMin.IsNil() || valMax.IsNil() {
+		return MsgInvalidRule
 	}
 
 	switch value.Kind() {
@@ -324,12 +252,7 @@ func filterMin(proto, value reflect.Value) string {
 		hint = fmt.Sprintf(MsgMinStrLen, proto.Interface())
 
 	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-		if value.IsZero() {
-			value = reflect.ValueOf(0)
-		} else {
-			value = reflect.ValueOf(value.Len())
-		}
-
+		value = reflect.ValueOf(value.Len())
 		hint = fmt.Sprintf(MsgMinSetLen, proto.Interface())
 
 	default:
@@ -352,12 +275,7 @@ func filterMax(proto, value reflect.Value) string {
 		hint = fmt.Sprintf(MsgMaxStrLen, proto.Interface())
 
 	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-		if value.IsZero() {
-			value = reflect.ValueOf(0)
-		} else {
-			value = reflect.ValueOf(value.Len())
-		}
-
+		value = reflect.ValueOf(value.Len())
 		hint = fmt.Sprintf(MsgMaxSetLen, proto.Interface())
 
 	default:
@@ -380,12 +298,7 @@ func filterEq(proto, value reflect.Value) string {
 		hint = fmt.Sprintf(MsgEqStrLen, proto.Interface())
 
 	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
-		if value.IsZero() {
-			value = reflect.ValueOf(0)
-		} else {
-			value = reflect.ValueOf(value.Len())
-		}
-
+		value = reflect.ValueOf(value.Len())
 		hint = fmt.Sprintf(MsgEqSetLen, proto.Interface())
 
 	default:
@@ -397,4 +310,132 @@ func filterEq(proto, value reflect.Value) string {
 	}
 
 	return ""
+}
+
+func IsMatch(reg, value reflect.Value) (flag bool) {
+	if reg.Kind() == reflect.String && value.Kind() == reflect.String {
+		flag, _ = regexp.MatchString(reg.String(), value.String())
+	}
+
+	return
+}
+
+func IsEachMatch(reg string, value reflect.Value) bool {
+	isValid := false
+
+	switch value.Kind() {
+	case reflect.Array, reflect.Slice:
+		if isValid = value.Type().Elem().Kind() == reflect.String; !isValid {
+			return false
+		}
+
+		for n := 0; n < value.Len(); n++ {
+			matched, _ := regexp.MatchString(reg, value.Index(n).String())
+			isValid = isValid && matched
+		}
+
+	case reflect.Map:
+		if isValid = value.Type().Elem().Kind() == reflect.String; !isValid {
+			return false
+		}
+
+		iter := value.MapRange()
+
+		for iter.Next() {
+			// k := iter.Key()
+			// v := iter.Value()
+
+			matched, _ := regexp.MatchString(reg, iter.Value().String())
+			isValid = isValid && matched
+		}
+	}
+
+	return isValid
+}
+
+func IsEachEq(proto, value reflect.Value) string {
+	switch value.Kind() {
+	case reflect.Array, reflect.Slice:
+		for n := 0; n < value.Len(); n++ {
+			if hint := filterEq(proto, value.Index(n)); len(hint) > 0 {
+				return fmt.Sprintf("item[%v] "+hint, n)
+			}
+		}
+
+		return ""
+
+	case reflect.Map:
+		iter := value.MapRange()
+
+		for iter.Next() {
+			// k := iter.Key()
+			// v := iter.Value()
+
+			if hint := filterEq(proto, iter.Value()); len(hint) > 0 {
+				return fmt.Sprintf("item[%v] "+hint, iter.Key())
+			}
+		}
+
+		return ""
+	}
+
+	return MsgInvalidValue
+}
+
+func IsEachMax(proto, value reflect.Value) string {
+	switch value.Kind() {
+	case reflect.Array, reflect.Slice:
+		for n := 0; n < value.Len(); n++ {
+			if hint := filterMax(proto, value.Index(n)); len(hint) > 0 {
+				return fmt.Sprintf("item[%v] "+hint, n)
+			}
+		}
+
+		return ""
+
+	case reflect.Map:
+		iter := value.MapRange()
+
+		for iter.Next() {
+			// k := iter.Key()
+			// v := iter.Value()
+
+			if hint := filterMax(proto, iter.Value()); len(hint) > 0 {
+				return fmt.Sprintf("item[%v] "+hint, iter.Key())
+			}
+		}
+
+		return ""
+	}
+
+	return MsgInvalidValue
+}
+
+func IsEachMin(proto, value reflect.Value) string {
+	switch value.Kind() {
+	case reflect.Array, reflect.Slice:
+		for n := 0; n < value.Len(); n++ {
+			if hint := filterMin(proto, value.Index(n)); len(hint) > 0 {
+				return fmt.Sprintf("item[%v] "+hint, n)
+			}
+		}
+
+		return ""
+
+	case reflect.Map:
+		iter := value.MapRange()
+
+		for iter.Next() {
+			// k := iter.Key()
+			// v := iter.Value()
+
+			if hint := filterMin(proto, iter.Value()); len(hint) > 0 {
+				return fmt.Sprintf("item[%v] "+hint, iter.Key())
+			}
+		}
+
+		return ""
+	}
+
+	return MsgInvalidValue
 }
