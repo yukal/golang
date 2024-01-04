@@ -23,7 +23,7 @@ func TestFilter(t *testing.T) {
 
 	g := Goblin(t)
 
-	g.Describe(`Rule "min-fields"`, func() {
+	g.Describe(`Rule "minFields"`, func() {
 		g.It("success", func() {
 			filter := Filter{
 				{
@@ -56,7 +56,7 @@ func TestFilter(t *testing.T) {
 					Optional: true,
 				},
 				{
-					Check: Rule{"min-fields", 2},
+					Check: Rule{"minFields", 2},
 				},
 			}
 
@@ -65,7 +65,7 @@ func TestFilter(t *testing.T) {
 		})
 	})
 
-	g.Describe("non-zero", func() {
+	g.Describe(`Rule "NON_ZERO"`, func() {
 		g.It("success", func() {
 			filter := Filter{
 				{
@@ -137,7 +137,7 @@ func TestFilter(t *testing.T) {
 					Optional: true,
 				},
 				{
-					Check: Rule{"min-fields", 2},
+					Check: Rule{"minFields", 2},
 				},
 			}
 
