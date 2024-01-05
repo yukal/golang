@@ -8,8 +8,8 @@ import (
 	. "github.com/franela/goblin"
 )
 
-// go test ./pkg/validation/...
-// go test -v -run TestIsValid ./pkg/validation/...
+// go test -v -cover ./pkg/validation/...
+// go test -v -cover -run TestIsValid ./pkg/validation/...
 //
 // go test -v -run TestIsValidEq ./pkg/validation/...
 // go test -v -run TestIsValidMin ./pkg/validation/...
@@ -24,7 +24,6 @@ import (
 // go test -v -run TestIsValidMinFields ./pkg/validation/...
 // go test -v -run TestIsValidNonZero ./pkg/validation/...
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidEq ./pkg/validation/...
 
 func TestIsValidEq(t *testing.T) {
@@ -310,7 +309,6 @@ func TestIsValidEq(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidMin ./pkg/validation/...
 
 func TestIsValidMin(t *testing.T) {
@@ -596,7 +594,6 @@ func TestIsValidMin(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidMax ./pkg/validation/...
 
 func TestIsValidMax(t *testing.T) {
@@ -882,7 +879,6 @@ func TestIsValidMax(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidRange ./pkg/validation/...
 
 func TestIsValidRange(t *testing.T) {
@@ -1189,7 +1185,6 @@ func TestIsValidRange(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidYear ./pkg/validation/...
 
 func TestIsValidYear(t *testing.T) {
@@ -1232,7 +1227,6 @@ func TestIsValidYear(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidMatch ./pkg/validation/...
 
 func TestIsValidMatch(t *testing.T) {
@@ -1332,7 +1326,6 @@ func TestIsValidMatch(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidEachEq ./pkg/validation/...
 
 func TestIsValidEachEq(t *testing.T) {
@@ -2592,7 +2585,6 @@ func TestIsValidEachEq(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidEachMin ./pkg/validation/...
 
 func TestIsValidEachMin(t *testing.T) {
@@ -3855,7 +3847,6 @@ func TestIsValidEachMin(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidEachMax ./pkg/validation/...
 
 func TestIsValidEachMax(t *testing.T) {
@@ -5118,7 +5109,6 @@ func TestIsValidEachMax(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidEachMatch ./pkg/validation/...
 
 func TestIsValidEachMatch(t *testing.T) {
@@ -5520,7 +5510,6 @@ func TestIsValidEachMatch(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidMinFields ./pkg/validation/...
 
 func TestIsValidMinFields(t *testing.T) {
@@ -5596,7 +5585,6 @@ func TestIsValidMinFields(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestIsValidNonZero ./pkg/validation/...
 
 func TestIsValidNonZero(t *testing.T) {

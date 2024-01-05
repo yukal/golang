@@ -9,8 +9,8 @@ import (
 	. "github.com/franela/goblin"
 )
 
-// go test ./pkg/validation/...
-// go test -v -run TestCompare ./pkg/validation/...
+// go test -v -cover ./pkg/validation/...
+// go test -v -cover -run TestCompare ./pkg/validation/...
 //
 // go test -v -run TestCompareEq ./pkg/validation/...
 // go test -v -run TestCompareMin ./pkg/validation/...
@@ -26,7 +26,6 @@ import (
 // go test -v -run TestCompareNonZero ./pkg/validation/...
 //
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareEq ./pkg/validation/...
 
 func TestCompareEq(t *testing.T) {
@@ -204,7 +203,6 @@ func TestCompareEq(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareMin ./pkg/validation/...
 
 func TestCompareMin(t *testing.T) {
@@ -382,7 +380,6 @@ func TestCompareMin(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareMax ./pkg/validation/...
 
 func TestCompareMax(t *testing.T) {
@@ -560,7 +557,6 @@ func TestCompareMax(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareRange ./pkg/validation/...
 
 func TestCompareRange(t *testing.T) {
@@ -755,7 +751,6 @@ func TestCompareRange(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareYear ./pkg/validation/...
 
 func TestCompareYear(t *testing.T) {
@@ -783,7 +778,6 @@ func TestCompareYear(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareMatch ./pkg/validation/...
 
 func TestCompareMatch(t *testing.T) {
@@ -827,7 +821,6 @@ func TestCompareMatch(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareEachEq ./pkg/validation/...
 
 func TestCompareEachEq(t *testing.T) {
@@ -1651,7 +1644,6 @@ func TestCompareEachEq(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareEachMin ./pkg/validation/...
 
 func TestCompareEachMin(t *testing.T) {
@@ -2504,7 +2496,6 @@ func TestCompareEachMin(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareEachMax ./pkg/validation/...
 
 func TestCompareEachMax(t *testing.T) {
@@ -3335,7 +3326,6 @@ func TestCompareEachMax(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareEachMatch ./pkg/validation/...
 
 func TestCompareEachMatch(t *testing.T) {
@@ -3502,7 +3492,6 @@ func TestCompareEachMatch(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareMinFields ./pkg/validation/...
 
 func TestCompareMinFields(t *testing.T) {
@@ -3551,7 +3540,6 @@ func TestCompareMinFields(t *testing.T) {
 	})
 }
 
-// go test ./pkg/validation/...
 // go test -v -run TestCompareNonZero ./pkg/validation/...
 
 func TestCompareNonZero(t *testing.T) {
