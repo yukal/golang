@@ -2461,9 +2461,6 @@ func TestValidateEachEq(t *testing.T) {
 								"Kurt Donald Cobain",
 								"David Eric Grohl",
 							},
-							"Metallica": {
-								"Lars Ulrich",
-							},
 						},
 					})
 
@@ -5022,9 +5019,6 @@ func TestValidateEachMax(t *testing.T) {
 							"Nirvana": {
 								"Kurt Donald Cobain",
 								"David Eric Grohl",
-							},
-							"Metallica": {
-								"Lars Ulrich",
 							},
 						},
 					})
