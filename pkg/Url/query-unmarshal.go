@@ -2,7 +2,6 @@ package Url
 
 import (
 	"errors"
-	"fmt"
 	"net/url"
 	"reflect"
 	"strconv"
@@ -65,10 +64,9 @@ func fillSlice(val reflect.Value, item reflect.Value, queries url.Values, path s
 		}
 	} else {
 
-		proto := fmt.Sprint(item)
 		fillTree(item, queries, ckey)
 
-		if proto != fmt.Sprint(item) {
+		if !item.IsZero() {
 			val.Set(reflect.Append(val, item))
 			fillSlice(val, reflect.New(item.Type()).Elem(), queries, path, index+1)
 		}
